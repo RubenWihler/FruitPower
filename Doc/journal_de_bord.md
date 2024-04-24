@@ -72,7 +72,8 @@ Voici les tâches que j'ai ajoutées :
 | 000.1 | Création du repository Git | Création du repository Git pour versionner le code | P1 |
 | 000.2 | Création du journal de bord | Création du journal de bord pour suivre l'avancement du projet | P1 |
 | 000.3 | Création de la documentation | Création de la documentation pour expliquer le projet | P1 |
-| 000.4 | Création du projet Unity | Création du projet Unity | P1 |
+| 000.4 | Planification | Planification du projet | P1 |
+| 000.5 | Création du projet Unity | Création du projet Unity | P1 |
 
 ##### 001 : Implémentation VR
 
@@ -213,4 +214,5 @@ Voici les tâches que j'ai ajoutées :
 | 018.1 | Conception de l'interface | Conception de l'interface pour qu'elle soit intuitive et en harmonie avec l'idée visuelle | P3 |
 | 018.2 | Implémentation de l'interface | Implémentation de l'interface dans le jeu | P3 |
 
-
+Je vais les ajouter dans le fichier backlog pour pouvoir les suivre plus facilement meme si ce ne sont pas des véritables user stories.
+J'ai également ajouté toutes les tâches dans le projet GitHub et dans le planning prévisionnel.
