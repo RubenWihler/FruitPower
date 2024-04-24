@@ -239,3 +239,9 @@ J'ai importé toutes les assets de mon projet de preparation dans le projet Unit
 J'ai fini d'ajouter le system de déplacement dans le jeu et de tester le tout. J'ai pu tester le déplacement avec les contrôleurs et tout fonctionne correctement.
 
 Je vais maintenant passer à la tâche suivante : `002 - Environnement 3D`. Je vais commencer par créer une branche `002-environnement-3d` pour cette tâche.
+
+Pour construire le jardin, je vais commencer par créer un terrain de 2x2 mètres. Sachant que la taille d'une unité dans Unity correspond à 1 mètre, je vais donc créer un terrain de 2x2 unités. 
+
+Pour les buisson et les arbres, je vais utiliser plusieurs assets trouvés gratuitement sur le store d'Unity. Je vais les importer dans le projet et les placer dans le jardin.
+
+- [Simple Nature Pack](https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153)
