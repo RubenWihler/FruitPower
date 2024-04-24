@@ -221,6 +221,11 @@ J'ai également ajouté toutes les tâches dans le projet GitHub et dans le plan
 
 J'ai fini de planifier toutes les tâches dans le planning prévisionnel. J'ai également fini de créer toutes les tâches dans le projet GitHub. Je vais maintenant commencer à travailler sur la première tâche.
 
+Je vais commencer par la creation du projet Unity. Je vais créer un dossier `FruitPower` dans lequel je vais créer un projet Unity.
+
+Une fois le projet créé, je fais un premier commit pour sauvegarder l'état actuel du projet.
+J'en profite pour faire une sauvegarde sur mon disque dur externe (publier sur le drive est un peu long je pense que je ne vais que le faire une fois par jour).
+
 Je vais commencer par l'implémentation de la VR. Je vais commencer par ajouter le package XR, puis le package Unity Input System et enfin le package XR Interaction Toolkit.
 
 Je vais commencer par créer une branche pour chaque tâche que je vais réaliser. Je vais commencer par créer une branche `001-implementation-vr` pour la première tâche.
