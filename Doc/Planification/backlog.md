@@ -7,7 +7,7 @@ Ce document contient le backlog du projet FruitPower. Il est divisé en deux par
 > - P2 Should  
 > - P3 Could  
 
-## User stories
+## User stories et Product backlog
 
 Les user stories sont des descriptions simples de ce que l'utilisateur a besoin pour savoir les différentes fonctionnalités à développer. Ces dèrnieres sont mises dans un product backlog.
 
@@ -184,81 +184,4 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 |----|-----|-------------|----------|
 | 018.1 | Conception de l'interface | Conception de l'interface pour qu'elle soit intuitive et en harmonie avec l'idée visuelle | P3 |
 | 018.2 | Implémentation de l'interface | Implémentation de l'interface dans le jeu | P3 |
-
-## temp : tout rassembler
-
-| ID + NOM |
-|----------|
-| 000 : Préparation du projet |
-| 000.1 : Création du repository Git |
-| 000.2 : Création du journal de bord |
-| 000.3 : Création de la documentation |
-| 000.4 : Création du projet Unity |
-| 001 : Implémentation VR |
-| 001.1 : Ajout du package XR |
-| 001.2 : Ajout Unity Input System |
-| 001.3 : Ajout du package XR Interaction Toolkit |
-| 001.4 : Ajout du système de déplacement |
-| 002 : Environnement 3D |
-| 002.1 : Création du jardin |
-| 002.2 : Ajout des limites |
-| 002.3 : Ajout des arbres et buissons |
-| 003 : Main du joueur |
-| 003.1 : Ajout des contrôleurs |
-| 003.2 : Importation des modèles de mains |
-| 003.3 : Ajout du système d'intéraction |
-| 004 : Arbres et buissons |
-| 004.1 : Recherche de modèles 3D |
-| 004.2 : Importation des modèles 3D |
-| 004.3 : Placement des arbres et buissons |
-| 005 : Génération de fruits |
-| 005.1 : Conception du système de fruits |
-| 005.2 : Implémentation du système de fruits |
-| 005.3 : Test du système de fruits |
-| 006 : Ramassage de fruits |
-| 006.1 : Utilisation du système d'intéraction et celui des fruits |
-| 006.2 : Test du système de ramassage |
-| 007 : Disparition des fruits |
-| 007.1 : Rajout d'un timer sur les fruits |
-| 007.2 : Test du système de disparition |
-| 007.3 : Optimisation du système |
-| 008 : Compteur de points |
-| 008.1 : Création du système de points |
-| 008.2 : Test du système de points |
-| 009 : Visualisation des points |
-| 009.1 : Création de l'interface |
-| 009.2 : Test de l'interface |
-| 010 : Compteur de temps |
-| 010.1 : Création du timer |
-| 010.2 : Test du timer |
-| 010.3 : Affichage du timer |
-| 011 : Fin de partie |
-| 011.1 : Fin de partie |
-| 011.2 : Test de la fin de partie |
-| 012 : Score final |
-| 012.1 : Affichage du score final |
-| 012.2 : Test de l'affichage du score final |
-| 013 : Rejouer |
-| 013.1 : Création du système de chargement de scene |
-| 013.2 : Test du système de chargement de scene |
-| 013.3 : Implémentation du système dans l'interface |
-| 013.3 : Optimisation du système |
-| 013.4 : Ajout d'un écran de chargement |
-| 013.5 : Test de l'écran de chargement |
-| 014 : Musique et bruitages |
-| 014.1 : Recherche de musiques et bruitages |
-| 014.2 : Importation des musiques et bruitages |
-| 014.3 : Ajout des musiques et bruitages |
-| 015 : Graphismes |
-| 015.1 : Recherche d'une identité visuelle |
-| 015.2 : Elaboration de la palette de couleurs |
-| 016 : Modèles 3D |
-| 016.1 : Recherche de modèles 3D |
-| 016.2 : Importation des modèles 3D |
-| 016.3 : Ajout des modèles 3D |
-| 017 : Post-traitement |
-| 017.1 : Ajout d'un post-traitement |
-| 018 : Interface |
-| 018.1 : Conception de l'interface |
-| 018.2 : Implémentation de l'interface |
 
