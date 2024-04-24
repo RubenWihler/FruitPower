@@ -231,3 +231,6 @@ Je vais commencer par l'implémentation de la VR. Je vais commencer par ajouter 
 Je vais commencer par créer une branche pour chaque tâche que je vais réaliser. Je vais commencer par créer une branche `001-implementation-vr` pour la première tâche.
 
 Pour la création de la branche, je vais utiliser la convention suivante : `ID-Nom-de-la-tache`.
+
+J'ai importé toutes les assets de mon projet de preparation dans le projet Unity. Cela m'a permis de gagnger du temps pour la suite.
+
