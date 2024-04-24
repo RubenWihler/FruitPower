@@ -226,6 +226,10 @@ Je vais commencer par la creation du projet Unity. Je vais créer un dossier `Fr
 Une fois le projet créé, je fais un premier commit pour sauvegarder l'état actuel du projet.
 J'en profite pour faire une sauvegarde sur mon disque dur externe (publier sur le drive est un peu long je pense que je ne vais que le faire une fois par jour).
 
+Je vais utiliser cette vidéo comme référence pour la mise en place de la configuration de XR : [How to Make a VR Game in Unity - PART 1](https://youtu.be/HhtTtvBF5bI?si=AeYBfnjUX8jWkSUc)
+
+> Il faut noter que la vidéo utilise une ancienne version du plugin XR. Il a donc fallu que je m'adapte à la nouvelle version en regardant [la documentation officielle](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html).
+
 Je vais commencer par l'implémentation de la VR. Je vais commencer par ajouter le package XR, puis le package Unity Input System et enfin le package XR Interaction Toolkit. En plus de cela je vais utiliser les assets fournis dans le pack `Starter Assets` pour avoir un environnement de base.
 
 Je vais commencer par créer une branche pour chaque tâche que je vais réaliser. Je vais commencer par créer une branche `001-implementation-vr` pour la première tâche.
