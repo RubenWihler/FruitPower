@@ -234,3 +234,8 @@ Pour la création de la branche, je vais utiliser la convention suivante : `ID-N
 
 J'ai importé toutes les assets de mon projet de preparation dans le projet Unity. Cela m'a permis de gagnger du temps pour la suite.
 
+#### 14h30
+
+J'ai fini d'ajouter le system de déplacement dans le jeu et de tester le tout. J'ai pu tester le déplacement avec les contrôleurs et tout fonctionne correctement.
+
+Je vais maintenant passer à la tâche suivante : `002 - Environnement 3D`. Je vais commencer par créer une branche `002-environnement-3d` pour cette tâche.
