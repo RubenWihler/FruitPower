@@ -216,3 +216,11 @@ Voici les tâches que j'ai ajoutées :
 
 Je vais les ajouter dans le fichier backlog pour pouvoir les suivre plus facilement meme si ce ne sont pas des véritables user stories.
 J'ai également ajouté toutes les tâches dans le projet GitHub et dans le planning prévisionnel.
+
+#### 13h
+
+J'ai fini de planifier toutes les tâches dans le planning prévisionnel. J'ai également fini de créer toutes les tâches dans le projet GitHub. Je vais maintenant commencer à travailler sur la première tâche.
+
+Je vais commencer par l'implémentation de la VR. Je vais commencer par ajouter le package XR, puis le package Unity Input System et enfin le package XR Interaction Toolkit.
+
+Je vais commencer par créer une branche pour chaque tâche que je vais réaliser. Je vais commencer par créer une branche `001-implementation-vr` pour la première tâche.
