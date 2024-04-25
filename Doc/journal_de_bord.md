@@ -249,3 +249,18 @@ Pour construire le jardin, je vais commencer par créer un terrain de 2x2 mètre
 Pour les buisson et les arbres, je vais utiliser plusieurs assets trouvés gratuitement sur le store d'Unity. Je vais les importer dans le projet et les placer dans le jardin.
 
 - [Simple Nature Pack](https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153)
+
+#### Conclusion
+
+J'ai bien avancé sur le projet aujourd'hui. J'ai réussi à implémenter la VR et à créer un environnement 3D de base. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur le projet demain.
+
+### Jour 2 - 25.04.2024
+
+#### 7h30
+
+Cher journal, aujourd'hui est un nouveau jour. Je suis prêt à continuer à travailler sur mon projet. Aujourd'hui, je vais commencer par la conception du système de génération de fruits. Pour cela, je vais commencer par créer une branche `005-generation-fruits`.
+
+> Effectivement, je n'ai pas fais de branches pour les tâches précédentes, mais cela ne me dérange pas surtous car ce sont des tâches assez simples et rapides à réaliser en plus de cela je suis seul sur le projet.
+
+
+
