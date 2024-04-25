@@ -258,9 +258,37 @@ J'ai bien avancé sur le projet aujourd'hui. J'ai réussi à implémenter la VR 
 
 #### 7h30
 
+
 Cher journal, aujourd'hui est un nouveau jour. Je suis prêt à continuer à travailler sur mon projet. Aujourd'hui, je vais commencer par la conception du système de génération de fruits. Pour cela, je vais commencer par créer une branche `005-generation-fruits`.
 
 > Effectivement, je n'ai pas fais de branches pour les tâches précédentes, mais cela ne me dérange pas surtous car ce sont des tâches assez simples et rapides à réaliser en plus de cela je suis seul sur le projet.
 
+Avant de commencer à travailler sur le projet, je vais commencer par faire une sauvegarde sur mon disque dur externe, sur une clé USB et sur le drive. Cela me permettra de ne pas perdre mon travail en cas de problème.
 
+#### recherche sur les exeptions
 
+pendant la realisation du script `FruitFactory`, je ne me souvenais plus comment créer une exeptions personalisé. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions) qui m'a bien aidé.
+
+#### recherche sur les performances
+
+J'ai aussi eu besoin de verifier pourquoi faire ça faisait gagner des performances :  
+(Je le fais tout le temps mais je ne me souvenais plus précisément pourquoi)
+
+```csharp
+//avant
+transform.position = position;
+transform.rotation = rotation;
+
+//après
+var transf = transform;
+transf.position = position;
+transf.rotation = rotation;
+```
+
+j'ai trouvé [cette page](https://gamedev.stackexchange.com/questions/101522/what-are-the-differences-between-using-getcomponenttransform-and-this-transf) qui m'a bien aidé.
+
+#### recherche sur le random de unity
+
+Je ne savais plus si le max(deuxieme parametre) de la fonction `UnityEngine.Random.Range` était inclusif ou exclusif. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://docs.unity3d.com/ScriptReference/Random.Range.html).
+
+J'ai pu avancer sur la tâche `005 - Génération de fruits`. J'ai réussi à créer un système de génération de fruits aléatoires sur les arbres et les buissons. Les fruits apparaissent aléatoirement à une vitesse définie. J'ai également ajouté un système de disparition des fruits après quelques secondes s'ils ne sont pas ramassés.
