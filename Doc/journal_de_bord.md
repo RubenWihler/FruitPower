@@ -316,3 +316,6 @@ Cependant, je vais essayer de les nommer plus ou moins de cette manière.
 
 J'ai du faire quelques modifications dans le code pour pouvoir tester le ramassage des fruits. J'ai du ajouter un setter pour la variable `_typeId` dans la classe `Fruit` pour pouvoir changer le type du fruit dans les tests.
 
+#### Video pour l'interface
+
+J'ai regarder [cette video](https://youtu.be/yhB921bDLYA?si=mdiTW4-eF60TvFj1) pour m'aider à centrer l'interface.

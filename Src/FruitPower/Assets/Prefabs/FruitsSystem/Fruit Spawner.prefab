@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68862d889fda8a34299da8a9adba9409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fruitType: TEST
+  _fruitType: APPLE
   _spawnPoint: {fileID: 883722388552627240}
 --- !u!1 &7459850565419338527
 GameObject:

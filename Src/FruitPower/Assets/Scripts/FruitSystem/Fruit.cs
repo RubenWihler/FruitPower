@@ -57,7 +57,10 @@ namespace FruitSystem
         /// Le score que le joueur gagne en ramassant le fruit.
         /// </summary>
         public ushort Score { get => _score; set => _score = value; }
-
+        /// <summary>
+        /// Retourne l'état actuel du fruit.
+        /// </summary>
+        public FruitState State { get => _state; set => _state = value; }
 
         private void Awake()
         {

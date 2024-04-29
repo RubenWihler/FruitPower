@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FruitSystem
@@ -67,10 +68,28 @@ namespace FruitSystem
         {
             //Initialisation de la factory et du manager de spawn
             (_fruitPooler, _fruitSpawnerManager) = Initialize();
+        }
 
-            //Ecoute des evenements de debut et de fin de partie
-            GameManager.OnGameStart += (gameOption) => _fruitSpawnerManager.StartSpawning(gameOption.spawnerRate);
-            GameManager.OnGameEnd += () => _fruitSpawnerManager.StopSpawning();
+        private void OnEnable()
+        {
+            GameManager.OnGameStart += OnGameStart;
+            GameManager.OnGameEnd += OnGameEnd;
+        }
+        private void OnDisable()
+        {
+            GameManager.OnGameStart -= OnGameStart;
+            GameManager.OnGameEnd -= OnGameEnd;
+        }
+
+        private void OnGameStart(GameOption options)
+        {
+            _fruitSpawnerManager.StartSpawning(options.spawnerRate);
+        }
+        private void OnGameEnd()
+        {
+            _fruitSpawnerManager.StopSpawning();
+            //despawn tout les fruits actifs
+            _fruits.Where(fruit => fruit.State != FruitState.Inactive).ToList().ForEach(fruit => fruit.Despawn());
         }
 
         /// <summary>

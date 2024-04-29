@@ -1,4 +1,9 @@
 using UnityEngine;
+/*
+ TPI - 2024
+ FruitPower - Fruit System
+ Wihler Ruben
+ */
 
 namespace FruitSystem
 {
@@ -8,7 +13,7 @@ namespace FruitSystem
         private void OnTriggerEnter(Collider other)
         {
             //si le collider de l'objet qui entre en collision avec le panier a un composant Fruit
-            if (other.TryGetComponent(out Fruit fruit)) CatchFruit(fruit);
+            if (other.attachedRigidbody.TryGetComponent(out Fruit fruit)) CatchFruit(fruit);
         }
 
         private void CatchFruit(Fruit fruit)

@@ -1,10 +1,11 @@
 /*
  TPI - 2024
- FruitPower - Fruit System
+ FruitPower - Game Manager
  Wihler Ruben
  */
 
 using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     private ulong _score;
     private bool _isGameRunning;
+    private Coroutine _gameCycleCoroutine;
 
     public static ulong Score => Instance._score;
     public static bool IsGameRunning => Instance._isGameRunning;
@@ -59,6 +61,8 @@ public class GameManager : MonoBehaviour
     [ContextMenu("Start Game")]
     public void StartGame()
     {
+        ResetPoints();
+        StartGameCycleCoroutine();
         _isGameRunning = true;
         OnGameStart?.Invoke(gameOption);
     }
@@ -69,10 +73,12 @@ public class GameManager : MonoBehaviour
     [ContextMenu("End Game")]
     public void EndGame()
     {
+        StopGameCycleCoroutine();
         _isGameRunning = false;
         OnGameEnd?.Invoke();
     }
 
+    #region Score Management
 
     public void AddPoints(ulong point)
     {
@@ -95,5 +101,32 @@ public class GameManager : MonoBehaviour
         OnScoreChange?.Invoke((int)_score);
     }
 
+    #endregion
 
+    #region Game Cycle
+
+    private void StartGameCycleCoroutine()
+    {
+        StopGameCycleCoroutine();
+        _gameCycleCoroutine = StartCoroutine(GameCycle());
+    }
+    private void StopGameCycleCoroutine()
+    {
+        if (_gameCycleCoroutine == null) return;
+
+        StopCoroutine(_gameCycleCoroutine);
+        _gameCycleCoroutine = null;
+    }
+    private IEnumerator GameCycle()
+    {
+        yield return new WaitForSeconds(gameOption.gameTime * 0.7f);
+
+        //changer la musique pour indiquer le dernier tiers du jeu
+        //#todo
+        yield return new WaitForSeconds(gameOption.gameTime * 0.3f);
+
+        EndGame();
+    }
+
+    #endregion
 }
