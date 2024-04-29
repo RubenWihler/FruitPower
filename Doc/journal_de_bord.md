@@ -296,3 +296,23 @@ J'ai pu avancer sur la tâche `005 - Génération de fruits`. J'ai réussi à cr
 ### Jour 3 - 29.04.2024
 
 Au cours de ces deux derniers jours, j'ai pu avancer sur plusieurs tâches et je suis très en avance sur mon planning. Aujourd'hui, je vais commencer par travailler sur la tâche `006 - Ramassage de fruits`. Je vais commencer par créer une branche `006-ramassage-fruits` pour cette tâche.
+
+#### Recherche sur la nomenclature des tests
+
+J'ai eu besoin de vérifier la nomenclature des tests unitaires en C#. J'ai trouvé [cette page](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices) qui m'a bien aidé.
+
+J'ai trouver ceci :  
+
+>The name of your test should consist of three parts:
+>
+>- The name of the method being tested.
+>- The scenario under which it's being tested.
+>- The expected behavior when the scenario is invoked.
+
+Cela ne peut pas vraiment s'appliquer à mon cas car mes tests sont plus des tests de comportement que de fonctionnalité.
+Cependant, je vais essayer de les nommer plus ou moins de cette manière.
+
+#### Modification pour les test
+
+J'ai du faire quelques modifications dans le code pour pouvoir tester le ramassage des fruits. J'ai du ajouter un setter pour la variable `_typeId` dans la classe `Fruit` pour pouvoir changer le type du fruit dans les tests.
+

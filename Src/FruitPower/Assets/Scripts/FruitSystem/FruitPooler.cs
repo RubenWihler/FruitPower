@@ -12,10 +12,10 @@ using UnityEngine;
 namespace FruitSystem
 {
     /// <summary>
-    /// La classe <see cref="FruitFactory"/> est responsable de la gestion des pools de fruits.
+    /// La classe <see cref="FruitPooler"/> est responsable de la gestion des pools de fruits.
     /// Elle permet de recycler les fruits afin d'eviter les instanciations et destructions inutiles.
     /// </summary>
-    public sealed class FruitFactory
+    public sealed class FruitPooler
     {
         private readonly Dictionary<string, GameObject> _fruitsDictionary;
         private readonly Dictionary<string, Queue<Fruit>> _fruitsPools;
@@ -23,13 +23,13 @@ namespace FruitSystem
         private readonly Transform _parent;
 
         /// <summary>
-        /// Constructeur de la classe <see cref="FruitFactory"/>.
+        /// Constructeur de la classe <see cref="FruitPooler"/>.
         /// Initialise la factory avec les objets <see cref="FruitPoolData"/> et le parent des fruits.
         /// </summary>
         /// <param name="fruitsEntries">Un tableau d'objets <see cref="FruitPoolData"/> qui contient les données nécessaires pour initialiser les pools de fruits.</param>
         /// <param name="parent">L'objet parent des fruits.</param>
         /// <param name="fruitInstantiationCallback">Fonction de callback appelée lors de l'instanciation d'un fruit.</param>
-        public FruitFactory(FruitPoolData[] fruitsEntries, Transform parent, Func<Func<ulong, Fruit>, Fruit> fruitInstantiationCallback)
+        public FruitPooler(FruitPoolData[] fruitsEntries, Transform parent, Func<Func<ulong, Fruit>, Fruit> fruitInstantiationCallback)
         {
             _parent = parent;
             _fruitInstantiationCallback = fruitInstantiationCallback;

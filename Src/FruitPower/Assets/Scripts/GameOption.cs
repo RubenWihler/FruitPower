@@ -4,10 +4,11 @@
  Wihler Ruben
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Structure qui contient les options du jeu.
+/// </summary>
 [System.Serializable]
 public struct GameOption
 {
