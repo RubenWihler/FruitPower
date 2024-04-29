@@ -292,3 +292,7 @@ j'ai trouvé [cette page](https://gamedev.stackexchange.com/questions/101522/wha
 Je ne savais plus si le max(deuxieme parametre) de la fonction `UnityEngine.Random.Range` était inclusif ou exclusif. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://docs.unity3d.com/ScriptReference/Random.Range.html).
 
 J'ai pu avancer sur la tâche `005 - Génération de fruits`. J'ai réussi à créer un système de génération de fruits aléatoires sur les arbres et les buissons. Les fruits apparaissent aléatoirement à une vitesse définie. J'ai également ajouté un système de disparition des fruits après quelques secondes s'ils ne sont pas ramassés.
+
+### Jour 3 - 29.04.2024
+
+Au cours de ces deux derniers jours, j'ai pu avancer sur plusieurs tâches et je suis très en avance sur mon planning. Aujourd'hui, je vais commencer par travailler sur la tâche `006 - Ramassage de fruits`. Je vais commencer par créer une branche `006-ramassage-fruits` pour cette tâche.
