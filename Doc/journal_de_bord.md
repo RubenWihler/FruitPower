@@ -319,3 +319,13 @@ J'ai du faire quelques modifications dans le code pour pouvoir tester le ramassa
 #### Video pour l'interface
 
 J'ai regarder [cette video](https://youtu.be/yhB921bDLYA?si=mdiTW4-eF60TvFj1) pour m'aider à centrer l'interface.
+
+### Jour 4 - 30.04.2024
+
+Aujourd'hui, je vais ajouter 2 types de fruits (les fraises et les myrtilles).
+
+#### Visite de M.Aliprendi
+
+M.Aliprendi m'a rendue visite et j'ai pu lui montrer l'avancement de mon projet. Je lui ai demandé si je devais faire un plan de test meme si il n'etait pas demandé dans le cahier des charges. Il m'a dit que c'était une bonne idée et que je devrais le faire.
+C'est donc ce que je vais faire cette après-midi en plus d'avancer la documentation.
+
