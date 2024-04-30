@@ -258,7 +258,6 @@ J'ai bien avancé sur le projet aujourd'hui. J'ai réussi à implémenter la VR 
 
 #### 7h30
 
-
 Cher journal, aujourd'hui est un nouveau jour. Je suis prêt à continuer à travailler sur mon projet. Aujourd'hui, je vais commencer par la conception du système de génération de fruits. Pour cela, je vais commencer par créer une branche `005-generation-fruits`.
 
 > Effectivement, je n'ai pas fais de branches pour les tâches précédentes, mais cela ne me dérange pas surtous car ce sont des tâches assez simples et rapides à réaliser en plus de cela je suis seul sur le projet.
@@ -331,3 +330,4 @@ J'ai utilisé blender pour modifié les modèles 3D (libre de droit). Je me suis
 M.Aliprandi m'a rendue visite et j'ai pu lui montrer l'avancement de mon projet. Je lui ai demandé si je devais faire un plan de test meme si il n'etait pas demandé dans le cahier des charges. Il m'a dit que c'était une bonne idée et que je devrais le faire.
 C'est donc ce que je vais faire cette après-midi en plus d'avancer la documentation.
 
+Je me trouve fasse a un petit problem: vu que je n'avait pas fait le plan de test avant le 4eme jour, je ne peux pas savoir quels tests passait pendant les jours précédents. Je vais donc retourné grace à git pour retourner a l'état du projet avant chaque fin de journée pour pouvoir faire les tests.
