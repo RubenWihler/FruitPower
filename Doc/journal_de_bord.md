@@ -324,6 +324,8 @@ J'ai regarder [cette video](https://youtu.be/yhB921bDLYA?si=mdiTW4-eF60TvFj1) po
 
 Aujourd'hui, je vais ajouter 2 types de fruits (les fraises et les myrtilles).
 
+J'ai utilisé blender pour modifié les modèles 3D (libre de droit). Je me suis rendu compte que je devais cité les auteurs des modèles 3D que j'utilise. J'ai donc créé un fichier `CREDITS.txt` que j'ai ajouté à la racine du projet. J'ai ajouté les noms des auteurs des modèles 3D que j'ai utilisé.
+
 #### Visite de M.Aliprendi
 
 M.Aliprendi m'a rendue visite et j'ai pu lui montrer l'avancement de mon projet. Je lui ai demandé si je devais faire un plan de test meme si il n'etait pas demandé dans le cahier des charges. Il m'a dit que c'était une bonne idée et que je devrais le faire.
