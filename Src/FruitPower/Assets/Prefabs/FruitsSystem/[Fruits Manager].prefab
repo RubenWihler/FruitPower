@@ -48,4 +48,10 @@ MonoBehaviour:
   - typeId: APPLE
     prefab: {fileID: 4588629858880514073, guid: db9bfb793c612004ab535f6c015cc5b6, type: 3}
     poolSize: 5
+  - typeId: STRAWBERRY
+    prefab: {fileID: 4588629858880514073, guid: db0b718aa7910a14498d6f16bca10ed5, type: 3}
+    poolSize: 5
+  - typeId: BLUEBERRY
+    prefab: {fileID: 4588629858880514073, guid: e04095ff8a6677342b434a311e71fa86, type: 3}
+    poolSize: 5
   fruitSpawnersParent: {fileID: 3581530216838781467}

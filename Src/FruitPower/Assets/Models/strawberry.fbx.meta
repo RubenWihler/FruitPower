@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 12bf7c0de8c3b5b4bb67f4f585d5a093
+guid: 12384b0824b2da14da359cda9d682835
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Food_01
-    second: {fileID: 2100000, guid: 87a90a5ee36b7f04b9d198faf4512993, type: 2}
+      name: blinn7SG
+    second: {fileID: 2100000, guid: 39287f772a3514f4088efd81b8f1a4e4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 0c3c3f576f399804ea395d443e899a07, type: 2}
+      name: blinn9SG
+    second: {fileID: 2100000, guid: 5051573544f7ebb4a9a05f1cc8cdd394, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +45,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.05
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -100,7 +100,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.05
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
