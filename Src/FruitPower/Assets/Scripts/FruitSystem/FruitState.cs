@@ -1,20 +1,20 @@
 namespace FruitSystem
 {
     /// <summary>
-    /// Énumération des états possibles d'un fruit.
+    /// enumeration des etats possibles d'un fruit.
     /// </summary>
     public enum FruitState
     {
         /// <summary>
-        /// Le fruit est desactivé
+        /// Le fruit est desactive
         /// </summary>
         Inactive,
         /// <summary>
-        /// Le fruit est attaché à un FruitSpawner et peut être ramassé par le joueur.
+        /// Le fruit est attache à un FruitSpawner et peut être ramasse par le joueur.
         /// </summary>
         Attached,
         /// <summary>
-        /// Le fruit est actif et peut être ramassé par le joueur. (la gravité est activée)
+        /// Le fruit est actif et peut être ramasse par le joueur. (la gravite est activee)
         /// </summary>
         Neutral,
         /// <summary>

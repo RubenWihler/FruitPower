@@ -13,16 +13,16 @@ using UnityEngine;
 namespace FruitSystem
 {
     /// <summary>
-    /// Classe responsable de la gestion des spawners de fruits. Elle permet de gérer le spawn de fruits.
+    /// Classe responsable de la gestion des spawners de fruits. Elle permet de gerer le spawn de fruits.
     /// </summary>
     public class FruitSpawnManager
     {
         /// <summary>
-        /// Etant donné que cette classe n'est pas un MonoBehaviour, on doit passer un MonoBehaviour pour pouvoir lancer des coroutines.
+        /// Etant donne que cette classe n'est pas un MonoBehaviour, on doit passer un MonoBehaviour pour pouvoir lancer des coroutines.
         /// </summary>
         private readonly MonoBehaviour _coroutineOwner;
         /// <summary>
-        /// Dictionnaire contenant les spawners de fruits classés par type de fruit.
+        /// Dictionnaire contenant les spawners de fruits classes par type de fruit.
         /// </summary>
         private readonly Dictionary<string, List<FruitSpawner>> _fruitsSpawners;
         /// <summary>
@@ -111,7 +111,7 @@ namespace FruitSystem
 
         /// <summary>
         /// Fait apparaitre les fruits pour chaque type de fruit.
-        /// Le nombre de fruits à apparaitre est calculé avec <see cref="CalculateSpawnCount(ushort, ushort)"/>.
+        /// Le nombre de fruits à apparaitre est calcule avec <see cref="CalculateSpawnCount(ushort, ushort)"/>.
         /// </summary>
         private void SpawnFruits()
         {
@@ -134,7 +134,7 @@ namespace FruitSystem
             }
         }
         /// <summary>
-        /// Retourne le nombre de fruits à apparaitre pour un type de fruit donné. 
+        /// Retourne le nombre de fruits à apparaitre pour un type de fruit donne. 
         /// Utilise <see cref="_fruitTypeSpawnCount"/> pour eviter de recalculer le nombre de fruits à apparaitre a chaque fois.
         /// </summary>
         /// <param name="typeId">L'identifiant du type de fruit.</param>

@@ -253,6 +253,13 @@ MonoBehaviour:
   _typeId: STRAWBERRY
   _score: 1
   _lifetime: 3
+  _meshRenderer: {fileID: 5479284718760333256}
+  _defaultMaterials:
+  - {fileID: 2100000, guid: 5051573544f7ebb4a9a05f1cc8cdd394, type: 2}
+  - {fileID: 2100000, guid: 39287f772a3514f4088efd81b8f1a4e4, type: 2}
+  _hoverMaterials:
+  - {fileID: 2100000, guid: 5051573544f7ebb4a9a05f1cc8cdd394, type: 2}
+  - {fileID: 2100000, guid: 1a3b5550a9614cd4fac4799a876b047b, type: 2}
 --- !u!1001 &6614593551156974412
 PrefabInstance:
   m_ObjectHideFlags: 0

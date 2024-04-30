@@ -29,7 +29,7 @@ namespace FruitSystem
             if (_full)
             {
                 //meme si cela ne devrait pas arriver, mettre un warning pour le signaler nous assure qu'on ne rate pas un comportement inattendu
-                Debug.LogWarning($"[!] Une tentative de spawn a été effectuée sur un spawner plein: {name}");
+                Debug.LogWarning($"[!] Une tentative de spawn a ete effectuee sur un spawner plein: {name}");
                 return;
             }
 

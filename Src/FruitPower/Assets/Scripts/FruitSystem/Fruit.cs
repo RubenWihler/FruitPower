@@ -12,22 +12,27 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace FruitSystem
 {
     /// <summary>
-    /// Classe représentant un fruit. Un fruit est un objet interactif qui peut être ramassé par un joueur pour gagner des points.
-    /// Il peut etre dans plusieurs états: <see cref="FruitState.Inactive"/>, <see cref="FruitState.Attached"/>, <see cref="FruitState.Grabbed"/> et <see cref="FruitState.Neutral"/>.
-    /// Les fruit sont gérés par un <see cref="FruitPooler"/> qui permet de recycler les fruits.
+    /// Classe representant un fruit. Un fruit est un objet interactif qui peut être ramasse par un joueur pour gagner des points.
+    /// Il peut etre dans plusieurs etats: <see cref="FruitState.Inactive"/>, <see cref="FruitState.Attached"/>, <see cref="FruitState.Grabbed"/> et <see cref="FruitState.Neutral"/>.
+    /// Les fruit sont geres par un <see cref="FruitPooler"/> qui permet de recycler les fruits.
     /// </summary>
     [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
     public class Fruit : MonoBehaviour
     {
-        [SerializeField]
-        [Tooltip("Identifiant du type de fruit.")]
+        [Header("Fruit Settings")]
+        [SerializeField, Tooltip("Identifiant du type de fruit.")]
         private string _typeId;
-        [SerializeField]
-        [Tooltip("Score que le joueur gagne en ramassant le fruit.")]
+        [SerializeField, Tooltip("Score que le joueur gagne en ramassant le fruit.")]
         private ushort _score;
-        [SerializeField]
-        [Tooltip("La durée de vie du fruit en secondes.")]
+        [SerializeField, Tooltip("La duree de vie du fruit en secondes.")]
         private float _lifetime;
+        [Header("Model et materials")]
+        [SerializeField, Tooltip("MeshRenderer du fruit.")]
+        private MeshRenderer _meshRenderer;
+        [SerializeField, Tooltip("Materials par defaut du fruit.")]
+        private Material[] _defaultMaterials;
+        [SerializeField, Tooltip("Materials lorsque le fruit est attrapable ou attrape par le joueur.")]
+        private Material[] _hoverMaterials;
 
         private ulong _id;
         private FruitState _state;
@@ -37,11 +42,11 @@ namespace FruitSystem
         private Action<Fruit> _onDespawn;
         
         /// <summary>
-        /// Evénement appelé lorsque le fruit entre dans l'état "attaché".
+        /// Evenement appele lorsque le fruit entre dans l'etat "attache".
         /// </summary>
         private event Action OnEnterAttached;
         /// <summary>
-        /// Evénement appelé lorsque le fruit quitte l'état "attaché".
+        /// Evenement appele lorsque le fruit quitte l'etat "attache".
         /// </summary>
         public event Action OnExitAttached;
 
@@ -58,7 +63,7 @@ namespace FruitSystem
         /// </summary>
         public ushort Score { get => _score; set => _score = value; }
         /// <summary>
-        /// Retourne l'état actuel du fruit.
+        /// Retourne l'etat actuel du fruit.
         /// </summary>
         public FruitState State { get => _state; set => _state = value; }
 
@@ -67,6 +72,8 @@ namespace FruitSystem
             _grabInteractable = GetComponent<XRGrabInteractable>();
             _grabInteractable.selectEntered.AddListener(OnGrab);
             _grabInteractable.selectExited.AddListener(OnDrop);
+            _grabInteractable.hoverEntered.AddListener(OnEnterHover);
+            _grabInteractable.hoverExited.AddListener(OnExitHover);
 
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
@@ -74,7 +81,7 @@ namespace FruitSystem
 
         /// <summary>
         /// Initialise le fruit avec un identifiant unique.
-        /// Cette méthode est appelée par le <see cref="FruitPooler"/> lors de l'initialisation d'un fruit (appelee qu'une seule fois).
+        /// Cette methode est appelee par le <see cref="FruitPooler"/> lors de l'initialisation d'un fruit (appelee qu'une seule fois).
         /// </summary>
         /// <param name="id">l'identifiant unique du fruit.</param>
         /// <returns>se retourne soi-meme.</returns>
@@ -92,7 +99,7 @@ namespace FruitSystem
         }
 
         /// <summary>
-        /// Fait apparaitre le fruit, l'attache a un FruitSpawner et démarre le coroutine de durée de vie.
+        /// Fait apparaitre le fruit, l'attache a un FruitSpawner et demarre le coroutine de duree de vie.
         /// </summary>
         /// <returns></returns>
         public Fruit Spawn()
@@ -102,7 +109,7 @@ namespace FruitSystem
             return this;
         }
         /// <summary>
-        /// Fait disparaitre le fruit et le met en état "inactive".
+        /// Fait disparaitre le fruit et le met en etat "inactive".
         /// </summary>
         /// <returns>se retourne soi-meme.</returns>
         public Fruit Despawn()
@@ -114,8 +121,8 @@ namespace FruitSystem
         }
 
         /// <summary>
-        /// Attache le fruit à une position et une rotation spécifiée ainsi que le met en état "attaché".
-        /// Cette méthode est appelée par un <see cref="FruitSpawner"/> lorsqu'un fruit y est attaché.
+        /// Attache le fruit à une position et une rotation specifiee ainsi que le met en etat "attache".
+        /// Cette methode est appelee par un <see cref="FruitSpawner"/> lorsqu'un fruit y est attache.
         /// </summary>
         /// <param name="position">la position à laquelle attacher le fruit.</param>
         /// <param name="rotation">la rotation à laquelle attacher le fruit.</param>
@@ -130,34 +137,53 @@ namespace FruitSystem
         #region XR Interaction
 
         /// <summary>
-        /// Appelé lorsqu'un joueur attrape le fruit.
-        /// Lorsque le fruit est attrapé, il est mis en état "grabbed" et la coroutine de durée de vie est arrêtée.
+        /// Appele lorsqu'un joueur attrape le fruit.
+        /// Lorsque le fruit est attrape, il est mis en etat "grabbed" et la coroutine de duree de vie est arrêtee.
         /// </summary>
         /// <param name="args"></param>
         private void OnGrab(SelectEnterEventArgs args)
         {
             if (_state == FruitState.Inactive) return;
 
-            //si le fruit est attaché, le mettre en état "grabbed"
+            //si le fruit est attache, le mettre en etat "grabbed"
             SetState(FruitState.Grabbed);
 
-            //arrêter la coroutine de durée de vie
+            //arrêter la coroutine de duree de vie
             StopLifetimeCoroutine();
         }
         /// <summary>
-        /// Appelé lorsqu'un joueur lâche le fruit.
-        /// Lorsque le fruit est lâché, il est mis en état "neutral" et la coroutine de durée de vie est relancée.
+        /// Appele lorsqu'un joueur lâche le fruit.
+        /// Lorsque le fruit est lâche, il est mis en etat "neutral" et la coroutine de duree de vie est relancee.
         /// </summary>
         /// <param name="args"></param>
         private void OnDrop(SelectExitEventArgs args)
         {
             if (_state == FruitState.Inactive) return;
 
-            //mettre le fruit en état "neutral" lorsqu'il est lâché
+            //mettre le fruit en etat "neutral" lorsqu'il est lâche
             SetState(FruitState.Neutral);
 
-            //relancer la coroutine de durée de vie
+            //relancer la coroutine de duree de vie
             StartLifetimeCoroutine();
+        }
+
+        /// <summary>
+        /// Appele lorsque le fruit entre dans la zone de survol d'un joueur.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnEnterHover(HoverEnterEventArgs args)
+        {
+            if (_state == FruitState.Inactive) return;
+
+            _meshRenderer.materials = _hoverMaterials;
+        }
+        /// <summary>
+        /// Appele lorsque le fruit quitte la zone de survol d'un joueur.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnExitHover(HoverExitEventArgs args)
+        {
+            _meshRenderer.materials = _defaultMaterials;
         }
 
         #endregion
@@ -165,15 +191,15 @@ namespace FruitSystem
         #region State Management
 
         /// <summary>
-        /// Définit l'état du fruit.
+        /// Definit l'etat du fruit.
         /// </summary>
-        /// <param name="state">Le nouvel état du fruit.</param>
+        /// <param name="state">Le nouvel etat du fruit.</param>
         private void SetState(FruitState state)
         {
-            //si l'état est le même, ne rien faire
+            //si l'etat est le même, ne rien faire
             if (_state == state) return;
 
-            //quitter l'état actuel et appeler les événements de sortie
+            //quitter l'etat actuel et appeler les evenements de sortie
             switch (_state)
             {
                 case FruitState.Attached:
@@ -184,7 +210,7 @@ namespace FruitSystem
                     break;
             }
 
-            //entrer dans le nouvel état et appeler les événements d'entrée
+            //entrer dans le nouvel etat et appeler les evenements d'entree
             switch (state)
             {
                 case FruitState.Attached:
@@ -199,18 +225,22 @@ namespace FruitSystem
         }
 
         /// <summary>
-        /// Appelé lorsqu'un fruit entre dans l'état "attache".
+        /// Appele lorsqu'un fruit entre dans l'etat "attache".
         /// </summary>
         private void OnEnterAttachedState()
         {
+            //bloquer le rigidbody et le mettre en mode de detection de collision discret
             _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         }
         /// <summary>
-        /// Appelé lorsqu'un fruit quitte l'état "attache".
+        /// Appele lorsqu'un fruit quitte l'etat "attache".
         /// </summary>
         private void OnExitAttachedState()
         {
+            //debloquer le rigidbody et le mettre en mode de detection de collision continu (pour eviter les traversees de murs)
             _rigidbody.constraints = RigidbodyConstraints.None;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
 
         #endregion
@@ -218,7 +248,7 @@ namespace FruitSystem
         #region Lifecycle Management
 
         /// <summary>
-        /// Commence la coroutine de durée de vie du fruit.
+        /// Commence la coroutine de duree de vie du fruit.
         /// </summary>
         private void StartLifetimeCoroutine()
         {
@@ -226,7 +256,7 @@ namespace FruitSystem
             _lifetimeCoroutine = StartCoroutine(LifetimeCoroutine());
         }
         /// <summary>
-        /// Force l'arret de la coroutine de durée de vie du fruit.
+        /// Force l'arret de la coroutine de duree de vie du fruit.
         /// </summary>
         private void StopLifetimeCoroutine()
         {
@@ -234,8 +264,8 @@ namespace FruitSystem
                 StopCoroutine(_lifetimeCoroutine);
         }
         /// <summary>
-        /// Coroutine de durée de vie du fruit.
-        /// Une fois le temps écoulé, le fruit est désactivé.
+        /// Coroutine de duree de vie du fruit.
+        /// Une fois le temps ecoule, le fruit est desactive.
         /// </summary>
         /// <returns></returns>
         private IEnumerator LifetimeCoroutine()

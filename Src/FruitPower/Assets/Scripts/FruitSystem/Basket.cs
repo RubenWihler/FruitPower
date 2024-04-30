@@ -23,7 +23,7 @@ namespace FruitSystem
 
             //ajout des points
             GameManager.Instance.AddPoints(fruit.Score);
-            //on désactive le fruit
+            //on desactive le fruit
             fruit.Despawn();
         }
     }

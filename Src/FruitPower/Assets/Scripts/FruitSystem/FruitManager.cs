@@ -13,7 +13,7 @@ namespace FruitSystem
 {
     /// <summary>
     /// La classe <see cref="FruitManager"/> est responsable de la gestion des fruits dans la scène.
-    /// Etant un singleton, elle permet d'accéder facilement de l'exérieur à la liste des fruits et aux différents managers.
+    /// Etant un singleton, elle permet d'acceder facilement de l'exerieur à la liste des fruits et aux differents managers.
     /// </summary>
     public class FruitManager : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace FruitSystem
             get
             {
                 if (_instance is null) 
-                    throw new NullReferenceException("Aucun FruitManager n'a été trouvé dans la scène.");
+                    throw new NullReferenceException("Aucun FruitManager n'a ete trouve dans la scène.");
 
                 return _instance;
             }
@@ -52,7 +52,7 @@ namespace FruitSystem
             if (_instance != null && _instance != this)
             {
                 Destroy(this);
-                Debug.LogWarning("[!] Une autre instance de FruitManager a été trouvée. L'instance actuelle a été détruite.");
+                Debug.LogWarning("[!] Une autre instance de FruitManager a ete trouvee. L'instance actuelle a ete detruite.");
                 return;
             }
 
@@ -110,6 +110,5 @@ namespace FruitSystem
 
             return (fruitPooler, fruitSpawnManager);
         }
-        
     }
 }

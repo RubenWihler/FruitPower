@@ -26,9 +26,9 @@ namespace FruitSystem
         /// Constructeur de la classe <see cref="FruitPooler"/>.
         /// Initialise la factory avec les objets <see cref="FruitPoolData"/> et le parent des fruits.
         /// </summary>
-        /// <param name="fruitsEntries">Un tableau d'objets <see cref="FruitPoolData"/> qui contient les données nécessaires pour initialiser les pools de fruits.</param>
+        /// <param name="fruitsEntries">Un tableau d'objets <see cref="FruitPoolData"/> qui contient les donnees necessaires pour initialiser les pools de fruits.</param>
         /// <param name="parent">L'objet parent des fruits.</param>
-        /// <param name="fruitInstantiationCallback">Fonction de callback appelée lors de l'instanciation d'un fruit.</param>
+        /// <param name="fruitInstantiationCallback">Fonction de callback appelee lors de l'instanciation d'un fruit.</param>
         public FruitPooler(FruitPoolData[] fruitsEntries, Transform parent, Func<Func<ulong, Fruit>, Fruit> fruitInstantiationCallback)
         {
             _parent = parent;
@@ -51,10 +51,10 @@ namespace FruitSystem
         }
 
         /// <summary>
-        /// Instancie un fruit du type spécifié a partir du pool.
+        /// Instancie un fruit du type specifie a partir du pool.
         /// </summary>
         /// <param name="typeId">L'identifiant du type de fruit.</param>
-        /// <returns>le fruit instancié.</returns>
+        /// <returns>le fruit instancie.</returns>
         /// <exception cref="FruitTypeIdDoesNotExistException">Si le type de fruit n'existe pas.</exception>
         /// <exception cref="FruitPoolDoesNotExistException">Si le pool de fruit n'existe pas.</exception>
         public Fruit InstantiateFruit(string typeId)
@@ -65,7 +65,7 @@ namespace FruitSystem
             if (!_fruitsPools.TryGetValue(typeId, out var pool))
                 throw new FruitPoolDoesNotExistException(typeId);
 
-            //si le pool est vide, on en crée un nouveau et on l'ajoute au pool
+            //si le pool est vide, on en cree un nouveau et on l'ajoute au pool
             if (pool.Count == 0)
                 pool.Enqueue(InstantiateFruit(prefab));
 

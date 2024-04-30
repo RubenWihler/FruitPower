@@ -9,7 +9,7 @@ using UnityEngine;
 namespace FruitSystem
 {
     /// <summary>
-    /// Structure qui contient les données d'un pool de fruits.
+    /// Structure qui contient les donnees d'un pool de fruits.
     /// </summary>
     [System.Serializable]
     public struct FruitPoolData
