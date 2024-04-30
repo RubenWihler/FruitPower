@@ -113,9 +113,6 @@ J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que 
 
 Pour faciliter la partie conception ainsi que la partie implémentation, j'ai décidé de découper mon projet en plusieurs systèmes qui sont indépendants les uns des autres. Cela permet de mieux comprendre le fonctionnement de chaque système et de pouvoir les implémenter plus facilement.
 
-- [Système 1](#système-1)
-- [Système 2](#système-2)
-- [Système 3](#système-3)
 
 ### Système 1
 
@@ -142,11 +139,11 @@ Description du système 1
 
 ## Sécurité
 
-Etant donné que le projet est un jeu vidéo solo, j'ai décidé de ne pas mettre la priorité sur la sécurité. Si le joueur veut tricher, il peut le faire. Cependant, pour avoir bonne consience, j'ai quand meme mis en place un obfuscateur pour éviter le reverse engineering (surtout car c# est un langage facile à décompiler).
+Etant donné que le projet est un jeu vidéo solo, nous avons décidé de ne pas mettre la priorité sur la sécurité. Si le joueur veut tricher, il peut le faire. Cependant, nous avons quand même mis en place un obfuscateur pour éviter le reverse engineering (surtout car c# est un langage facile à décompiler).
 
 ### Obfuscation
 
-J'ai utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420) de GuardingPearSoftware pour protéger mon code source.
+Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420) de GuardingPearSoftware pour protéger notre code source.
 
 ## Plan de test
 
@@ -184,20 +181,30 @@ Le plan de test a pour but de valider les fonctionnalités principales du projet
 | 22 | Un son est joué quand la partie se termine bientôt (80%) | Une partie est en cours | Attendre que la partie se termine bientôt | Un son est joué quand la partie se termine bientôt |
 | 23 | Un son est joué quand un fruit entre en collision avec le sol | Une partie est en cours | Laisser un fruit tomber | Un son est joué quand un fruit entre en collision avec le sol |
 
+#### Tests automatisés
 
+Les tests automatisés visent uniquement le système de gestion des fruits. En effet, c'est le système le plus complexe et le plus critique du projet. Les tests automatisés sont effectués par le framework de test de Unity. Voici les cas de test automatisés :
+
+| ID | Description | Résultat attendu | détails | fichier |
+| -- | ----------- | ---------------- | ------- | ------- |
+| 1 | Un fruit avec un type existant doit être instancié correctement par un FruitPooler | Le fruit est instancié correctement | le fruit est instancié, le type est correct, l'id du fruit est correct, l'attributeur d'id est incrémenté, le fruit est ajouté à la liste des fruits, le fruit est ajouté a la hierrachie en tant qu'enfant du parent definis | FruitTest.cs |
+| 2 | Une exception doit être levée si on essaie d'instancier un fruit avec un type inexistant | Une exception est levée | le fruit n'est pas instancié, une exception `FruitTypeIdDoesNotExistException` est levée | FruitTest.cs |
+| 3 | Le bon nombre de fruits (poolSize) doit être instanciés, désactivés et disponibles dans le pool lors de l'initialisation du FruitPooler | Le bon nombre de fruits est instancié, désactivé et disponible | La pool des fruits de type validTypeId contient le bon nombre de fruits, Les fruits ne sont pas nuls, Les fruits sont du bon type, Les fruits sont désactivés | FruitTest.cs |
+| 4 | Un nouveau fruit doit être instancié si le pool est vide | Un nouveau fruit est instancié | Un nouveau fruit est créé et instancié correctement (meme condition que ID:1) | FruitTest.cs |
+| 5 | Un fruit doit être remis dans le pool lorsqu'il est désactivé | Le fruit est remis dans le pool | Le fruit est désactivé, le fruit est remis dans le pool, le fruit est disponible | FruitTest.cs |
+| 6 | Les fruits doivent être réutilisés s'ils sont désactivés | Les fruits sont réutilisés | Les fruits désactivés sont réutilisés lors de l'instanciation suivante | FruitTest.cs |
 
 ## Conclusion
 
 ### Difficultés rencontrées
 
-Pendant la réalisation de ce projet, j'ai rencontré plusieurs difficultés. 
-...
+Pendant la réalisation de ce projet, plusieurs difficultés ont été rencontrées. Voici quelques exemples de difficultés rencontrées :
 
 ### Variantes de solutions et choix
 
-Pour résoudre ces difficultés, j'ai dû faire des choix et trouver des solutions. Voici quelques exemples de variantes de solutions et de choix que j'ai dû faire :
+Pour résoudre ces difficultés, plusieurs solutions ont été envisagées. Voici quelques exemples de variantes de solutions et de choix effectués :
 
-- ...
+- D
 
 ### Améliorations possibles
 
