@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using TMPro;
+using GameManagement;
 
 namespace UI
 {

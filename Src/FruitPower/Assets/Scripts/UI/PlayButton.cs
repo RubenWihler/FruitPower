@@ -5,6 +5,7 @@
  */
 
 using UnityEngine.UI;
+using GameManagement;
 
 namespace UI
 {
@@ -13,7 +14,7 @@ namespace UI
         protected override void Start()
         {
             base.Start();
-            onClick.AddListener(() => GameManager.Instance.StartGame());
+            onClick.AddListener(() => GameManager.StartGame());
         }
     }
 }

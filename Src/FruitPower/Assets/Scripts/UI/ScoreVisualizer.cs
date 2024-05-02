@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using TMPro;
+using GameManagement;
 
 namespace UI
 {
@@ -27,7 +28,7 @@ namespace UI
         }
 
 
-        private void SetScore(int score)
+        private void SetScore(ulong score)
         {
             _scoreText.text = _scoreTextFormat.Replace("$", score.ToString());
         }

@@ -1,9 +1,11 @@
-using UnityEngine;
 /*
  TPI - 2024
  FruitPower - Fruit System
  Wihler Ruben
  */
+
+using UnityEngine;
+using GameManagement;
 
 namespace FruitSystem
 {
@@ -22,7 +24,7 @@ namespace FruitSystem
             if (GameManager.IsGameRunning == false) return;
 
             //ajout des points
-            GameManager.Instance.AddPoints(fruit.Score);
+            GameManager.AddPoints(fruit.Score);
             //on desactive le fruit
             fruit.Despawn();
         }
