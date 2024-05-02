@@ -17,8 +17,4 @@ public struct GameOption
     public float gameTime;
     [Tooltip("Le nombre d'apparition de fruits par seconde.")]
     public ushort spawnerRate;
-
-    
-
-
 }

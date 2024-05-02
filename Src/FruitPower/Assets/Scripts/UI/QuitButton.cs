@@ -7,12 +7,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Bouton permettant de quitter l'application.
+/// </summary>
 public class QuitButton : Button
 {
+    /// <summary>
+    /// On override la methode Start pour ajouter un listener qui permet de quitter l'application quand le bouton est clique.
+    /// </summary>
     protected override void Start()
     {
         base.Start();
-        Debug.Log("QuitButton Start");
         onClick.AddListener(() => Application.Quit());
     }
 }

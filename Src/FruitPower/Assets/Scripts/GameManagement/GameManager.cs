@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameManagement
@@ -57,6 +58,10 @@ namespace GameManagement
         /// </summary>
         private GameTimer _gameTimer;
         /// <summary>
+        /// reference vers les statistiques du jeu.
+        /// </summary>
+        private GameStats _gameStats;
+        /// <summary>
         /// variable indiquant si le jeu est en cours.
         /// </summary>
         private bool _isGameRunning;
@@ -65,6 +70,10 @@ namespace GameManagement
         /// Le score actuel du jeu.
         /// </summary>
         public static ulong Score => Instance._gameScore.Score;
+        /// <summary>
+        /// Les fruits attrapes durant la partie.
+        /// </summary>
+        public static Dictionary<string, uint> FruitsCatched => Instance._gameStats.FruitsCatched;
         /// <summary>
         /// Indique si le jeu est en cours.
         /// </summary>
@@ -88,7 +97,16 @@ namespace GameManagement
         [ContextMenu("Start Game")]
         public static void StartGame()
         {
+            // Si le jeu est deja en cours, on ne fait rien.
+            if (IsGameRunning) return;
+
+            //On remet le temps a la normale
+            Time.timeScale = 1;
+            //On remet le score a 0
             ResetPoints();
+            ResetStats();
+            
+            //On demarre le timer
             Instance.StartTimer();
             Debug.Log($"[i] GameStarted");
         }
@@ -99,6 +117,12 @@ namespace GameManagement
         [ContextMenu("End Game")]
         public static void EndGame()
         {
+            // Si le jeu n'est pas en cours, on ne fait rien.
+            if (!IsGameRunning) return;
+
+            //On met le temps en pause
+            Time.timeScale = 0;
+            //On arrete le timer
             Instance.StopTimer();
             Debug.Log($"[i] GameEnded");
         }
@@ -109,8 +133,12 @@ namespace GameManagement
         /// Ajoute des points au score actuel.
         /// </summary>
         /// <param name="points">Les points à ajouter.</param>
-        public static void AddPoints(ulong points)
+        public static void AddPoints(ulong points, string fruitTypeId = "")
         {
+            // Si le fruitTypeId n'est pas vide, on ajoute le fruit aux statistiques.
+            if (!string.IsNullOrEmpty(fruitTypeId))
+                Instance._gameStats.AddFruit(fruitTypeId);
+
             // Si le jeu n'est pas en cours, on notifie dans les logs qu'un comportement inattendu a eu lieu et on ne fait rien.
             if (!IsGameRunning)
             {
@@ -129,6 +157,13 @@ namespace GameManagement
             Instance._gameScore = new GameScore();
             OnScoreChange?.Invoke(0ul);
         }
+        /// <summary>
+        /// Remet les statistiques a 0.
+        /// </summary>
+        public static void ResetStats()
+        {
+            Instance._gameStats = new GameStats();
+        }
 
         #endregion
 
@@ -142,6 +177,7 @@ namespace GameManagement
             // Si le jeu est dejà en cours, on ne fait rien.
             if (_isGameRunning) return;
 
+            // On cree un nouveau timer avec les options actuelles.
             _gameTimer = new GameTimer(gameOption.gameTime, this,
                 //lancement de la partie
                 () => {
@@ -158,6 +194,9 @@ namespace GameManagement
                     Debug.Log("[i] Last seconds!");
                 }
             );
+
+            // On demarre le timer.
+            _gameTimer.Start();
         }
 
         /// <summary>
