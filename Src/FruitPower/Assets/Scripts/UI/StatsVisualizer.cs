@@ -48,7 +48,7 @@ namespace UI.Stats
         /// <returns>le nom du fruit.</returns>
         private string GetFruitName(string fruitTypeId)
         {
-            return fruitTypeId.ToLower().Replace("_", " ");
+            return FruitSystem.FruitManager.GetFruitTypeData(fruitTypeId).fruitName;
         }
     }
 }

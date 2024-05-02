@@ -12,7 +12,7 @@ namespace GameManagement
 {
     /// <summary>
     /// Classe responsable de la gestion du jeu. C'est ici que l'on demarre et termine le jeu.
-    /// Cette classe est un singleton pour permettre un accès facile à partir de n'importe où.
+    /// Cette classe est un singleton pour permettre un accès facile a partir de n'importe où.
     /// </summary>
     public class GameManager : MonoBehaviour
     {
@@ -37,7 +37,7 @@ namespace GameManagement
         public GameOption gameOption;
 
         /// <summary>
-        /// Evenement appele lorsque le jeu demarre. Les abonnes à cet evenement recevront les options du jeu.
+        /// Evenement appele lorsque le jeu demarre. Les abonnes a cet evenement recevront les options du jeu.
         /// </summary>
         public static event Action<GameOption> OnGameStart;
         /// <summary>
@@ -73,7 +73,7 @@ namespace GameManagement
         /// <summary>
         /// Les fruits attrapes durant la partie.
         /// </summary>
-        public static Dictionary<string, uint> FruitsCatched => Instance._gameStats.FruitsCatched;
+        public static Dictionary<string, uint> FruitsCaught => Instance._gameStats.FruitsCaught;
         /// <summary>
         /// Indique si le jeu est en cours.
         /// </summary>
@@ -132,7 +132,7 @@ namespace GameManagement
         /// <summary>
         /// Ajoute des points au score actuel.
         /// </summary>
-        /// <param name="points">Les points à ajouter.</param>
+        /// <param name="points">Les points a ajouter.</param>
         public static void AddPoints(ulong points, string fruitTypeId = "")
         {
             // Si le fruitTypeId n'est pas vide, on ajoute le fruit aux statistiques.
@@ -174,11 +174,11 @@ namespace GameManagement
         /// </summary>
         private void StartTimer()
         {
-            // Si le jeu est dejà en cours, on ne fait rien.
+            // Si le jeu est deja en cours, on ne fait rien.
             if (_isGameRunning) return;
 
             // On cree un nouveau timer avec les options actuelles.
-            _gameTimer = new GameTimer(gameOption.gameTime, this,
+            _gameTimer = new GameTimer(gameOption.gameDuration, this,
                 //lancement de la partie
                 () => {
                     _isGameRunning = true;

@@ -22,10 +22,6 @@ namespace FruitSystem
         [Header("Fruit Settings")]
         [SerializeField, Tooltip("Identifiant du type de fruit.")]
         private string _typeId;
-        [SerializeField, Tooltip("Score que le joueur gagne en ramassant le fruit.")]
-        private ushort _score;
-        [SerializeField, Tooltip("La duree de vie du fruit en secondes.")]
-        private float _lifetime;
         [Header("Model et materials")]
         [SerializeField, Tooltip("MeshRenderer du fruit.")]
         private MeshRenderer _meshRenderer;
@@ -34,11 +30,37 @@ namespace FruitSystem
         [SerializeField, Tooltip("Materials lorsque le fruit est attrapable ou attrape par le joueur.")]
         private Material[] _hoverMaterials;
 
+        /// <summary>
+        /// Identifiant unique du fruit.
+        /// </summary>
         private ulong _id;
+        /// <summary>
+        /// Le nombre de points que le joueur gagne en ramassant le fruit.
+        /// </summary>
+        private ushort _pointGiven;
+        /// <summary>
+        /// Le temps de vie du fruit.
+        /// </summary>
+        private float _lifetime;
+        /// <summary>
+        /// L'etat actuel du fruit.
+        /// </summary>
         private FruitState _state;
+        /// <summary>
+        /// La coroutine de duree de vie du fruit.
+        /// </summary>
         private Coroutine _lifetimeCoroutine;
+        /// <summary>
+        /// Le composant XRGrabInteractable du fruit.
+        /// </summary>
         private XRGrabInteractable _grabInteractable;
+        /// <summary>
+        /// Le composant Rigidbody du fruit.
+        /// </summary>
         private Rigidbody _rigidbody;
+        /// <summary>
+        /// L'action appelee lors du despawn du fruit.
+        /// </summary>
         private Action<Fruit> _onDespawn;
         
         /// <summary>
@@ -59,9 +81,9 @@ namespace FruitSystem
         /// </summary>
         public string TypeId { get => _typeId; set => _typeId = value;}
         /// <summary>
-        /// Le score que le joueur gagne en ramassant le fruit.
+        /// Le nombre de points que le joueur gagne en ramassant le fruit.
         /// </summary>
-        public ushort Score { get => _score; set => _score = value; }
+        public ushort PointsGiven { get => _pointGiven; set => _pointGiven = value; }
         /// <summary>
         /// Retourne l'etat actuel du fruit.
         /// </summary>
@@ -87,13 +109,17 @@ namespace FruitSystem
         /// <returns>se retourne soi-meme.</returns>
         public Fruit Initialize(ulong id, Action<Fruit> onDespawn)
         {
-            this._state = FruitState.Inactive;
-            gameObject.SetActive(false);
-            this._id = id;
-            this._onDespawn = onDespawn;
+            var fruitTypeData = FruitManager.GetFruitTypeData(_typeId);
+            _pointGiven = fruitTypeData.pointsGiven;
+            _lifetime = fruitTypeData.lifeTime;
+            _id = id;
 
-            this.OnEnterAttached += OnEnterAttachedState;
-            this.OnExitAttached += OnExitAttachedState;
+            _state = FruitState.Inactive;
+            gameObject.SetActive(false);
+            _onDespawn = onDespawn;
+
+            OnEnterAttached += OnEnterAttachedState;
+            OnExitAttached += OnExitAttachedState;
 
             return this;
         }

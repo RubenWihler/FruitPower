@@ -2,41 +2,45 @@ using System.Collections.Generic;
 
 namespace GameManagement
 {
+    /// <summary>
+    /// Classe responsable de la gestion des statistiques du jeu. 
+    /// Pour l'instant, elle ne contient que les fruits attrapes.
+    /// </summary>
     public sealed class GameStats
     {
         /// <summary>
-        /// dictionnaire contenant les fruits attrapés et leur quantité.
+        /// dictionnaire contenant les fruits attrapes et leur quantite.
         /// TKey: l'identifiant du type de fruit.
-        /// TValue: la quantité de fruit attrapé.
+        /// TValue: la quantite de fruit attrape.
         /// </summary>
-        private Dictionary<string, uint> _fruitsCatched;
+        private readonly Dictionary<string, uint> _fruitsCaught;
+
+        /// <summary>
+        /// Dictionnaire contenant les fruits attrapes et leur quantite.
+        /// </summary>
+        public Dictionary<string, uint> FruitsCaught => _fruitsCaught;
 
         /// <summary>
         /// Constructeur de la classe GameStats.
         /// </summary>
         public GameStats()
         {
-            _fruitsCatched = new Dictionary<string, uint>();
+            _fruitsCaught = new Dictionary<string, uint>();
         }
-
+        
         /// <summary>
-        /// Dictionnaire contenant les fruits attrapés et leur quantité.
-        /// </summary>
-        public Dictionary<string, uint> FruitsCatched => _fruitsCatched;
-
-        /// <summary>
-        /// Ajoute un fruit attrapé
+        /// Ajoute un fruit attrape
         /// </summary>
         /// <param name="fruitTypeId"></param>
         public void AddFruit(string fruitTypeId)
         {
-            if (_fruitsCatched.ContainsKey(fruitTypeId))
+            if (_fruitsCaught.ContainsKey(fruitTypeId))
             {
-                _fruitsCatched[fruitTypeId]++;
+                _fruitsCaught[fruitTypeId]++;
             }
             else
             {
-                _fruitsCatched.Add(fruitTypeId, 1);
+                _fruitsCaught.Add(fruitTypeId, 1);
             }
         }
     }

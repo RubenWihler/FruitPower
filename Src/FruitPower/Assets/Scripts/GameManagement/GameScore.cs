@@ -20,6 +20,11 @@ namespace GameManagement
         private ulong _score;
 
         /// <summary>
+        /// Propriete permettant d'acceder au score du jeu.
+        /// </summary>
+        public ulong Score => _score;
+
+        /// <summary>
         /// Constructeur de la classe GameScore.
         /// </summary>
         /// <param name="score">le score initial du jeu. (default: 0)</param>
@@ -29,14 +34,9 @@ namespace GameManagement
         }
 
         /// <summary>
-        /// Propriete permettant d'acceder au score du jeu.
-        /// </summary>
-        public ulong Score => _score;
-
-        /// <summary>
         /// Methode permettant d'ajouter des points au score du jeu.
         /// </summary>
-        /// <param name="points">Le nombre de points à ajouter.</param>
+        /// <param name="points">Le nombre de points a ajouter.</param>
         /// <returns>le nouveau score du jeu.</returns>
         public ulong AddPoints(ulong points)
         {

@@ -39,6 +39,8 @@ namespace FruitSystem
         private FruitPoolData[] fruitsEntries;
         [SerializeField, Tooltip("Le parent qui contient les spawners de fruits.")]
         private Transform fruitSpawnersParent;
+        [SerializeField, Tooltip("Les donnees des differents types de fruits.")]
+        private FruitTypesDatas fruitTypesDatas;
 
         /// <summary>
         /// reference vers le manager de spawn de fruits.
@@ -48,7 +50,6 @@ namespace FruitSystem
         /// reference vers le pooler de fruits.
         /// </summary>
         private FruitPooler _fruitPooler;
-        
         /// <summary>
         /// Liste de tous les fruits (actifs et inactifs).
         /// </summary>
@@ -58,6 +59,16 @@ namespace FruitSystem
         /// </summary>
         private ulong _idCounter;
         
+        /// <summary>
+        /// Donne le fruitTypeData en fonction de l'identifiant du fruit.
+        /// </summary>
+        /// <param name="fruitId">L'identifiant du fruit.</param>
+        /// <returns>L'objet FruitTypeData correspondant à l'identifiant du fruit.</returns>
+        public static FruitTypeData GetFruitTypeData(string fruitId)
+        {
+            return Instance.fruitTypesDatas.datas.FirstOrDefault(data => data.fruitId == fruitId);
+        }
+
         /// <summary>
         /// Mise en place du singleton et initialisation de la liste de fruits.
         /// </summary>

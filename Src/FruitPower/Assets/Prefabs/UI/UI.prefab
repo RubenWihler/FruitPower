@@ -3865,7 +3865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad07af6cc0c79324e988f54f4dc4a1d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _caughtFruitElementPrefab: {fileID: 0}
+  _caughtFruitElementPrefab: {fileID: 1102124231521403638, guid: 7bd26f0f485d1ef478bbd03015b9e4aa, type: 3}
   _caughtFruitsParent: {fileID: 5175765236958061804}
 --- !u!1 &8395299221591441109
 GameObject:

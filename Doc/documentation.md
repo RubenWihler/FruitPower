@@ -289,8 +289,232 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 
 Pour faciliter la partie conception ainsi que la partie implémentation, le projet a été divisé en plusieurs systèmes. Chaque système a une responsabilité bien définie et est plus ou moins indépendant des autres systèmes. Cela permet de faciliter la maintenance et l'évolution du projet.
 
+> Remarques :
+>
+> - Les classes sont regroupées par système.
+> - au début de chaque classe, une description de la classe est donnée. Elle contient le nom de la classe, le type de la classe, et une brève description de la classe.
+> - Le type de données est donné entre crochets après le nom de la classe.
+> - Apres certains champs les annotations **[INSP]** sont utilisées pour indiquer que le champ est une propriété inspectable dans l'éditeur Unity. (Marquée dans le code source par l'attribut `[System.SerializeField]` pour les champs privés)
 
 ### Gestions de la réalité virtuelle
+
+#### Vue d'ensemble
+
+La gestion de la réalité virtuelle est un des points clés du projet. Elle permet au joueur d'interagir avec le jeu en utilisant un casque de réalité virtuelle et ses contrôleurs. Pour cela, nous avons utilisé le package XR d'Unity qui permet de gérer la réalité virtuelle de manière simple et efficace. Nous avons également utilisé le package XR Interaction Toolkit qui permet de gérer l'interaction avec les objets du jeu.
+Pour gagner du temps, nous avons utiliser le sample de l'XR Interaction Toolkit pour la gestion des contrôleurs. Ce dernier nous a permis d'avoir tout de suite les InputsActions et les interactions de base (grab, select, etc).
+
+#### Mains du joueur
+
+Pour les main du joueur, nous avons utilisé les modèles de mains donnés dans une séries de tutoriels de Unity. Ces modèles sont des modèles de mains de base qui sont deja animés. Nous avons simplement suivi le tutoriel pour les importer dans le projet et les utiliser.
+
+> Référence de la vidéo : [How to Make a VR Game in Unity 2022 - PART 2 - INPUT and HAND PRESENCE](https://www.youtube.com/watch?v=8PCNNro7Rt0)
+
+La seule classe que nous avons dû implémenter est lui aussi donné dans le tutoriel. Il s'agit de la classe `HandController` qui permet de faire le lien entre les contrôleurs et l'animator des mains.
+
+##### Classe
+
+###### HandController
+
+[sealed class : MonoBehaviour]
+
+La classe `HandController` est une classe qui permet de faire le lien entre les contrôleurs et l'animator des mains. Elle est utilisée pour animer les mains du joueur en fonction des boutons de Grip et de pinch des contrôleurs.
+
+###### Champs de HandController
+
+- `private InputActionProperty pinchAction` : **[INSP]** Action de pinch des contrôleurs.
+- `private InputActionProperty gripAction` : **[INSP]** Action de grip des contrôleurs.
+- `private Animator animator` : **[INSP]** Référence vers l'animator de la main.
+
+###### Méthode de HandController
+
+- `private void Update()` : Récupère les valeurs des actions de grip et de pinch des contrôleurs et les envoie à l'animator pour animer les mains.
+
+#### Deplacement du joueur
+
+Les déplacements du joueur sont très simples étant donné que le joueur ne peut pas se déplacer dans l'environnement avec les contrôleurs. Il ne peut que se déplacer dans un rayon de 2 mètres autour de lui en marchant dans la réalité. Pour cela, nous avons utilisé les composants `LocomotionSystem`, `ContinuousMoveProvider` et `CharacterControllerDriver` du package XR Interaction Toolkit.
+
+#### Utilisation dans Unity
+
+##### XR Plugin Management
+
+Pour utiliser la réalité virtuelle dans Unity, il faut ajouter le package XR dans le projet. Pour cela, il faut aller dans le menu `Window` -> `Package Manager` et chercher le package `XR Plugin Management`. Il faut ensuite l'installer. Une fois le package installé, il faut aller dans `Edit` -> `Project Settings` -> `XR Plugin Management` et activer le plugin `OpenXR`.  
+
+##### XR Interaction Toolkit
+
+Pour utiliser le package XR Interaction Toolkit, il faut ajouter le package dans le projet. Pour cela, il faut aller dans le menu `Window` -> `Package Manager` et cliquer sur le `+` en haut à gauche > `Add package from name` et entrer `com.unity.xr.interaction.toolkit`. Il faut ensuite l'installer. Pour installer le sample `Started Assets`, il faut aller dans Package Manager > XR Interaction Toolkit > Samples > Started Assets > Import.
+
+##### Utilisation dans la scène
+
+L'utilisation de la réalité virtuelle dans la scène est très simple. Voici la hiérarchie du joueur dans la scène :
+
+![VR Player](./img/vr_player_structure.jpg)
+
+###### XR Player
+
+C'est le GameObject qui représente le joueur dans la scène.
+
+Voici la vue de l'inspector du XR Player :
+
+![XR Player](./img/xr_player_inspector.jpg)
+
+Voici la liste des composants du XR Player :
+
+- `XROrigin` : Composant qui permet de définir l'origine du joueur dans la scène.
+- `InputActionManager` : Composant qui permet de gérer les actions des contrôleurs.
+- `LocomotionSystem` : Composant qui permet de gérer le déplacement du joueur.
+- `ContinuousMoveProvider` : Composant qui permet de gérer le déplacement du joueur (aucun référence au Move Action car le joueur ne peut pas se déplacer avec les contrôleurs).
+- `CharacterControllerDriver` : Composant qui permet de gérer le déplacement du joueur.
+
+### Environnement 3D
+
+### Gestion des parties
+
+#### Vue d'ensemble
+
+Le système de gestion de partie est un relativement simple. C'est un singleton qui utilise un pattern d'observer pour notifier les autres systèmes de l'état de la partie. Il est responsable de lancé une partie, de la terminer et de gérer le score du joueur.
+
+![uml](./Uml/game_system_uml.jpg)
+
+#### Détails et classes
+
+#### GameManager
+
+[sealed class : MonoBehaviour]
+
+Le `GameManager` est la classe principale du système de gestion de partie. C'est un singleton qui centralise toutes les opérations sur la partie. Utilisant un pattern d'observer, il notifie les autres systèmes de l'état de la partie.
+
+##### Champs de GameManager
+
+- `private static GameManager _instance` : Instance unique du GameManager.
+- `public GameOption GameOption` : [INSP] Options de la partie.
+- `private GameScore _gameScore` : reference vers le score du jeu. ([GameScore](#gamescore))
+- `private GameTimer _gameTimer` : reference vers le timer du jeu. ([GameTimer](#gametimer))
+- `private GameStats _gameStats` : reference vers les statistiques du jeu. ([GameStats](#gamestats))
+- `private bool _isGameRunning` : Booléen qui indique si la partie est en cours.
+  
+##### Propriétés de GameManager
+
+- `public static ulong Score` : Propriété en lecture seule qui retourne le score du joueur.
+- `public static Dictionary<string, uint> FruitsCaught` : Propriété en lecture seule qui retourne les fruits ramassés par le joueur.
+- `public static bool IsGameRunning` : Propriété en lecture seule qui retourne si la partie est en cours.
+
+##### Evènements de GameManager
+
+- `public static event Action<GameOption> OnGameStart` : Event qui est appelé au début de la partie. Donne en paramètre les options de la partie.
+- `public static event Action OnGameEnd` : Event qui est appelé à la fin de la partie.
+- `public static event Action<ulong> OnScoreChange` : Event qui est appelé quand le score du joueur change. Donne en paramètre le nouveau score.
+
+##### Méthodes de GameManager
+
+- `private void Awake()` : Méthode Awake qui initialise le singleton.
+- `public static void StartGame()` : Lance une partie
+- `public static void EndGame()` : Termine une partie
+- `public static void AddPoints(ulong points, string fruitTypeId = "")` : Ajoute des points au score du joueur (en faisant appelle au [GameScore](#gamescore)). Si un fruitTypeId est donné, ajoute le fruit aux statistiques (en faisant appelle au [GameStats](#gamestats)).
+- `public static void ResetPoints()` : Réinitialise le score du joueur.
+- `public static void ResetStats()` : Réinitialise les statistiques du joueur.
+- `private void StartTimer()` : Lance le timer de la partie (en faisant appelle au [GameTimer](#gametimer)).
+- `private void StopTimer()` : Arrête le timer de la partie (en faisant appelle au [GameTimer](#gametimer)).
+
+#### GameOption
+
+[sealed struct]
+
+La structure `GameOption` est une structure qui contient les options de la partie. Elle est utilisée par le `GameManager` pour modifier les options de la partie dans l'éditeur Unity et en cours d'exécution (bien que cela ne soit pas nécessaire car aucun menu d'options n'est implémenté).
+
+##### Champs de GameOption
+
+- `private float gameDuration` : La durée de la partie en secondes.
+- `private ushort spawnerRate` : Le nombre d'apparition de chaque type de fruits par seconde.
+
+#### GameScore
+
+[sealed class]
+
+La classe `GameScore` est une classe qui contient le score du joueur. Elle est utilisée par le `GameManager` pour gérer le score du joueur.
+
+##### Champs de GameScore
+
+- `private ulong score` : Le score du joueur.
+
+##### Propriétés de GameScore
+
+- `public ulong Score` : Propriété en lecture seule qui retourne le score du joueur.
+
+##### Constructeurs de GameScore
+
+- `public GameScore(ulong score = 0)` : Constructeur par défaut prenant le score initial en paramètre (0 par défaut).
+
+##### Méthodes de GameScore
+
+- `public ulong AddPoints(ulong points)` : Méthode qui ajoute des points au score du joueur. Retourne le nouveau score.
+
+#### GameTimer
+
+[sealed class]
+
+La classe `GameTimer` est une classe qui contient le timer de la partie. Elle utilise une coroutine pour le timer. Elle contient 3 Action (données en paramètre du constructeur) qui sont appelées à différents moments du timer. (début, 80% du timer, fin). Ces actions permettent d'abstraire le comportement sans avoir de dépendance entre les classes.
+
+##### Champs de GameTimer
+
+- `private readonly float _duration` : La durée du timer en secondes.
+- `private readonly MonoBehaviour _coroutineOwner` : Le MonoBehaviour qui va lancer la coroutine du timer.(GameTimer n'héritant pas un MonoBehaviour il ne peut pas lancer de coroutine sur lui-même)
+- `private readonly Action _onStart` : Action appelée au début du timer.
+- `private readonly Action _onEnd` : Action appelée à la fin du timer.
+- `private readonly Action _onEndSoon` : Action appelée à 80% du timer.
+- `private Coroutine _timerCoroutine` : La coroutine du timer.
+
+##### Constructeurs de GameTimer
+
+- `public GameTimer(float duration, MonoBehaviour coroutineOwner, Action onStart, Action onEnd, Action onEndSoon)` : Constructeur prenant la durée du timer, le MonoBehaviour qui va lancer la coroutine, et les actions à appeler à différents moments du timer.
+  
+##### Méthodes de GameTimer
+
+- `public void Start()` : Méthode qui lance le timer.
+- `public void Stop()` : Méthode qui arrête le timer.
+- `private void StartTimerCoroutine()` : Méthode qui lance la coroutine du timer.
+- `private void StopTimerCoroutine()` : Méthode qui arrête la coroutine du timer.
+- `private IEnumerator TimerCoroutine()` : Méthode IEnumerator qui est la coroutine dans laquelle le timer est exécuté.
+
+#### GameStats
+
+[sealed class]
+
+La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de la partie (pour le moment, uniquement les fruits ramassés). Elle est utilisée par le `GameManager`.
+
+##### Champs de GameStats
+
+- `private readonly Dictionary<string, uint> _fruitsCaught` : Dictionnaire qui contient le nombre de fruits ramassés par type de fruit.
+  
+##### Propriétés de GameStats
+
+- `public Dictionary<string, uint> FruitsCaught` : Propriété en lecture seule qui retourne le dictionnaire des fruits ramassés.
+
+##### Constructeurs de GameStats
+
+- `public GameStats()` : Constructeur par défaut.
+
+##### Méthodes de GameStats
+
+- `public void AddFruit(string fruitType)` : Méthode qui ajoute un fruit au dictionnaire des fruits ramassés.
+
+### Gestion des fruits
+
+#### Vue d'ensemble
+
+Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. Globalement, le système est composé d'une classe `FruitManager` qui centralise toutes les opérations sur les fruits. Ce dernier utilise un `FruitPooler` et un `FruitSpawnerManager` pour gérer les `Fruit` et les `FruitSpawner`. Le `FruitPooler` est responsable de la gestion des fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les instancier à chaque fois et de les détruire ensuite. Le `FruitSpawnerManager` est responsable de la génération des fruits. Il utilise des `FruitSpawner` pour générer les fruits à des positions spécifiques.
+
+![uml](./Uml/fruit_system_uml.jpg)
+
+#### Détails et classes
+
+#### FruitManager
+
+Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haute niveau de la gestion des fruits. Elle utilise un `FruitPooler` et un `FruitSpawnerManager` pour gérer les fruits.
+
+
+
+### Interface utilisateur
+
 
 
 
@@ -439,7 +663,41 @@ Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au l
 
 ## Annexe
 
-...
+### Utilisation de chatGPT
+
+#### Convention doublons documentation
+
+##### prompt
+
+``` text
+Dans le cadre d'un projet informatique je dois rédiger une documentation technique.
+J'aimerais décrire chaque champ des classes de mon projet en détail.
+Pour cela j'utilise un sous-titre #### Champs pour chaque classe.
+Le problème c'est que mon extension vs code m'indique un warning :
+"no-duplicate-heading: Multiple headings with the same content"
+
+Quelles sont les conventions/les normes sur ces points ? Comment renommer ces sous-titres pour éviter les doublons ? Comment la plupart des documentation technique font ?
+```
+
+##### réponse
+
+``` text
+L'avertissement que vous recevez indique qu'il y a plusieurs sous-titres avec le même contenu, ce qui peut rendre la structure de votre documentation confuse pour les lecteurs et les outils de traitement de texte. Pour éviter cela, vous pouvez suivre quelques conventions ou normes de dénomination des sous-titres dans votre documentation technique :
+
+Nom unique pour chaque champ : Plutôt que d'utiliser simplement "Champs" pour chaque classe, essayez d'utiliser des noms spécifiques qui décrivent les champs de cette classe en particulier.
+Par exemple, si vous avez une classe "Utilisateur", vous pourriez avoir des sous-titres comme "Champs de la classe Utilisateur".
+Utilisation des noms de champs : Une autre approche consiste à utiliser les noms réels des champs comme sous-titres. Cela rend la documentation plus spécifique et directement liée à la classe. 
+Par exemple, pour la classe "Utilisateur", vous pourriez avoir des sous-titres comme "Nom", "Âge", "Email", etc.
+Préciser la classe dans le sous-titre : Si vous avez plusieurs classes avec des champs similaires, vous pouvez spécifier la classe dans le sous-titre pour éviter les doublons. 
+Par exemple, pour les sous-titres de la classe "Client" et de la classe "Fournisseur", vous pourriez avoir "Champs de la classe Client" et "Champs de la classe Fournisseur".
+Utilisation de la syntaxe du langage : Si votre documentation est destinée à des développeurs ou à des personnes familières avec le langage de programmation que vous utilisez, vous pouvez utiliser la syntaxe du langage pour spécifier les champs. 
+Par exemple, si vous utilisez Java, vous pourriez avoir des sous-titres comme "Attributs de la classe Utilisateur".
+Groupement des champs par catégorie : Si vous avez de nombreux champs dans une classe, vous pouvez les regrouper par catégorie et utiliser ces catégories comme sous-titres. 
+Par exemple, pour une classe "Produit", vous pourriez avoir des sous-titres comme "Informations de base", "Prix et quantité", "Catégorie", etc.
+En suivant l'une de ces approches, vous pouvez rendre votre documentation plus claire et éviter les avertissements concernant les sous-titres en double. 
+En général, la plupart des documentations techniques suivent ces conventions pour organiser et structurer les informations de manière logique et compréhensible.
+```
+
 
 ### Code source
 

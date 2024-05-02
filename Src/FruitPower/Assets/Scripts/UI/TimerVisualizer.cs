@@ -58,7 +58,7 @@ namespace UI
             text = $"{_localTimer:0.00} s";
         }
 
-        private void OnGameStart(GameOption option) => StartTimer(option.gameTime);
+        private void OnGameStart(GameOption option) => StartTimer(option.gameDuration);
         private void OnGameStop() => StopTimer();
 
         private void StartTimer(float duration)

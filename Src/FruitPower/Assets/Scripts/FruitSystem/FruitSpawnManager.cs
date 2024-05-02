@@ -144,7 +144,7 @@ namespace FruitSystem
             //si le type de fruit n'existe pas encore dans le dictionnaire, on le calcule et on l'ajoute
             if (!_fruitTypeSpawnCount.ContainsKey(typeId))
             {
-                var score = _getAllFruits().Find(f => f.TypeId == typeId).Score;
+                var score = _getAllFruits().Find(f => f.TypeId == typeId).PointsGiven;
                 var spawnCount = CalculateSpawnCount(_spawnerRate, score);
                 _fruitTypeSpawnCount.Add(typeId, spawnCount);
             }

@@ -77,7 +77,7 @@ namespace UI
             SetActiveEndGameUI(true);
             SetActiveHUD(false);
 
-            _statsVisualizer.Display(GameManager.FruitsCatched);
+            _statsVisualizer.Display(GameManager.FruitsCaught);
         }
 
         /// <summary>

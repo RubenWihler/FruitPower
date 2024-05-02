@@ -36,7 +36,7 @@ namespace FruitSystem
             if (GameManager.IsGameRunning == false) return;
 
             //ajout des points
-            GameManager.AddPoints(fruit.Score, fruit.TypeId);
+            GameManager.AddPoints(fruit.PointsGiven, fruit.TypeId);
             //on desactive le fruit
             fruit.Despawn();
         }

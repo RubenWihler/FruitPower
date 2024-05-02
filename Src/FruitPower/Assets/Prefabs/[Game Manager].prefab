@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3181253123137239601
+--- !u!1 &7348292963116502404
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3581530216838781467}
-  - component: {fileID: 4259484766763854963}
+  - component: {fileID: 1380284189705301153}
+  - component: {fileID: 7401755508743984085}
   m_Layer: 0
-  m_Name: '[Fruits Manager]'
+  m_Name: '[Game Manager]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3581530216838781467
+--- !u!4 &1380284189705301153
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3181253123137239601}
+  m_GameObject: {fileID: 7348292963116502404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,27 +32,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4259484766763854963
+--- !u!114 &7401755508743984085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3181253123137239601}
+  m_GameObject: {fileID: 7348292963116502404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a26afed6aa8fad4ea9e03189f8ad6e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 33d6ce4a05d1f7141a1b85750573ca61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fruitsEntries:
-  - typeId: APPLE
-    prefab: {fileID: 4588629858880514073, guid: db9bfb793c612004ab535f6c015cc5b6, type: 3}
-    poolSize: 5
-  - typeId: STRAWBERRY
-    prefab: {fileID: 4588629858880514073, guid: db0b718aa7910a14498d6f16bca10ed5, type: 3}
-    poolSize: 5
-  - typeId: BLUEBERRY
-    prefab: {fileID: 4588629858880514073, guid: e04095ff8a6677342b434a311e71fa86, type: 3}
-    poolSize: 5
-  fruitSpawnersParent: {fileID: 3581530216838781467}
-  fruitTypesDatas: {fileID: 11400000, guid: a82c919a5b9f10c469f598eb46708192, type: 2}
+  gameOption:
+    gameDuration: 30
+    spawnerRate: 2
