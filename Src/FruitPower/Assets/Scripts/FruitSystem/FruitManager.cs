@@ -40,13 +40,27 @@ namespace FruitSystem
         [SerializeField, Tooltip("Le parent qui contient les spawners de fruits.")]
         private Transform fruitSpawnersParent;
 
+        /// <summary>
+        /// reference vers le manager de spawn de fruits.
+        /// </summary>
         private FruitSpawnManager _fruitSpawnerManager;
+        /// <summary>
+        /// reference vers le pooler de fruits.
+        /// </summary>
         private FruitPooler _fruitPooler;
         
+        /// <summary>
+        /// Liste de tous les fruits (actifs et inactifs).
+        /// </summary>
         private List<Fruit> _fruits;
+        /// <summary>
+        /// Compteur d'identifiant pour les fruits.
+        /// </summary>
         private ulong _idCounter;
         
-
+        /// <summary>
+        /// Mise en place du singleton et initialisation de la liste de fruits.
+        /// </summary>
         private void Awake()
         {
             //Singleton
@@ -64,28 +78,43 @@ namespace FruitSystem
             _fruits = new List<Fruit>();
             _idCounter = 0;
         }
-
+        /// <summary>
+        /// Initialisation du pooler et du manager de spawn de fruits.
+        /// </summary>
         private void Start()
         {
             //Initialisation de la factory et du manager de spawn
             (_fruitPooler, _fruitSpawnerManager) = Initialize();
         }
 
+        /// <summary>
+        /// On s'abonne aux evenements de debut et de fin de jeu.
+        /// </summary>
         private void OnEnable()
         {
             GameManager.OnGameStart += OnGameStart;
             GameManager.OnGameEnd += OnGameEnd;
         }
+        /// <summary>
+        /// On se desabonne aux evenements de debut et de fin de jeu pour eviter.
+        /// </summary>
         private void OnDisable()
         {
             GameManager.OnGameStart -= OnGameStart;
             GameManager.OnGameEnd -= OnGameEnd;
         }
 
+        /// <summary>
+        /// On dit au manager de spawn de fruits de commencer a spawn des fruits.
+        /// </summary>
+        /// <param name="options">Les options de la partie donnees</param>
         private void OnGameStart(GameOption options)
         {
             _fruitSpawnerManager.StartSpawning(options.spawnerRate);
         }
+        /// <summary>
+        /// On dit au manager de spawn de fruits d'arreter de spawn des fruits et on despawn tout les fruits actifs.
+        /// </summary>
         private void OnGameEnd()
         {
             _fruitSpawnerManager.StopSpawning();
@@ -99,6 +128,7 @@ namespace FruitSystem
         /// <returns>Un tuple contenant le pooler et le manager de spawn.</returns>
         private (FruitPooler, FruitSpawnManager) Initialize()
         {
+            //Initialisation du pooler de fruits
             var fruitPooler = new FruitPooler(fruitsEntries, transform, (instantiate) =>
             {
                 var fruit = instantiate(_idCounter++);
@@ -106,6 +136,7 @@ namespace FruitSystem
                 return fruit;
             });
 
+            //Initialisation du manager de spawn de fruits
             var fruitSpawners = fruitSpawnersParent.GetComponentsInChildren<FruitSpawner>();
             var fruitSpawnManager = new FruitSpawnManager(fruitPooler.InstantiateFruit, () => _fruits, this, fruitSpawners);
 
