@@ -331,3 +331,7 @@ M.Aliprandi m'a rendue visite et j'ai pu lui montrer l'avancement de mon projet.
 C'est donc ce que je vais faire cette après-midi en plus d'avancer la documentation.
 
 Je me trouve fasse a un petit problem: vu que je n'avait pas fait le plan de test avant le 4eme jour, je ne peux pas savoir quels tests passait pendant les jours précédents. Je vais donc retourné grace à git pour retourner a l'état du projet avant chaque fin de journée pour pouvoir faire les tests.
+
+### Jour 5 - 02.05.2024
+
+Aujourd'hui, je vais commencer par avancer la documentation. 
