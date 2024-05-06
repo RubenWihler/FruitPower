@@ -17,4 +17,6 @@ public struct GameOption
     public float gameDuration;
     [Tooltip("Le nombre d'apparition de fruits par seconde.")]
     public ushort spawnerRate;
+    [Tooltip("Le nombre de seconde que dure le compte a rebours avant une partie")]
+    public uint countdownDuration;
 }

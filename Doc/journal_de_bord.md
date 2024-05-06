@@ -335,3 +335,16 @@ Je me trouve fasse a un petit problem: vu que je n'avait pas fait le plan de tes
 ### Jour 5 - 02.05.2024
 
 Aujourd'hui, je vais commencer par avancer la documentation. 
+
+Conclusion de la journée : J'ai bien avancé sur la documentation. J'ai pu rédiger la partie sur l'implémentation de la VR et sur l'environnement 3D. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur la documentation demain.
+
+### Jour 6 - 06.05.2024
+
+Bonjours cher journal, aujourd'hui je vais commencer par chercher des musiques et des bruitages pour mon jeu. 
+
+Pendant l'implementation des bruitage je voulais utiliser une initialisation switch case mais je ne me souvenais plus de la syntaxe. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://stackoverflow.com/questions/8155772/setting-a-variable-to-a-switchs-result) qui m'a bien aidé.
+
+J'ai ajouter le package DoTween pour s'occuper des animation de l'interface. DoTween permet dans mon cas de simplifier et d'optimiser les interpolation linéaire (fade des textes etc).
+
+Pendant que j'essayais de faire une animation le text ne se mettait pas à jour. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://discussions.unity.com/t/horizontal-layout-group-padding-update-via-script/150064/2)
+

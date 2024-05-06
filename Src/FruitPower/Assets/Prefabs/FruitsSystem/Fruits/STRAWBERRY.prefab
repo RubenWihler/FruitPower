@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8911856035487049876}
   - component: {fileID: 4484345593028369628}
   - component: {fileID: 6600381292684666111}
+  - component: {fileID: 1558767647568598395}
   m_Layer: 0
   m_Name: STRAWBERRY
   m_TagString: Untagged
@@ -251,8 +252,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _typeId: STRAWBERRY
-  _score: 1
-  _lifetime: 3
   _meshRenderer: {fileID: 5479284718760333256}
   _defaultMaterials:
   - {fileID: 2100000, guid: 5051573544f7ebb4a9a05f1cc8cdd394, type: 2}
@@ -260,6 +259,116 @@ MonoBehaviour:
   _hoverMaterials:
   - {fileID: 2100000, guid: 5051573544f7ebb4a9a05f1cc8cdd394, type: 2}
   - {fileID: 2100000, guid: 1a3b5550a9614cd4fac4799a876b047b, type: 2}
+  _audioSource: {fileID: 1558767647568598395}
+  _fruitGrabAudioClips:
+  - {fileID: 8300000, guid: 294f1874a35122941a22d6afb9bbf40e, type: 3}
+  _fruitGrassCollisionAudioClips:
+  - {fileID: 8300000, guid: 984d316ed8be3ac4da9e31768a8b1fa9, type: 3}
+  - {fileID: 8300000, guid: 1a9abdcacc68aa447b151d0b1f93754b, type: 3}
+  - {fileID: 8300000, guid: fe175f117cf3fb2428d279bc830a1830, type: 3}
+  - {fileID: 8300000, guid: d3d29f80378ba8e4e9c00f92fc5b5d4e, type: 3}
+  - {fileID: 8300000, guid: 2642ca70ae8c186489090a89cce4e395, type: 3}
+  - {fileID: 8300000, guid: f193a8bae58928946916aab1c2068cf1, type: 3}
+  _fruitRockCollisionAudioClips:
+  - {fileID: 8300000, guid: 7187dc81f98b8be4eb97bfc4dd9a5abf, type: 3}
+  - {fileID: 8300000, guid: 314d37dfb74502a4094b835d0e0d6c23, type: 3}
+  - {fileID: 8300000, guid: 0bc66974c41ff8c4fa15f46d21ad3548, type: 3}
+--- !u!82 &1558767647568598395
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4588629858880514073}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -5503762165430189734, guid: 16b8fa1927327f548bb994ef3f9fc5f1, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &6614593551156974412
 PrefabInstance:
   m_ObjectHideFlags: 0

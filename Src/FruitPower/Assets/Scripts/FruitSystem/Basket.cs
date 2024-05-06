@@ -15,6 +15,12 @@ namespace FruitSystem
     [RequireComponent(typeof(Collider))]
     public class Basket : MonoBehaviour
     {
+        [Header("Audio")]
+        [SerializeField, Tooltip("Source audio pour les sons de capture de fruits")]
+        private AudioSource _audioSource;
+        [SerializeField, Tooltip("Sons joues quand un fruit est attrape")]
+        private AudioClip[] _catchSounds;
+
         /// <summary>
         /// Quand un objet entre dans la zone de collision trigger du panier
         /// On regarde si l'objet a un composant Fruit et on l'attrape
@@ -35,8 +41,12 @@ namespace FruitSystem
             //si le jeu n'est pas en cours, on ne fait rien
             if (GameManager.IsGameRunning == false) return;
 
-            //ajout des points
-            GameManager.AddPoints(fruit.PointsGiven, fruit.TypeId);
+            //ajout des points (si l'ajout des points echoue, on ne fait rien)
+            if (!GameManager.AddPoints(fruit.PointsGiven, fruit.TypeId)) return;
+
+            //on joue un son aleatoire de capture
+            _catchSounds.PlayRandom(_audioSource);
+
             //on desactive le fruit
             fruit.Despawn();
         }

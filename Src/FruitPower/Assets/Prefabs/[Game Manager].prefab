@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d6ce4a05d1f7141a1b85750573ca61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOption:
-    gameDuration: 30
+  _gameOption:
+    gameDuration: 11
     spawnerRate: 2
+    countdownDuration: 3
+  _lastSecondsSound: {fileID: 8300000, guid: a40e836c07a2f194292e0fb9c7fecce5, type: 3}

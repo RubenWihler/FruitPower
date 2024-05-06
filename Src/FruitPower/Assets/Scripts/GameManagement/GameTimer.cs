@@ -94,12 +94,18 @@ namespace GameManagement
             //On appelle le delegate lorsque le jeu demarre.
             _onStart.Invoke();
 
-            //on attend que le jeu soit a 80% de sa duree pour appeler le delegate des dernieres secondes.
-            yield return new WaitForSeconds(_duration * 0.8f);
+            //si la duree de la partie est inferieure a 10 secondes, on passe directement aux dernieres secondes
+            var timeBeforeLastSeconds = _duration < 10 ? 0 : _duration - 10;
+
+            //si la duree de la partie est < a 10 secondes, on attend seulement la duree de la partie
+            var lastSeconds = _duration < 10 ? _duration : 10;
+
+            //on attend qu'il reste 10 secondes avant la fin de la partie
+            yield return new WaitForSeconds(timeBeforeLastSeconds);
             _onEndSoon.Invoke();
 
             //On attend que le jeu soit termine pour appeler le delegate de fin de jeu.
-            yield return new WaitForSeconds(_duration * 0.2f);
+            yield return new WaitForSeconds(lastSeconds);
             _onEnd.Invoke();
         }
     }

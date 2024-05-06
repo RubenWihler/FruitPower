@@ -17,7 +17,7 @@ namespace UI
     public class UIManager : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField, Tooltip("Distance de l'ecran par rapport à la tete du joueur [default: 1.2]")]
+        [SerializeField, Tooltip("Distance de l'ecran par rapport a la tete du joueur [default: 1.2]")]
         private float _screenDistance = 1.2f;
         [SerializeField, Tooltip("Reference vers le transform de la tete du joueur")]
         private Transform _headTransform;
@@ -27,18 +27,25 @@ namespace UI
         private Canvas _hud;
         [SerializeField, Tooltip("Reference vers le canvas de fin de partie")]
         private Canvas _endGameUI;
+        [SerializeField, Tooltip("Reference vers le canvas qui affiche les grands texts")]
+        private Canvas _largeTextUI;
 
         [Header("References")]
         [SerializeField, Tooltip("Reference vers le composant de l'affichage des statistiques")]
         private StatsVisualizer _statsVisualizer;
         [SerializeField, Tooltip("Reference vers le composant de l'affichage des credits")]
         private Credits _credits;
+        [SerializeField, Tooltip("Reference vers le composant de l'affichage du compte a rebours")]
+        private Countdown _countdown;
+        [SerializeField, Tooltip("Reference vers le composant de l'affichage du texte de fin de partie")]
+        private GameEndText _gameEndText;
 
         /// <summary>
         /// On s'abonne aux evenements de debut et de fin de jeu quand le composant s'active.
         /// </summary>
         private void OnEnable()
         {
+            GameManager.OnCountdownStart += OnCountdownStart;
             GameManager.OnGameStart += OnGameStart;
             GameManager.OnGameEnd += OnGameEnd;
         }
@@ -47,6 +54,7 @@ namespace UI
         /// </summary>
         private void OnDisable()
         {
+            GameManager.OnCountdownStart -= OnCountdownStart;
             GameManager.OnGameStart -= OnGameStart;
             GameManager.OnGameEnd -= OnGameEnd;
         }
@@ -57,7 +65,17 @@ namespace UI
         private void Update()
         {
             if (_endGameUI.isActiveAndEnabled) CenterEndGameUI();
-            if (_hud.isActiveAndEnabled) CenterHud();
+            if (_hud.isActiveAndEnabled) CenterCanvas(_hud);
+            if (_largeTextUI.isActiveAndEnabled) CenterCanvas(_largeTextUI);
+        }
+
+        /// <summary>
+        /// On demarre le compte a rebours quand le game manager le demande.
+        /// </summary>
+        private void OnCountdownStart(uint duration)
+        {
+            SetActiveEndGameUI(false);
+            _countdown.StartCountdown(duration);
         }
 
         /// <summary>
@@ -66,7 +84,6 @@ namespace UI
         /// <param name="options"></param>
         private void OnGameStart(GameOption options)
         {
-            SetActiveEndGameUI(false);
             SetActiveHUD(true);
         }
         /// <summary>
@@ -74,14 +91,21 @@ namespace UI
         /// </summary>
         private void OnGameEnd()
         {
-            SetActiveEndGameUI(true);
+            // On desactive l'HUD
             SetActiveHUD(false);
 
-            _statsVisualizer.Display(GameManager.FruitsCaught);
+            // On affiche le texte de fin de partie et passe le reste des instructions dans le callback
+            _gameEndText.Show(() =>
+            {
+                // On affiche l'ecran de fin de partie
+                SetActiveEndGameUI(true);
+                //On affiche les statistiques (fruits attrapes)
+                _statsVisualizer.Display(GameManager.FruitsCaught);
+            });
         }
 
         /// <summary>
-        /// On centre le canvas de fin de partie par rapport à la tete du joueur.
+        /// On centre le canvas de fin de partie par rapport a la tete du joueur.
         /// </summary>
         private void CenterEndGameUI()
         {
@@ -90,13 +114,13 @@ namespace UI
             _endGameUI.transform.forward *= -1;
         }
         /// <summary>
-        /// On centre le canvas de l'HUD par rapport à la tete du joueur pour qu'il suivent l'orientation de la tete.
+        /// On centre le canvas par rapport a la tete du joueur pour qu'il suivent l'orientation de la tete.
         /// </summary>
-        private void CenterHud()
+        private void CenterCanvas(Canvas canvas)
         {
-            _hud.transform.position = _headTransform.position + _headTransform.forward.normalized * _screenDistance;
-            _hud.transform.LookAt(_headTransform.position);
-            _hud.transform.forward *= -1;
+            canvas.transform.position = _headTransform.position + _headTransform.forward.normalized * _screenDistance;
+            canvas.transform.LookAt(_headTransform.position);
+            canvas.transform.forward *= -1;
         }
 
         /// <summary>

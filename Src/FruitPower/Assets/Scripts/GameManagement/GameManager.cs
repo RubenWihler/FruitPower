@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +35,11 @@ namespace GameManagement
 
         [Header("Game Options")]
         [Tooltip("Les options du jeu.")]
-        public GameOption gameOption;
+        public GameOption _gameOption;
+
+        [Header("Audio")]
+        [SerializeField, Tooltip("Le son jouer quand il reste 10 secondes")]
+        private AudioClip _lastSecondsSound;
 
         /// <summary>
         /// Evenement appele lorsque le jeu demarre. Les abonnes a cet evenement recevront les options du jeu.
@@ -48,6 +53,10 @@ namespace GameManagement
         /// Evenement appele lorsque le score change. Les abonnes a cet evenement recevront le nouveau score.
         /// </summary>
         public static event Action<ulong> OnScoreChange;
+        /// <summary>
+        /// Evenement appele lorsque le compte a rebours commence. Un callback est passe en parametre pour lancer la partie.
+        /// </summary>
+        public static event Action<uint> OnCountdownStart;
 
         /// <summary>
         /// reference vers le score du jeu.
@@ -97,18 +106,8 @@ namespace GameManagement
         [ContextMenu("Start Game")]
         public static void StartGame()
         {
-            // Si le jeu est deja en cours, on ne fait rien.
-            if (IsGameRunning) return;
-
-            //On remet le temps a la normale
-            Time.timeScale = 1;
-            //On remet le score a 0
-            ResetPoints();
-            ResetStats();
-            
-            //On demarre le timer
-            Instance.StartTimer();
-            Debug.Log($"[i] GameStarted");
+            Debug.Log($"[i] Starting game...");
+            Instance.StartCoroutine(Instance.StartingCoroutine());
         }
 
         /// <summary>
@@ -127,13 +126,36 @@ namespace GameManagement
             Debug.Log($"[i] GameEnded");
         }
 
+        /// <summary>
+        /// Coroutine de demarrage du jeu.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator StartingCoroutine()
+        {
+            // Si le jeu est deja en cours, on ne fait rien.
+            if (IsGameRunning) yield break;
+
+            //On remet le temps a la normale
+            Time.timeScale = 1;
+            //On remet le score a 0
+            ResetPoints();
+            ResetStats();
+
+            //On appelle l'evenement de debut de compte a rebours et on attend sa fin
+            var countdownDuration = _gameOption.countdownDuration;
+            OnCountdownStart?.Invoke(countdownDuration);
+            yield return new WaitForSeconds(countdownDuration);
+
+            StartTimer();
+        }
+
         #region Score Management
 
         /// <summary>
         /// Ajoute des points au score actuel.
         /// </summary>
         /// <param name="points">Les points a ajouter.</param>
-        public static void AddPoints(ulong points, string fruitTypeId = "")
+        public static bool AddPoints(ulong points, string fruitTypeId = "")
         {
             // Si le fruitTypeId n'est pas vide, on ajoute le fruit aux statistiques.
             if (!string.IsNullOrEmpty(fruitTypeId))
@@ -143,11 +165,12 @@ namespace GameManagement
             if (!IsGameRunning)
             {
                 Debug.LogWarning("[!] Une tentative d'ajout de points a ete faite alors que le jeu n'est pas en cours.");
-                return;
+                return false;
             }
 
             var newScore = Instance._gameScore.AddPoints(points);
             OnScoreChange?.Invoke(newScore);
+            return true;
         }
         /// <summary>
         /// Remet le score a 0.
@@ -178,20 +201,20 @@ namespace GameManagement
             if (_isGameRunning) return;
 
             // On cree un nouveau timer avec les options actuelles.
-            _gameTimer = new GameTimer(gameOption.gameDuration, this,
+            _gameTimer = new GameTimer(_gameOption.gameDuration, this,
                 //lancement de la partie
                 () => {
                     _isGameRunning = true;
-                    OnGameStart?.Invoke(gameOption);
+                    OnGameStart?.Invoke(_gameOption);
                 },
                 //fin de la partie
                 () => {
                     _isGameRunning = false;
                     OnGameEnd?.Invoke();
                 },
-                //dernieres secondes (20% restant)
+                //dernieres secondes (10 secondes restantes)
                 () => {
-                    Debug.Log("[i] Last seconds!");
+                    AudioSource.PlayClipAtPoint(_lastSecondsSound, Camera.main.transform.position);
                 }
             );
 

@@ -29,6 +29,15 @@ namespace FruitSystem
         private Material[] _defaultMaterials;
         [SerializeField, Tooltip("Materials lorsque le fruit est attrapable ou attrape par le joueur.")]
         private Material[] _hoverMaterials;
+        [Header("Audio")]
+        [SerializeField, Tooltip("AudioSource pour les sons du fruit.")]
+        private AudioSource _audioSource;
+        [SerializeField, Tooltip("AudioClips qui se joue lorsque le fruit est attrape.")]
+        private AudioClip[] _fruitGrabAudioClips;
+        [SerializeField, Tooltip("AudioClips qui se joue lorsque le fruit entre en collision avec de l'herbe.")]
+        private AudioClip[] _fruitGrassCollisionAudioClips;
+        [SerializeField, Tooltip("AudioClips qui se joue lorsque le fruit entre en collision avec de la pierre.")]
+        private AudioClip[] _fruitRockCollisionAudioClips;
 
         /// <summary>
         /// Identifiant unique du fruit.
@@ -176,6 +185,9 @@ namespace FruitSystem
 
             //arrêter la coroutine de duree de vie
             StopLifetimeCoroutine();
+
+            //jouer un son aleatoire de fruit attrape
+            _fruitGrabAudioClips.PlayRandom(_audioSource);
         }
         /// <summary>
         /// Appele lorsqu'un joueur lâche le fruit.
@@ -299,6 +311,27 @@ namespace FruitSystem
             yield return new WaitForSeconds(_lifetime);
             Despawn();
             Debug.Log($"[i] Fruit despawned: {Id}");
+        }
+
+        #endregion
+
+        #region Collision Management
+
+        /// <summary>
+        /// Joue un son aleatoire de collision en fonction du tag de la matiere qui entre en collision avec le fruit.
+        /// </summary>
+        /// <param name="collision">la colliison.</param>
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (_state == FruitState.Inactive) return;
+
+            var other = collision.gameObject;
+
+            //jouer un son aleatoire de collision en fonction du tag de la matiere
+            if (other.CompareTag("Grass"))
+                _fruitGrassCollisionAudioClips.PlayRandom(_audioSource);
+            else if (other.CompareTag("Rock"))
+                _fruitRockCollisionAudioClips.PlayRandom(_audioSource);
         }
 
         #endregion

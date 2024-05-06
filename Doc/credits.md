@@ -9,3 +9,4 @@ Voici la liste des personnes qui ont contribué à ce projet.
 - "Low Poly Apple" (https://skfb.ly/o7uYU) by Martin3DWork is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 - Strawberry by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/4W3g1NixX1K)
 - Blueberry by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0d9SDaJ0Ey9)
+- sounds https://mixkit.co/license/#sfxFree
