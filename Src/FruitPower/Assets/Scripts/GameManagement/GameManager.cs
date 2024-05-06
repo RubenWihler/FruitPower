@@ -102,7 +102,7 @@ namespace GameManagement
         }
         private async void Start()
         {
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             StartGame();
         }
 
@@ -150,7 +150,7 @@ namespace GameManagement
             //On appelle l'evenement de debut de compte a rebours et on attend sa fin
             var countdownDuration = _gameOption.countdownDuration;
             OnCountdownStart?.Invoke(countdownDuration);
-            yield return new WaitForSeconds(countdownDuration);
+            yield return new WaitForSeconds(countdownDuration + 1);//+1 pour attendre le message de fin de compte a rebours
 
             StartTimer();
         }
