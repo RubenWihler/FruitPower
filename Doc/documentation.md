@@ -531,7 +531,8 @@ Le `FruitManager` est la classe principale du système de gestion des fruits. El
 
 - [DoTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
 - [Unity Test Framework](https://docs.unity3d.com/2020.3/Documentation/Manual/testing-editortestsrunner.html)
-- [Cinemachine](https://assetstore.unity.com/packages/essentials/cinemachine-79898)
+- [XR Plugin Management](https://docs.unity3d.com/2022.3/Documentation/Manual/XR.html)
+- [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html)
 
 ### Analyse des fonctionnalités majeures
 

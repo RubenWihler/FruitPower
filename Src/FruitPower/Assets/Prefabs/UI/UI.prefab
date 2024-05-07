@@ -991,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b4640ffe26fe2646804763436a85705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endText: C'est partie !
+  _endText: C'est parti !
   _fadeInTime: 0.2
   _fadeOutTime: 0.2
   _container: {fileID: 4876206514365658711}

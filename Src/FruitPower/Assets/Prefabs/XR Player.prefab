@@ -1501,7 +1501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pinchAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Pinch
       m_Type: 0
@@ -1943,7 +1943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pinchAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Pinch
       m_Type: 0

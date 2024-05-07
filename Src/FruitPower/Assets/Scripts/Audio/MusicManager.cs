@@ -146,7 +146,7 @@ namespace Audio
         private void SetVolume(float volume)
         {
             // Si un tween est en cours, on le stop
-            if (!_volumeTween.IsComplete()) _volumeTween.Kill();
+            if (_volumeTween != null && !_volumeTween.IsComplete()) _volumeTween.Kill();
 
             // On cree un nouveau tween pour changer le volume
             _volumeTween = DOTween.To(() =>
