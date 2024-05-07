@@ -4,8 +4,6 @@
  Wihler Ruben
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using GameManagement;
@@ -26,7 +24,7 @@ namespace Audio
             get
             {
                 if (_instance == null)
-                    throw new System.Exception("Aucune instance de MusicManager n'a ete trouvee ! Assurez-vous que MusicManager est present dans la scene.");
+                    throw new System.Exception("Aucune instance de MusicManager n'a ete trouvee ! Assurez-vous qu'un MusicManager est present dans la scene.");
 
                 return _instance;
             }
@@ -76,6 +74,9 @@ namespace Audio
         /// </summary>
         public bool IsPlaying => _isPlaying;
 
+        /// <summary>
+        /// Commence a jouer la musique ou la relance si elle est en pause
+        /// </summary>
         public void Play()
         {
             _isPlaying = true;
@@ -88,11 +89,17 @@ namespace Audio
 
             _audioSource.Play();
         }
+        /// <summary>
+        /// Mets en pause la musique
+        /// </summary>
         public void Stop()
         {
             _isPlaying = false;
             _audioSource.Pause();
         }
+        /// <summary>
+        /// Passe a la musique suivante
+        /// </summary>
         public void NextMusic()
         {
             if (_currentMusicIndex + 1 >= _musics.Length) _currentMusicIndex = 0;
@@ -103,6 +110,9 @@ namespace Audio
             _currentMusicTime = 0;
         }
 
+        /// <summary>
+        /// Setup du singleton
+        /// </summary>
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -113,6 +123,16 @@ namespace Audio
 
             _instance = this;
         }
+        /// <summary>
+        /// Commence a jouer la musique
+        /// </summary>
+        private void Start()
+        {
+            Play();
+        }
+        /// <summary>
+        /// Actualise le temps de la musique et passe a la suivante si elle est terminee
+        /// </summary>
         private void Update()
         {
             if (!_isPlaying) return;
@@ -123,26 +143,42 @@ namespace Audio
             // Si la musique est terminee, on passe a la suivante
             if (_currentMusicTime >= _audioSource.clip.length) NextMusic();
         }
+        /// <summary>
+        /// Abonne aux evenements de debut et de fin de jeu
+        /// </summary>
         private void OnEnable()
         {
             GameManager.OnGameStart += OnGameStart;
             GameManager.OnGameEnd += OnGameEnd;
         }
+        /// <summary>
+        /// Abonne aux evenements de debut et de fin de jeu
+        /// </summary>
         private void OnDisable()
         {
             GameManager.OnGameStart -= OnGameStart;
             GameManager.OnGameEnd -= OnGameEnd;
         }
 
+        /// <summary>
+        /// Met a jour le volume de la musique quand la partie commence
+        /// </summary>
+        /// <param name="options"></param>
         private void OnGameStart(GameOption options)
         {
             SetVolume(_inGameVolume);
         }
+        /// <summary>
+        /// Met a jour le volume de la musique quand la partie se termine
+        /// </summary>
         private void OnGameEnd()
         {
             SetVolume(_menuVolume);
         }
-
+        /// <summary>
+        /// Fait un tween pour changer le volume de la musique
+        /// </summary>
+        /// <param name="volume"></param>
         private void SetVolume(float volume)
         {
             // Si un tween est en cours, on le stop

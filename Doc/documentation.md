@@ -442,15 +442,13 @@ La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de
 
 ### Gestion des fruits
 
-Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. 
+Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois. Ce système permet de gagner énormément en performance.
 
-Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois. Ce système permet de gagner énormément en performance.
-
-Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner). Ce dernier est responsable de la génération des fruits à des positions spécifiques.
+Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que les fruits apparaissent. Ils sont placés sur les arbres et les buissons du jardin en fonction de leurs types (fraise et myrtilles dans des buissons alors que les pommes apparaisent dans les arbres).
 
 La classe [Fruit](#fruit) représente un fruit dans le jeu. Il contient les informations sur le fruit (type, points, etc) et les méthodes pour le ramasser et le détruire.
 
-Pour regrouper et donner un accès facile aux données de chaque fruit, une strucure [FruitTypeData](#fruittypedata) est utilisée. Elle contient les informations sur le fruit (type, points, etc). Cette dernière est utilisée dans [FruitTypesDatas](#fruittypesdatas) une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity. (voir ... pour plus d'informations).
+Pour regrouper et donner un accès facile aux données de chaque fruit, une strucure [FruitTypeData](#fruittypedata) est utilisée. Elle contient les informations sur le fruit (type, points, etc). Cette dernière est utilisée dans [FruitTypesDatas](#fruittypesdatas) une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity.
 
 ![Fruit Types Datas Inspector](./img/fruittypesdatas_inspector.jpg)
 
@@ -497,7 +495,9 @@ Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com
 
 ### Périmètre
 
-Le plan de test a pour but de valider les fonctionnalités principales du projet. Certains test sont effectués manuellement, d'autres sont automatisés. Les tests manuels sont effectués par le développeur pour vérifier le bon fonctionnement des fonctionnalités. Les tests automatisés sont effectués par le framework de test de Unity pour vérifier le bon fonctionnement des fonctionnalités de manière automatique. UnityTestFramework est un framework de test intégré à Unity qui permet de tester les fonctionnalités de l'application. Il est divisé en deux parties : les tests live et les tests en mode édition. Les tests live sont des tests qui sont exécutés en même temps que l'application. Les tests en mode édition sont des tests qui sont exécutés sans que l'application ne soit en cours d'exécution.
+Le plan de test a pour but de valider les fonctionnalités principales du projet. Certains test sont effectués manuellement, d'autres sont automatisés. Les tests manuels sont effectués par le développeur pour vérifier le bon fonctionnement des fonctionnalités. Les tests automatisés sont effectués par le framework de test de Unity pour vérifier le bon fonctionnement des fonctionnalités de manière automatique.
+
+UnityTestFramework est un framework de test intégré à Unity qui permet de tester les fonctionnalités de l'application. Il est divisé en deux parties : les tests live et les tests en mode édition. Les tests live sont des tests qui sont exécutés en même temps que l'application. Les tests en mode édition sont des tests qui sont exécutés sans que l'application ne soit en cours d'exécution.
 
 ### Cas de test
 
@@ -569,11 +569,11 @@ Les tests automatisés visent uniquement le système de gestion des fruits. En e
 | M16 |  |  | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | M17 |  |  | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | M18 |  |  | OK | OK | OK | OK | OK | OK | OK | OK | OK |
-| M19 |  |  |  |  |  |  |  |  |  |  |  |
-| M20 |  |  |  |  |  |  |  |  |  |  |  |
-| M21 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
-| M22 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
-| M23 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
+| M19 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
+| M20 |  |  |  |  |  | OK | OK | OK | OK | OK | OK |
+| M21 |  |  |  |  |  | OK | OK | OK | OK | OK | OK |
+| M22 |  |  |  |  |  | OK | OK | OK | OK | OK | OK |
+| M23 |  |  |  |  |  | OK | OK | OK | OK | OK | OK |
 | M24 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | A1 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | A2 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
@@ -592,7 +592,6 @@ Pendant la réalisation de ce projet, plusieurs difficultés ont été rencontr�
 
 Pour résoudre ces difficultés, plusieurs solutions ont été envisagées. Voici quelques exemples de variantes de solutions et de choix effectués :
 
-- D
 
 ### Améliorations possibles
 

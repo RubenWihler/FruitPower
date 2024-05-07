@@ -35,8 +35,7 @@ namespace Audio
         /// </summary>
         private void OnEnable()
         {
-            //On demarre la musique et les materials par defaut
-            OnOnOff(null);
+            //materials par defaut
             OnHoverExit(null);
 
             // On ajoute les listeners pour les bouttons
