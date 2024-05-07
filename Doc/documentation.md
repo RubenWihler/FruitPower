@@ -621,10 +621,10 @@ Les tests automatisés visent uniquement le système de gestion des fruits. En e
 | M18 |  |  | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | M19 |  |  |  |  |  |  |  |  |  |  |  |
 | M20 |  |  |  |  |  |  |  |  |  |  |  |
-| M21 |  |  |  |  |  |  |  |  |  |  |  |
-| M22 |  |  |  |  |  |  |  |  |  |  |  |
-| M23 |  |  |  |  |  |  |  |  |  |  |  |
-| M24 |  | OK |  |  |  |  |  |  |  |  |  |
+| M21 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
+| M22 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
+| M23 |  |  |  |  |  |  | OK | OK | OK | OK | OK |
+| M24 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | A1 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | A2 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | A3 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
