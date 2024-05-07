@@ -35,8 +35,8 @@ namespace GameManagement
         #endregion
 
         [Header("Game Options")]
-        [Tooltip("Les options du jeu.")]
-        public GameOption _gameOption;
+        [SerializeField, Tooltip("Les options du jeu.")]
+        private GameOption _gameOption;
 
         [Header("Audio")]
         [SerializeField, Tooltip("Le son jouer quand il reste 10 secondes")]

@@ -289,16 +289,30 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 
 Pour faciliter la partie conception ainsi que la partie implémentation, le projet a été divisé en plusieurs systèmes. Chaque système a une responsabilité bien définie et est plus ou moins indépendant des autres systèmes. Cela permet de faciliter la maintenance et l'évolution du projet.
 
+### Informations générales
+
+Pour faciliter l'organisation du code, chaque système possède une définition d'assebly.
+
+| Nom | Description | Chemin (racine du projet unity) |
+|-----|-------------|--------|
+| Scripts | Scripts généraux | Assets/Scripts/Scripts.asmdef |
+| FruitSystem | Système de gestion des fruits | Assets/Scripts/FruitSystem/FruitSystem.asmdef |
+| Inputs | Système de gestion des inputs | Assets/Scripts/Inputs/Inputs.asmdef |
+| UISystem | Système de gestion de l'interface utilisateur | Assets/Scripts/UI/UISystem.asmdef |
+| Audio | Système de gestion de l'audio | Assets/Scripts/Audio/Audio.asmdef |
+| GameManagement | Système de gestion de la partie | Assets/Scripts/GameManagement/GameManagement.asmdef |
+
+Dans la même optique, l'utilisation de namespaces a été privilégiée pour une meilleure organisation du code.
+
 > Remarques :
 >
 > - Les classes sont regroupées par système.
 > - au début de chaque classe, une description de la classe est donnée. Elle contient le nom de la classe, le type de la classe, et une brève description de la classe.
 > - Le type de données est donné entre crochets après le nom de la classe.
 > - Apres certains champs les annotations **[INSP]** sont utilisées pour indiquer que le champ est une propriété inspectable dans l'éditeur Unity. (Marquée dans le code source par l'attribut `[System.SerializeField]` pour les champs privés)
+> - Les anotation **[MU]** sont utilisées pour indiquer qu'une méthode est une méthode d'Unity (Start, Update, etc).
 
 ### Gestions de la réalité virtuelle
-
-#### Vue d'ensemble
 
 La gestion de la réalité virtuelle est un des points clés du projet. Elle permet au joueur d'interagir avec le jeu en utilisant un casque de réalité virtuelle et ses contrôleurs. Pour cela, nous avons utilisé le package XR d'Unity qui permet de gérer la réalité virtuelle de manière simple et efficace. Nous avons également utilisé le package XR Interaction Toolkit qui permet de gérer l'interaction avec les objets du jeu.
 Pour gagner du temps, nous avons utiliser le sample de l'XR Interaction Toolkit pour la gestion des contrôleurs. Ce dernier nous a permis d'avoir tout de suite les InputsActions et les interactions de base (grab, select, etc).
@@ -364,14 +378,55 @@ Voici la liste des composants du XR Player :
 - `LocomotionSystem` : Composant qui permet de gérer le déplacement du joueur.
 - `ContinuousMoveProvider` : Composant qui permet de gérer le déplacement du joueur (aucun référence au Move Action car le joueur ne peut pas se déplacer avec les contrôleurs).
 - `CharacterControllerDriver` : Composant qui permet de gérer le déplacement du joueur.
+- `CharacterController` : Composant qui permet de gérer le déplacement du joueur (n'est pas propre à la VR).
+
+###### LeftHand et RightHand
+
+Les mains du joueur sont des GameObjects enfants du XR Player. Voici la vue de l'inspector d'une main :
+
+![Main du joueur](./img/hands_inspector.jpg)
+
+Voici la liste des composants d'une main :
+
+- `XRController` : Composant qui permet de gérer le contrôleur.
+- `XRDirectInteractor` : Composant qui permet de gérer l'intéraction avec les objets (les atrapper, les lancer, etc).
+- `SphereCollider` : Composant qui permet de gérer la zone de détection des objets. (mis en mode trigger pour ne pas bloquer les objets).
+
+En plus de ces composants, il y a un GameObject enfant de la main qui contient le modèle de la main. Ce GameObject est animé par l'animator de la main.
+Il possède également un `HandController` ([HandController](#handcontroller)) qui permet de faire le lien entre les contrôleurs et l'animator de la main.
 
 ### Environnement 3D
 
+L'environnement 3D est un jardin clos de 2m x 2m. Il contient des arbres et des buissons qui servent à générer les fruits, des murs pour délimiter la zone de jeu et un sol pour marcher. La scène est composée de plusieurs GameObjects qui sont organisés de manière à ce que le joueur puisse se déplacer librement dans la zone de jeu.
+
+![Environnement 3D 1](./img/env_03.jpg)
+
+Un panier est également présent dans la scène pour que le joueur puisse y mettre les fruits qu'il a ramassé pour gagner des points. Ce dernier est en hauteur pour que le joueur puisse y mettre les fruits facilement qu'il mesure 60cm ou 1m90. Il est lègèrement éclairé pour le mettre en valeur et soit perçu comme un élément important.
+
+Une radio est également présente dans la scène pour que le joueur puisse entendre de la musique. Elle est placée a coté du panier et est également éclairée (moins que le panier pour ne pas trop attirer l'attention).
+
+Etant donné que ce projet va être utilisé dans le cadre des portes ouvertes du CFPT, les joueurs devront comprendre rapidement comment jouer. Pour cela, un texte est affiché sur un mur pour expliquer qu'il faut ramasser les fruits et les mettre dans le panier pour gagner des points.
+
+Des élements de décorations sont également présents dans la scène pour rendre le jardin plus vivant. Il y a des fleurs, des cailloux, des champignons, des fougères, etc.
+
+![Environnement 3D 2](./img/env_02.jpg)
+
+L'ambiance de la scène est très importante pour que le joueur se sente bien dans le jeu. Une ambiance de coucher de soleil faisant contraster ses couleurs chaudes avec les couleurs vives des éléments du jardin permet de donner une ambiance chaleureuse ainsi que de mettre en valeur les fruits et autres éléments clés du jeu.
+
+![Environnement 3D 3](./img/env_04.jpg)
+
 ### Gestion des parties
 
-#### Vue d'ensemble
+Le système de gestion de partie est relativement simple. C'est un singleton qui utilise un pattern d'observer pour notifier les autres systèmes des différents évènements de la partie. Ce système est composé de plusieurs classes qui gèrent les différents aspects de la partie (score, timer, statistiques, etc).
 
-Le système de gestion de partie est un relativement simple. C'est un singleton qui utilise un pattern d'observer pour notifier les autres systèmes de l'état de la partie. Il est responsable de lancé une partie, de la terminer et de gérer le score du joueur.
+Le déroulement d'une partie est le suivant :
+
+1. Le joueur appuie sur le bouton de démarrage de la partie.
+2. Un compte à rebours de 3 secondes est lancé pour laisser le temps au joueur de se préparer.
+3. La partie commence et les fruits commencent à apparaître.
+4. Le joueur doit ramasser les fruits et les mettre dans le panier pour gagner des points.
+5. Après 30 secondes, la partie se termine et le score final est affiché.
+6. Le joueur peut rejouer en appuyant sur un bouton.
 
 ![uml](./Uml/game_system_uml.jpg)
 
@@ -386,7 +441,8 @@ Le `GameManager` est la classe principale du système de gestion de partie. C'es
 ##### Champs de GameManager
 
 - `private static GameManager _instance` : Instance unique du GameManager.
-- `public GameOption GameOption` : [INSP] Options de la partie.
+- `public GameOption _gameOption` : [INSP] Options de la partie.
+- `private AudioClip _lastSecondsSound` : [INSP] Son joué à 10 secondes de la fin de la partie.
 - `private GameScore _gameScore` : reference vers le score du jeu. ([GameScore](#gamescore))
 - `private GameTimer _gameTimer` : reference vers le timer du jeu. ([GameTimer](#gametimer))
 - `private GameStats _gameStats` : reference vers les statistiques du jeu. ([GameStats](#gamestats))
@@ -403,12 +459,15 @@ Le `GameManager` est la classe principale du système de gestion de partie. C'es
 - `public static event Action<GameOption> OnGameStart` : Event qui est appelé au début de la partie. Donne en paramètre les options de la partie.
 - `public static event Action OnGameEnd` : Event qui est appelé à la fin de la partie.
 - `public static event Action<ulong> OnScoreChange` : Event qui est appelé quand le score du joueur change. Donne en paramètre le nouveau score.
+- `public static event Action<uint> OnCountdownStart` : Event qui est appelé au début du compte à rebours. Donne en paramètre la durée du compte à rebours.
 
 ##### Méthodes de GameManager
 
 - `private void Awake()` : Méthode Awake qui initialise le singleton.
+- `private async void Start()` : Méthode appelée au démarrage du jeu, elle attend 2 secondes avant de lancer la première partie.
 - `public static void StartGame()` : Lance une partie
 - `public static void EndGame()` : Termine une partie
+- `private IEnumerator StartingCoroutine()` : Coroutine qui gère le compte à rebours avant le début de la partie.
 - `public static void AddPoints(ulong points, string fruitTypeId = "")` : Ajoute des points au score du joueur (en faisant appelle au [GameScore](#gamescore)). Si un fruitTypeId est donné, ajoute le fruit aux statistiques (en faisant appelle au [GameStats](#gamestats)).
 - `public static void ResetPoints()` : Réinitialise le score du joueur.
 - `public static void ResetStats()` : Réinitialise les statistiques du joueur.
@@ -425,6 +484,7 @@ La structure `GameOption` est une structure qui contient les options de la parti
 
 - `private float gameDuration` : La durée de la partie en secondes.
 - `private ushort spawnerRate` : Le nombre d'apparition de chaque type de fruits par seconde.
+- `public uint countdownDuration` : La durée du compte à rebours du début de partie en secondes.
 
 #### GameScore
 
@@ -499,17 +559,54 @@ La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de
 
 ### Gestion des fruits
 
-#### Vue d'ensemble
+Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. 
 
-Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. Globalement, le système est composé d'une classe `FruitManager` qui centralise toutes les opérations sur les fruits. Ce dernier utilise un `FruitPooler` et un `FruitSpawnerManager` pour gérer les `Fruit` et les `FruitSpawner`. Le `FruitPooler` est responsable de la gestion des fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les instancier à chaque fois et de les détruire ensuite. Le `FruitSpawnerManager` est responsable de la génération des fruits. Il utilise des `FruitSpawner` pour générer les fruits à des positions spécifiques.
+Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois. Ce système permet de gagner énormément en performance.
 
-![uml](./Uml/fruit_system_uml.jpg)
+Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner). Ce dernier est responsable de la génération des fruits à des positions spécifiques.
+
+La classe [Fruit](#fruit) représente un fruit dans le jeu. Il contient les informations sur le fruit (type, points, etc) et les méthodes pour le ramasser et le détruire.
+
+Pour regrouper et donner un accès facile aux données de chaque fruit, une strucure [FruitTypeData](#fruittypedata) est utilisée. Elle contient les informations sur le fruit (type, points, etc). Cette dernière est utilisée dans [FruitTypesDatas](#fruittypesdatas) une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity. (voir ... pour plus d'informations).
+
+![Fruit Types Datas Inspector](./img/fruittypesdatas_inspector.jpg)
+
 
 #### Détails et classes
 
 #### FruitManager
 
-Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haute niveau de la gestion des fruits. Elle utilise un `FruitPooler` et un `FruitSpawnerManager` pour gérer les fruits.
+[sealed class : MonoBehaviour]
+
+Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haut niveau de toutes les opérations sur les fruits. Elle implémente un pattern singleton pour donner un accès facile aux autres classes du système ainsi qu'aux autres systèmes.
+
+Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner) (endroit où les fruits apparaissent).
+
+##### Champs éxposés dans l'éditeur Unity
+
+- `private FruitPoolData[] fruitsEntries` : Tableau des fruits à gérer (voir [FruitPoolData](#fruitpooldata)).
+- `private Transform fruitSpawnersParent` : Parent hierarchique des spawners de fruits.
+- `private FruitTypesDatas fruitTypesDatas` : Données des fruits (voir [FruitTypesDatas](#fruittypesdatas)).
+
+
+##### Champs de FruitManager
+
+- `private static FruitManager _instance` : Instance unique du FruitManager (utilisé pour le singleton).
+- `private FruitSpawnManager _fruitSpawnerManager` : Référence vers le FruitSpawnerManager.
+- `private FruitPooler _fruitPooler` : Référence vers le FruitPooler.
+- `private List<Fruit> _fruits` : Liste des fruits actuellement en jeu (contient aussi les fruit en pool).
+- `private ulong _idCounter` : Compteur d'identifiant pour les fruits.
+
+##### Méthodes de FruitManager
+
+- `public static FruitTypeData GetFruitTypeData(string fruitId)` : Méthode qui retourne les données d'un fruit en fonction de son identifiant. (Utilise les données de [FruitTypesDatas](#fruittypesdatas)).
+- `private void Awake()` : **[MU]** Méthode Awake qui initialise le singleton ainsi que la liste des fruits.
+- `private void Start()` : **[MU]** Méthode Start qui appel la méthode d'initialisation du pooler et du spawnerManager.
+- `private void OnEnable()` : **[MU]** Méthode OnEnable qui abonne les méthodes aux évènements du GameManager.
+- `private void OnDisable()` : **[MU]** Méthode OnDisable qui désabonne les méthodes des évènements du GameManager.
+- `private void OnGameStart(GameOption gameOption)` : Appelée au début de la partie (via l'évènement `GameManager.onGameStart`), lance la génération des fruits.
+- `private void OnGameEnd()` : Appelée à la fin de la partie (via l'évènement `GameManager.onGameEnd`), arrête la génération des fruits et les désactive tous.
+- `private (FruitPooler, FruitSpawnManager) Initialize()` : Méthode qui initialise le pooler et le spawnerManager.
 
 
 
