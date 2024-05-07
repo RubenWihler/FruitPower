@@ -325,24 +325,6 @@ Pour les main du joueur, nous avons utilisé les modèles de mains donnés dans 
 
 La seule classe que nous avons dû implémenter est lui aussi donné dans le tutoriel. Il s'agit de la classe `HandController` qui permet de faire le lien entre les contrôleurs et l'animator des mains.
 
-##### Classe
-
-###### HandController
-
-[sealed class : MonoBehaviour]
-
-La classe `HandController` est une classe qui permet de faire le lien entre les contrôleurs et l'animator des mains. Elle est utilisée pour animer les mains du joueur en fonction des boutons de Grip et de pinch des contrôleurs.
-
-###### Champs de HandController
-
-- `private InputActionProperty pinchAction` : **[INSP]** Action de pinch des contrôleurs.
-- `private InputActionProperty gripAction` : **[INSP]** Action de grip des contrôleurs.
-- `private Animator animator` : **[INSP]** Référence vers l'animator de la main.
-
-###### Méthode de HandController
-
-- `private void Update()` : Récupère les valeurs des actions de grip et de pinch des contrôleurs et les envoie à l'animator pour animer les mains.
-
 #### Deplacement du joueur
 
 Les déplacements du joueur sont très simples étant donné que le joueur ne peut pas se déplacer dans l'environnement avec les contrôleurs. Il ne peut que se déplacer dans un rayon de 2 mètres autour de lui en marchant dans la réalité. Pour cela, nous avons utilisé les composants `LocomotionSystem`, `ContinuousMoveProvider` et `CharacterControllerDriver` du package XR Interaction Toolkit.
@@ -434,128 +416,29 @@ Le déroulement d'une partie est le suivant :
 
 #### GameManager
 
-[sealed class : MonoBehaviour]
-
 Le `GameManager` est la classe principale du système de gestion de partie. C'est un singleton qui centralise toutes les opérations sur la partie. Utilisant un pattern d'observer, il notifie les autres systèmes de l'état de la partie.
-
-##### Champs de GameManager
-
-- `private static GameManager _instance` : Instance unique du GameManager.
-- `public GameOption _gameOption` : [INSP] Options de la partie.
-- `private AudioClip _lastSecondsSound` : [INSP] Son joué à 10 secondes de la fin de la partie.
-- `private GameScore _gameScore` : reference vers le score du jeu. ([GameScore](#gamescore))
-- `private GameTimer _gameTimer` : reference vers le timer du jeu. ([GameTimer](#gametimer))
-- `private GameStats _gameStats` : reference vers les statistiques du jeu. ([GameStats](#gamestats))
-- `private bool _isGameRunning` : Booléen qui indique si la partie est en cours.
-  
-##### Propriétés de GameManager
-
-- `public static ulong Score` : Propriété en lecture seule qui retourne le score du joueur.
-- `public static Dictionary<string, uint> FruitsCaught` : Propriété en lecture seule qui retourne les fruits ramassés par le joueur.
-- `public static bool IsGameRunning` : Propriété en lecture seule qui retourne si la partie est en cours.
-
-##### Evènements de GameManager
-
-- `public static event Action<GameOption> OnGameStart` : Event qui est appelé au début de la partie. Donne en paramètre les options de la partie.
-- `public static event Action OnGameEnd` : Event qui est appelé à la fin de la partie.
-- `public static event Action<ulong> OnScoreChange` : Event qui est appelé quand le score du joueur change. Donne en paramètre le nouveau score.
-- `public static event Action<uint> OnCountdownStart` : Event qui est appelé au début du compte à rebours. Donne en paramètre la durée du compte à rebours.
-
-##### Méthodes de GameManager
-
-- `private void Awake()` : Méthode Awake qui initialise le singleton.
-- `private async void Start()` : Méthode appelée au démarrage du jeu, elle attend 2 secondes avant de lancer la première partie.
-- `public static void StartGame()` : Lance une partie
-- `public static void EndGame()` : Termine une partie
-- `private IEnumerator StartingCoroutine()` : Coroutine qui gère le compte à rebours avant le début de la partie.
-- `public static void AddPoints(ulong points, string fruitTypeId = "")` : Ajoute des points au score du joueur (en faisant appelle au [GameScore](#gamescore)). Si un fruitTypeId est donné, ajoute le fruit aux statistiques (en faisant appelle au [GameStats](#gamestats)).
-- `public static void ResetPoints()` : Réinitialise le score du joueur.
-- `public static void ResetStats()` : Réinitialise les statistiques du joueur.
-- `private void StartTimer()` : Lance le timer de la partie (en faisant appelle au [GameTimer](#gametimer)).
-- `private void StopTimer()` : Arrête le timer de la partie (en faisant appelle au [GameTimer](#gametimer)).
 
 #### GameOption
 
-[sealed struct]
-
 La structure `GameOption` est une structure qui contient les options de la partie. Elle est utilisée par le `GameManager` pour modifier les options de la partie dans l'éditeur Unity et en cours d'exécution (bien que cela ne soit pas nécessaire car aucun menu d'options n'est implémenté).
 
-##### Champs de GameOption
+Elle contient les champs suivants :
 
-- `private float gameDuration` : La durée de la partie en secondes.
-- `private ushort spawnerRate` : Le nombre d'apparition de chaque type de fruits par seconde.
+- `public float gameDuration` : La durée de la partie en secondes.
+- `public ushort spawnerRate` : Le nombre d'apparition de chaque type de fruits par seconde.
 - `public uint countdownDuration` : La durée du compte à rebours du début de partie en secondes.
 
 #### GameScore
 
-[sealed class]
-
 La classe `GameScore` est une classe qui contient le score du joueur. Elle est utilisée par le `GameManager` pour gérer le score du joueur.
-
-##### Champs de GameScore
-
-- `private ulong score` : Le score du joueur.
-
-##### Propriétés de GameScore
-
-- `public ulong Score` : Propriété en lecture seule qui retourne le score du joueur.
-
-##### Constructeurs de GameScore
-
-- `public GameScore(ulong score = 0)` : Constructeur par défaut prenant le score initial en paramètre (0 par défaut).
-
-##### Méthodes de GameScore
-
-- `public ulong AddPoints(ulong points)` : Méthode qui ajoute des points au score du joueur. Retourne le nouveau score.
 
 #### GameTimer
 
-[sealed class]
-
-La classe `GameTimer` est une classe qui contient le timer de la partie. Elle utilise une coroutine pour le timer. Elle contient 3 Action (données en paramètre du constructeur) qui sont appelées à différents moments du timer. (début, 80% du timer, fin). Ces actions permettent d'abstraire le comportement sans avoir de dépendance entre les classes.
-
-##### Champs de GameTimer
-
-- `private readonly float _duration` : La durée du timer en secondes.
-- `private readonly MonoBehaviour _coroutineOwner` : Le MonoBehaviour qui va lancer la coroutine du timer.(GameTimer n'héritant pas un MonoBehaviour il ne peut pas lancer de coroutine sur lui-même)
-- `private readonly Action _onStart` : Action appelée au début du timer.
-- `private readonly Action _onEnd` : Action appelée à la fin du timer.
-- `private readonly Action _onEndSoon` : Action appelée à 80% du timer.
-- `private Coroutine _timerCoroutine` : La coroutine du timer.
-
-##### Constructeurs de GameTimer
-
-- `public GameTimer(float duration, MonoBehaviour coroutineOwner, Action onStart, Action onEnd, Action onEndSoon)` : Constructeur prenant la durée du timer, le MonoBehaviour qui va lancer la coroutine, et les actions à appeler à différents moments du timer.
-  
-##### Méthodes de GameTimer
-
-- `public void Start()` : Méthode qui lance le timer.
-- `public void Stop()` : Méthode qui arrête le timer.
-- `private void StartTimerCoroutine()` : Méthode qui lance la coroutine du timer.
-- `private void StopTimerCoroutine()` : Méthode qui arrête la coroutine du timer.
-- `private IEnumerator TimerCoroutine()` : Méthode IEnumerator qui est la coroutine dans laquelle le timer est exécuté.
+La classe `GameTimer` contient le timer de la partie. Elle utilise une coroutine pour le timer. Elle contient 3 Action (données en paramètre du constructeur) qui sont appelées à différents moments du timer. (début, 80% du timer, fin). Ces actions permettent d'abstraire le comportement sans avoir de dépendances entre les classes.
 
 #### GameStats
 
-[sealed class]
-
 La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de la partie (pour le moment, uniquement les fruits ramassés). Elle est utilisée par le `GameManager`.
-
-##### Champs de GameStats
-
-- `private readonly Dictionary<string, uint> _fruitsCaught` : Dictionnaire qui contient le nombre de fruits ramassés par type de fruit.
-  
-##### Propriétés de GameStats
-
-- `public Dictionary<string, uint> FruitsCaught` : Propriété en lecture seule qui retourne le dictionnaire des fruits ramassés.
-
-##### Constructeurs de GameStats
-
-- `public GameStats()` : Constructeur par défaut.
-
-##### Méthodes de GameStats
-
-- `public void AddFruit(string fruitType)` : Méthode qui ajoute un fruit au dictionnaire des fruits ramassés.
 
 ### Gestion des fruits
 
@@ -576,43 +459,12 @@ Pour regrouper et donner un accès facile aux données de chaque fruit, une stru
 
 #### FruitManager
 
-[sealed class : MonoBehaviour]
-
 Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haut niveau de toutes les opérations sur les fruits. Elle implémente un pattern singleton pour donner un accès facile aux autres classes du système ainsi qu'aux autres systèmes.
 
 Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner) (endroit où les fruits apparaissent).
 
-##### Champs éxposés dans l'éditeur Unity
-
-- `private FruitPoolData[] fruitsEntries` : Tableau des fruits à gérer (voir [FruitPoolData](#fruitpooldata)).
-- `private Transform fruitSpawnersParent` : Parent hierarchique des spawners de fruits.
-- `private FruitTypesDatas fruitTypesDatas` : Données des fruits (voir [FruitTypesDatas](#fruittypesdatas)).
-
-
-##### Champs de FruitManager
-
-- `private static FruitManager _instance` : Instance unique du FruitManager (utilisé pour le singleton).
-- `private FruitSpawnManager _fruitSpawnerManager` : Référence vers le FruitSpawnerManager.
-- `private FruitPooler _fruitPooler` : Référence vers le FruitPooler.
-- `private List<Fruit> _fruits` : Liste des fruits actuellement en jeu (contient aussi les fruit en pool).
-- `private ulong _idCounter` : Compteur d'identifiant pour les fruits.
-
-##### Méthodes de FruitManager
-
-- `public static FruitTypeData GetFruitTypeData(string fruitId)` : Méthode qui retourne les données d'un fruit en fonction de son identifiant. (Utilise les données de [FruitTypesDatas](#fruittypesdatas)).
-- `private void Awake()` : **[MU]** Méthode Awake qui initialise le singleton ainsi que la liste des fruits.
-- `private void Start()` : **[MU]** Méthode Start qui appel la méthode d'initialisation du pooler et du spawnerManager.
-- `private void OnEnable()` : **[MU]** Méthode OnEnable qui abonne les méthodes aux évènements du GameManager.
-- `private void OnDisable()` : **[MU]** Méthode OnDisable qui désabonne les méthodes des évènements du GameManager.
-- `private void OnGameStart(GameOption gameOption)` : Appelée au début de la partie (via l'évènement `GameManager.onGameStart`), lance la génération des fruits.
-- `private void OnGameEnd()` : Appelée à la fin de la partie (via l'évènement `GameManager.onGameEnd`), arrête la génération des fruits et les désactive tous.
-- `private (FruitPooler, FruitSpawnManager) Initialize()` : Méthode qui initialise le pooler et le spawnerManager.
-
-
 
 ### Interface utilisateur
-
-
 
 
 ## Implémentation

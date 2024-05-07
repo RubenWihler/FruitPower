@@ -356,4 +356,7 @@ J'ai bien avancé sur le projet aujourd'hui. J'ai pu trouver des  bruitages pour
 
 Aujourd'hui, je vais commencer par chercher une musique pour le jeu et l'intégrer dans le projet.
 
+#### Décision sur le detail des classes dans la documentation
+
+J'ai finnalement abandonné l'idée de détailler chaques classes dans la documentation (champs, méthodes, propriétés etc) car cela prenait trop de temps. J'ai donc décidé de n'écrire que des explications sur le fonctionnement des classes, liens entre elles, responsabilités etc.
 
