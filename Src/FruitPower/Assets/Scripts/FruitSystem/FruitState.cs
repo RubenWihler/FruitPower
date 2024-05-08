@@ -10,11 +10,11 @@ namespace FruitSystem
         /// </summary>
         Inactive,
         /// <summary>
-        /// Le fruit est attache à un FruitSpawner et peut être ramasse par le joueur.
+        /// Le fruit est attache a un FruitSpawner et peut etre ramasse par le joueur.
         /// </summary>
         Attached,
         /// <summary>
-        /// Le fruit est actif et peut être ramasse par le joueur. (la gravite est activee)
+        /// Le fruit est actif et peut etre ramasse par le joueur. (la gravite est activee)
         /// </summary>
         Neutral,
         /// <summary>

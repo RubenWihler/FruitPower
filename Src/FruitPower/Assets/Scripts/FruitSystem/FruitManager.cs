@@ -14,7 +14,7 @@ namespace FruitSystem
 {
     /// <summary>
     /// La classe <see cref="FruitManager"/> est responsable de la gestion des fruits dans la scène.
-    /// Etant un singleton, elle permet d'acceder facilement de l'exerieur à la liste des fruits et aux differents managers.
+    /// Etant un singleton, elle permet d'acceder facilement de l'exerieur a la liste des fruits et aux differents managers.
     /// </summary>
     public class FruitManager : MonoBehaviour
     {
@@ -63,7 +63,7 @@ namespace FruitSystem
         /// Donne le fruitTypeData en fonction de l'identifiant du fruit.
         /// </summary>
         /// <param name="fruitId">L'identifiant du fruit.</param>
-        /// <returns>L'objet FruitTypeData correspondant à l'identifiant du fruit.</returns>
+        /// <returns>L'objet FruitTypeData correspondant a l'identifiant du fruit.</returns>
         public static FruitTypeData GetFruitTypeData(string fruitId)
         {
             return Instance.fruitTypesDatas.datas.FirstOrDefault(data => data.fruitId == fruitId);

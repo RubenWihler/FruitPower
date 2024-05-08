@@ -12,7 +12,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace FruitSystem
 {
     /// <summary>
-    /// Classe representant un fruit. Un fruit est un objet interactif qui peut être ramasse par un joueur pour gagner des points.
+    /// Classe representant un fruit. Un fruit est un objet interactif qui peut etre ramasse par un joueur pour gagner des points.
     /// Il peut etre dans plusieurs etats: <see cref="FruitState.Inactive"/>, <see cref="FruitState.Attached"/>, <see cref="FruitState.Grabbed"/> et <see cref="FruitState.Neutral"/>.
     /// Les fruit sont geres par un <see cref="FruitPooler"/> qui permet de recycler les fruits.
     /// </summary>
@@ -98,6 +98,9 @@ namespace FruitSystem
         /// </summary>
         public FruitState State { get => _state; set => _state = value; }
 
+        /// <summary>
+        /// Prend les composants XRGrabInteractable et Rigidbody du fruit et initialise les evenements de l'interactable.
+        /// </summary>
         private void Awake()
         {
             _grabInteractable = GetComponent<XRGrabInteractable>();
@@ -156,11 +159,11 @@ namespace FruitSystem
         }
 
         /// <summary>
-        /// Attache le fruit à une position et une rotation specifiee ainsi que le met en etat "attache".
+        /// Attache le fruit a une position et une rotation specifiee ainsi que le met en etat "attache".
         /// Cette methode est appelee par un <see cref="FruitSpawner"/> lorsqu'un fruit y est attache.
         /// </summary>
-        /// <param name="position">la position à laquelle attacher le fruit.</param>
-        /// <param name="rotation">la rotation à laquelle attacher le fruit.</param>
+        /// <param name="position">la position a laquelle attacher le fruit.</param>
+        /// <param name="rotation">la rotation a laquelle attacher le fruit.</param>
         /// <returns>se retourne soi-meme.</returns>
         public Fruit Attach(Vector3 position, Quaternion rotation)
         {
@@ -173,7 +176,7 @@ namespace FruitSystem
 
         /// <summary>
         /// Appele lorsqu'un joueur attrape le fruit.
-        /// Lorsque le fruit est attrape, il est mis en etat "grabbed" et la coroutine de duree de vie est arrêtee.
+        /// Lorsque le fruit est attrape, il est mis en etat "grabbed" et la coroutine de duree de vie est arretee.
         /// </summary>
         /// <param name="args"></param>
         private void OnGrab(SelectEnterEventArgs args)
@@ -183,22 +186,22 @@ namespace FruitSystem
             //si le fruit est attache, le mettre en etat "grabbed"
             SetState(FruitState.Grabbed);
 
-            //arrêter la coroutine de duree de vie
+            //arreter la coroutine de duree de vie
             StopLifetimeCoroutine();
 
             //jouer un son aleatoire de fruit attrape
             _fruitGrabAudioClips.PlayRandom(_audioSource);
         }
         /// <summary>
-        /// Appele lorsqu'un joueur lâche le fruit.
-        /// Lorsque le fruit est lâche, il est mis en etat "neutral" et la coroutine de duree de vie est relancee.
+        /// Appele lorsqu'un joueur lache le fruit.
+        /// Lorsque le fruit est lache, il est mis en etat "neutral" et la coroutine de duree de vie est relancee.
         /// </summary>
         /// <param name="args"></param>
         private void OnDrop(SelectExitEventArgs args)
         {
             if (_state == FruitState.Inactive) return;
 
-            //mettre le fruit en etat "neutral" lorsqu'il est lâche
+            //mettre le fruit en etat "neutral" lorsqu'il est lache
             SetState(FruitState.Neutral);
 
             //relancer la coroutine de duree de vie
@@ -234,7 +237,7 @@ namespace FruitSystem
         /// <param name="state">Le nouvel etat du fruit.</param>
         private void SetState(FruitState state)
         {
-            //si l'etat est le même, ne rien faire
+            //si l'etat est le meme, ne rien faire
             if (_state == state) return;
 
             //quitter l'etat actuel et appeler les evenements de sortie

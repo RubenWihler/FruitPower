@@ -75,7 +75,7 @@ namespace FruitSystem
         /// <summary>
         /// Remet un fruit dans le pool.
         /// </summary>
-        /// <param name="fruit">le fruit à remettre dans le pool.</param>
+        /// <param name="fruit">le fruit a remettre dans le pool.</param>
         /// <exception cref="FruitPoolDoesNotExistException"></exception>
         public void PushFruitToPool(Fruit fruit)
         {

@@ -26,11 +26,11 @@ namespace FruitSystem
         /// </summary>
         private readonly Dictionary<string, List<FruitSpawner>> _fruitsSpawners;
         /// <summary>
-        /// Dictionnaire de cache pour optimiser les performances. Il contient le nombre de fruits à spawn pour chaque type de fruit.
+        /// Dictionnaire de cache pour optimiser les performances. Il contient le nombre de fruits a spawn pour chaque type de fruit.
         /// </summary>
         private readonly Dictionary<string, ushort> _fruitTypeSpawnCount;
         /// <summary>
-        /// La fonction qui instancie un fruit à partir de son type. (Utilisee lors du spawn de fruit)
+        /// La fonction qui instancie un fruit a partir de son type. (Utilisee lors du spawn de fruit)
         /// </summary>
         private readonly Func<string, Fruit> _instantiateFruit;
         /// <summary>
@@ -45,7 +45,7 @@ namespace FruitSystem
         /// <summary>
         /// Constructeur de la classe <see cref="FruitSpawnManager"/>.
         /// </summary>
-        /// <param name="instantiateFruit">Fonction qui instancie un fruit à partir de son type (Utilisee lors du spawn de fruit).</param>
+        /// <param name="instantiateFruit">Fonction qui instancie un fruit a partir de son type (Utilisee lors du spawn de fruit).</param>
         /// <param name="getAllFruits">Fonction qui retourne tous les fruits.</param>
         /// <param name="coroutineOwner">Le MonoBehaviour qui va lancer les coroutines.</param>
         /// <param name="fruitSpawners">Une liste de tous les spawners de fruits.</param>
@@ -111,7 +111,7 @@ namespace FruitSystem
 
         /// <summary>
         /// Fait apparaitre les fruits pour chaque type de fruit.
-        /// Le nombre de fruits à apparaitre est calcule avec <see cref="CalculateSpawnCount(ushort, ushort)"/>.
+        /// Le nombre de fruits a apparaitre est calcule avec <see cref="CalculateSpawnCount(ushort, ushort)"/>.
         /// </summary>
         private void SpawnFruits()
         {
@@ -134,8 +134,8 @@ namespace FruitSystem
             }
         }
         /// <summary>
-        /// Retourne le nombre de fruits à apparaitre pour un type de fruit donne. 
-        /// Utilise <see cref="_fruitTypeSpawnCount"/> pour eviter de recalculer le nombre de fruits à apparaitre a chaque fois.
+        /// Retourne le nombre de fruits a apparaitre pour un type de fruit donne. 
+        /// Utilise <see cref="_fruitTypeSpawnCount"/> pour eviter de recalculer le nombre de fruits a apparaitre a chaque fois.
         /// </summary>
         /// <param name="typeId">L'identifiant du type de fruit.</param>
         /// <returns></returns>
@@ -152,7 +152,7 @@ namespace FruitSystem
             return _fruitTypeSpawnCount[typeId];
         }
         /// <summary>
-        /// Calcule le nombre de fruits à apparaitre en fonction du score du fruit et du taux de spawn.
+        /// Calcule le nombre de fruits a apparaitre en fonction du score du fruit et du taux de spawn.
         /// </summary>
         /// <param name="spawnerRate">Le taux de spawn (global pour tous les fruits).</param>
         /// <param name="score">le nombre de points que le joueur gagne en ramassant le fruit.</param>

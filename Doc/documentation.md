@@ -442,25 +442,80 @@ La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de
 
 ### Gestion des fruits
 
-Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois. Ce système permet de gagner énormément en performance.
+Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. 
 
-Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que les fruits apparaissent. Ils sont placés sur les arbres et les buissons du jardin en fonction de leurs types (fraise et myrtilles dans des buissons alors que les pommes apparaisent dans les arbres).
+Avant d'aborder les détails du système, il est important de comprendre comment les fruits sont générés. Premièrement, il existe plusieur type de fruits (pommes, fraises, myrtilles). Chaque type de fruit a des caractéristiques différentes (points donnés, vitesse d'apparition, etc). Deuxièmement, les fruits apparaissent sur des arbres ou des buissons. Les pommes apparaissent sur les arbres, les fraises et les myrtilles apparaissent sur les buissons. Ils apparaissent à une vitesse définie :
+
+$$ V_a = \frac{R}{\text{p}} $$
+où :
+
+- $V_a$ est la vitesse d'apparition des fruits. [fruits/s]
+- $p$ (points) est le nombre de points donnés par le fruit.
+- $R$ (rate) est le nombre de fruits qui vont apparaître par seconde (en meme temps).
+
+Chaques fruits ont un temps de vie configurable. Si le joueur ne les ramasse pas avant la fin de leur temps de vie, ils disparaissent. Quand le joueur ramasse un fruit, sa durée de vie est stoppé et ne disparaît pas. C'est seulement quand le joueur lache le fruit qu'il reprend sa durée de vie (qui est remise à zéro). Une fois que le fruit est mis dans le panier des points sont ajoutés au score du joueur.
+
+![uml sequence fruit generation](./Uml/fruit_generation_sequence.svg)
+
+Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois, cela permet un gain de performance non négligeable.
+
+![fruit manager inspector](./img/fruit_manager_inspector.jpg)
 
 La classe [Fruit](#fruit) représente un fruit dans le jeu. Il contient les informations sur le fruit (type, points, etc) et les méthodes pour le ramasser et le détruire.
+
+Dans l'éditeur Unity, un fruit est représenté par un prefab qui contient un rigidbody, un composant XR Grab Interactable, une source audio et la classe Fruit.
+
+![apple inspector](./img/apple_inspector.jpg)
 
 Pour regrouper et donner un accès facile aux données de chaque fruit, une strucure [FruitTypeData](#fruittypedata) est utilisée. Elle contient les informations sur le fruit (type, points, etc). Cette dernière est utilisée dans [FruitTypesDatas](#fruittypesdatas) une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity.
 
 ![Fruit Types Datas Inspector](./img/fruittypesdatas_inspector.jpg)
 
+Un [FruitSpawnerManager](#fruitspawnermanager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
 
-#### Détails et classes
+![fruit spawners](./img/fruit_spawners.jpg)
+
+> les points rouge représentent les spawners de pommes, les verts les fraises et les bleus les myrtilles.
+
+
+
+
+#### Classes du système de fruit
 
 #### FruitManager
 
 Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haut niveau de toutes les opérations sur les fruits. Elle implémente un pattern singleton pour donner un accès facile aux autres classes du système ainsi qu'aux autres systèmes.
 
-Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner) (endroit où les fruits apparaissent).
+Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner).
 
+Elle contient une référence au [FruitTypesDatas](#fruittypesdatas) qui contient les données des fruits.
+Grâce à la methode `public static GetFruitTypeData(string fruitId)` il est possible de récupérer les données d'un fruit en donnant son id. Cela permet de facilement accéder a ces données depuis d'autres systèmes (par exemple, pour afficher le nom des fruits ramassés dans l'interface de fin de partie).
+
+#### FruitPooler
+
+Le `FruitPooler` est une classe qui gère les fruits en pool. Elle permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois, cela permet un gain de performance non négligeable.
+
+Son fonctionnement est simple. Au démarrage de la partie, elle instancie un nombre de fruits défini dans l'éditeur Unity. Ces fruits sont ensuite désactivés et organisés dans un dictionaire qui contient l'id du type de fruit et une queue de fruits. Quand un fruit est ramassé, il est désactivé et remis dans la queue. Quand un fruit doit apparaître, il est récupéré de la queue et activé. Si la queue est vide, un nouveau fruit est instancié.
+
+Afin de minimiser un maximum les dépendances entre les classes, l'opération d'instanciation des fruits est passée en paramètre du constructeur de la classe sous la forme d'une `Func<Func<ulong, Fruit>, Fruit>`.
+
+#### Fruit
+
+Un `Fruit` représente un fruit dans le jeu. Il permet de gérer les interactions du joueur avec le fruit (ramassage), gérer sa durée de vie, jouer les différents sons du fruit (apparition, ramassage, collision).
+
+Un fruit peut se trouver dans 3 états différents, représentés par l'énumération [FruitState](#fruitstate).
+
+Quand un fruit apparaît, il est attaché à un [FruitSpawner](#fruitspawner) - sa position est définie par le spawner et la gravité du fruit est désactivée(état `Grabbed`). Si le joueur ne le ramasse pas avant la fin de sa durée de vie, il disparaît et est mis dans l'état `Innactive`.
+Quand le joueur le ramasse, la gravité est activée et le fruit suit le contrôleur du joueur. Si le joueur le lâche, le fruit est remis dans l'état `Neutral`.
+
+#### FruitState
+
+L'énumération `FruitState` représente l'état d'un fruit. Un fruit peut se trouver dans 3 états différents :
+
+- `Innactive` : Le fruit est désactivé.
+- `Attached` : Le fruit est attaché à un [FruitSpawner](#fruitspawner).
+- `Neutral` : Le fruit est actif et peut être ramassé par le joueur. (la gravité est activée).
+- `Grabbed` : Le fruit est ramassé par le joueur et suit le contrôleur.
 
 ### Interface utilisateur
 
