@@ -20,7 +20,7 @@ namespace FruitSystem
         public string fruitName;
         [Tooltip("Nombre de points donnes par le fruit.")]
         public ushort pointsGiven;
-        [Tooltip("Prefab du fruit.")]
+        [Tooltip("Duree de vie du fruit.")]
         public float lifeTime;
     }
 }

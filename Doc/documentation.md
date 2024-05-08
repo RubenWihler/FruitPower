@@ -499,9 +499,21 @@ Son fonctionnement est simple. Au démarrage de la partie, elle instancie un nom
 
 Afin de minimiser un maximum les dépendances entre les classes, l'opération d'instanciation des fruits est passée en paramètre du constructeur de la classe sous la forme d'une `Func<Func<ulong, Fruit>, Fruit>`.
 
+La liste des données nécessaires pour le pooling des fruits est passée en paramètre du constructeur de la classe sous la forme d'un `FruitPoolData[]`.
+
+#### FruitPoolData
+
+La structure `FruitPoolData` est une structure qui contient les données nécessaires pour le pooling des fruits. Elle est utilisée par le [FruitPooler](#fruitpooler) pour instancier les fruits.
+
+Elle contient les champs suivants :
+
+- `string typeId` : l'identifiant du type de fruit.
+- `GameObject prefab` : le prefab du fruit.
+- `ushort poolSize` : la taille du pool.
+
 #### Fruit
 
-Un `Fruit` représente un fruit dans le jeu. Il permet de gérer les interactions du joueur avec le fruit (ramassage), gérer sa durée de vie, jouer les différents sons du fruit (apparition, ramassage, collision).
+Un `Fruit` représente un fruit dans le jeu. Cette classe hérite de `MonoBehaviour`. Ce composant permet de gérer les interactions du joueur avec le fruit (ramassage), gérer sa durée de vie, jouer les différents sons du fruit (apparition, ramassage, collision).
 
 Un fruit peut se trouver dans 3 états différents, représentés par l'énumération [FruitState](#fruitstate).
 
@@ -516,6 +528,42 @@ L'énumération `FruitState` représente l'état d'un fruit. Un fruit peut se tr
 - `Attached` : Le fruit est attaché à un [FruitSpawner](#fruitspawner).
 - `Neutral` : Le fruit est actif et peut être ramassé par le joueur. (la gravité est activée).
 - `Grabbed` : Le fruit est ramassé par le joueur et suit le contrôleur.
+
+#### FruitTypeData
+
+La structure `FruitTypeData` est une structure qui contient les données d'un type de fruit. Elle est dans un [FruitTypesDatas](#fruittypesdatas) qui contient les données de tous les types de fruits.
+
+Elle contient les champs suivants :
+
+- `fruitId` : l'identifiant du fruit.
+- `fruitName` : le nom du fruit.
+- `points` : le nombre de points donné par le fruit.
+- `lifeTime` : la durée de vie du fruit.
+
+#### FruitTypesDatas
+
+La classe `FruitTypesDatas` est une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity (dans un fichier .asset). Elle contient une liste de [FruitTypeData](#fruittypedata) qui contient les données de chaque type de fruit.
+
+#### FruitSpawner
+
+Un `FruitSpawner` est une classe qui hérite de `MonoBehaviour` et est attachée à un GameObject.
+Les `FruitSpawner` permettent de définir la position et la rotation sur laquelle les fruits apparaissent. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
+
+![fruit spawner inspector](./img/fruit_spawner_inspector.jpg)
+
+#### FruitSpawnerManager
+
+Le `FruitSpawnerManager` est une classe qui gère les [FruitSpawner](#fruitspawner).Elle gère le spawn des fruits en utilisant des coroutine récursive.
+
+Une liste de [FruitSpawner](#fruitspawner) est passée en paramètre du constructeur de la classe. Cette liste est utilisée pour gérer les spawners.
+
+Encore une fois dans le but de minimiser les dépendances entre les classes, l'opération d'instantiation des fruits est passée en paramètre du constructeur de la classe sous la forme d'une `Func<string, Fruit>`. Pour récupérer tous les fruits une fonction de type `Func<List<Fruit>>` est passée aussi en paramètre du constructeur.
+
+#### Basket
+
+La classe `Basket` est une classe qui gère le panier. Elle hérite de `MonoBehaviour` et est attachée à un GameObject dans la scène. Ce composant est responsable de gérer les fruits qui sont mis dans le panier et de notifier le [GameManager](#gamemanager) des points gagnés.
+
+Cela est réalisé en utilisant un box collider qui est un trigger. Quand un fruit entre en collision avec ce collider, la méthode `OnTriggerEnter` est appelée. Cette méthode vérifie si le fruit est un fruit et si oui, elle joue le son de ramassage, ajoute les points au score et désactive le fruit.
 
 ### Interface utilisateur
 
