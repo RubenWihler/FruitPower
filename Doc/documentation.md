@@ -306,11 +306,7 @@ Dans la même optique, l'utilisation de namespaces a été privilégiée pour un
 
 > Remarques :
 >
-> - Les classes sont regroupées par système.
-> - au début de chaque classe, une description de la classe est donnée. Elle contient le nom de la classe, le type de la classe, et une brève description de la classe.
-> - Le type de données est donné entre crochets après le nom de la classe.
-> - Apres certains champs les annotations **[INSP]** sont utilisées pour indiquer que le champ est une propriété inspectable dans l'éditeur Unity. (Marquée dans le code source par l'attribut `[System.SerializeField]` pour les champs privés)
-> - Les anotation **[MU]** sont utilisées pour indiquer qu'une méthode est une méthode d'Unity (Start, Update, etc).
+>
 
 ### Gestions de la réalité virtuelle
 
@@ -397,6 +393,8 @@ L'ambiance de la scène est très importante pour que le joueur se sente bien da
 
 ![Environnement 3D 3](./img/env_04.jpg)
 
+---
+
 ### Gestion des parties
 
 Le système de gestion de partie est relativement simple. C'est un singleton qui utilise un pattern d'observer pour notifier les autres systèmes des différents évènements de la partie. Ce système est composé de plusieurs classes qui gèrent les différents aspects de la partie (score, timer, statistiques, etc).
@@ -411,8 +409,6 @@ Le déroulement d'une partie est le suivant :
 6. Le joueur peut rejouer en appuyant sur un bouton.
 
 ![uml](./Uml/game_system_uml.jpg)
-
-#### Détails et classes
 
 #### GameManager
 
@@ -440,9 +436,11 @@ La classe `GameTimer` contient le timer de la partie. Elle utilise une coroutine
 
 La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de la partie (pour le moment, uniquement les fruits ramassés). Elle est utilisée par le `GameManager`.
 
+---
+
 ### Gestion des fruits
 
-Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage. 
+Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage.
 
 Avant d'aborder les détails du système, il est important de comprendre comment les fruits sont générés. Premièrement, il existe plusieur type de fruits (pommes, fraises, myrtilles). Chaque type de fruit a des caractéristiques différentes (points donnés, vitesse d'apparition, etc). Deuxièmement, les fruits apparaissent sur des arbres ou des buissons. Les pommes apparaissent sur les arbres, les fraises et les myrtilles apparaissent sur les buissons. Ils apparaissent à une vitesse définie :
 
@@ -476,9 +474,6 @@ Un [FruitSpawnerManager](#fruitspawnermanager) est utilisé pour gérer les [Fru
 ![fruit spawners](./img/fruit_spawners.jpg)
 
 > les points rouge représentent les spawners de pommes, les verts les fraises et les bleus les myrtilles.
-
-
-
 
 #### Classes du système de fruit
 
@@ -565,8 +560,24 @@ La classe `Basket` est une classe qui gère le panier. Elle hérite de `MonoBeha
 
 Cela est réalisé en utilisant un box collider qui est un trigger. Quand un fruit entre en collision avec ce collider, la méthode `OnTriggerEnter` est appelée. Cette méthode vérifie si le fruit est un fruit et si oui, elle joue le son de ramassage, ajoute les points au score et désactive le fruit.
 
+---
+
 ### Interface utilisateur
 
+L'interface utilisateur est un élément important du projet. Elle permet au joueur de voir les informations importantes de la partie (score, timer, etc) et d'interagir avec le jeu (bouton rejouer, bouton de credits, etc).
+
+L'interface est divisée en plusieurs parties :
+
+- Le menu de fin de partie : affiche le score final du joueur, les fruits ramassés, le bouton rejouer, le bouton de crédits et le bouton quitter. (afficher uniquement à la fin de la partie).
+- Un HUD : affiche le score du joueur et le temps restant (afficher uniquement pendant la partie).
+- Texts d'informations : affiche le compte a rebours du début de partie, et un text quand la partie est finie.
+  
+
+
+
+
+
+---
 
 ## Implémentation
 

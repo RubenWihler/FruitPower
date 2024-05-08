@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="GameManagement.GameScore">
+    <Position X="4.75" Y="4.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAggAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GameManagement\GameScore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManagement.GameStats">
+    <Position X="14.75" Y="6.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAQACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GameManagement\GameStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManagement.GameTimer">
+    <Position X="14.75" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAFIEAAAAAgAAAAACIAAIAAAACCA=</HashCode>
+      <FileName>Assets\Scripts\GameManagement\GameTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManagement.GameManager">
+    <Position X="9.25" Y="2.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>gAAEAgAABCAUAAgBAAAgAgEoAABAABIAQAACAgAQQGA=</HashCode>
+      <FileName>Assets\Scripts\GameManagement\GameManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_gameOption" />
+      <Field Name="_gameScore" />
+      <Field Name="_gameStats" />
+      <Field Name="_gameTimer" />
+    </ShowAsAssociation>
+  </Class>
+  <Struct Name="GameOption">
+    <Position X="4.75" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\GameManagement\GameOption.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

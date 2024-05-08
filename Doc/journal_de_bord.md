@@ -360,3 +360,7 @@ Aujourd'hui, je vais commencer par chercher une musique pour le jeu et l'intégr
 
 J'ai finnalement abandonné l'idée de détailler chaques classes dans la documentation (champs, méthodes, propriétés etc) car cela prenait trop de temps. J'ai donc décidé de n'écrire que des explications sur le fonctionnement des classes, liens entre elles, responsabilités etc.
 
+### Jour 8 - 08.05.2024
+
+Aujourd'hui, je vais avancer sur la documentation. Je vais commencer par rédiger la partie sur les arabes et les buissons.
+

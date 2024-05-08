@@ -15,13 +15,13 @@ MonoBehaviour:
   datas:
   - fruitId: APPLE
     fruitName: pomme
-    pointsGiven: 1
-    lifeTime: 3
+    pointsGiven: 2
+    lifeTime: 2
   - fruitId: STRAWBERRY
     fruitName: fraise
     pointsGiven: 1
-    lifeTime: 5
+    lifeTime: 3
   - fruitId: BLUEBERRY
     fruitName: myrtille
-    pointsGiven: 2
-    lifeTime: 3
+    pointsGiven: 3
+    lifeTime: 2

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="UI.UIManager">
+    <Position X="9" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ACQAACAAAYARAIABEABAAAQAAAAAAAAIAAACIAAASAE=</HashCode>
+      <FileName>Assets\Scripts\UI\UIManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_statsVisualizer" />
+      <Field Name="_credits" />
+      <Field Name="_countdown" />
+      <Field Name="_gameEndText" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UI.Countdown">
+    <Position X="13.25" Y="4.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAACACBAQAAABABACAAASAABAAEAAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\UI\Countdown.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.Credits">
+    <Position X="13.25" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAEAAAAAAIAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\Credits.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.GameEndText">
+    <Position X="4" Y="4.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABYAAAAAAAEACwCAACEAAAUAAAAAAAAABg=</HashCode>
+      <FileName>Assets\Scripts\UI\GameEndText.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.PlayButton">
+    <Position X="0.5" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\PlayButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.ScoreVisualizer">
+    <Position X="17" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAgAAAAACAg=</HashCode>
+      <FileName>Assets\Scripts\UI\ScoreVisualizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.TimerVisualizer">
+    <Position X="17" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAABAAAAAAQIAAAAAAAIAAAAAgAECAI=</HashCode>
+      <FileName>Assets\Scripts\UI\TimerVisualizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.Stats.CaughtFruitElement">
+    <Position X="0.5" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\CaughtFruitElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI.Stats.StatsVisualizer">
+    <Position X="4" Y="1.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAEAAAAAAAAAQAAAAAABAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\StatsVisualizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuitButton">
+    <Position X="0.5" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\QuitButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

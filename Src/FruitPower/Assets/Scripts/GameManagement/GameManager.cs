@@ -89,6 +89,9 @@ namespace GameManagement
         /// </summary>
         public static bool IsGameRunning => Instance._isGameRunning;
 
+        /// <summary>
+        /// Setup du singleton.
+        /// </summary>
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -100,6 +103,9 @@ namespace GameManagement
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+        /// <summary>
+        /// Commence le jeu apres un delai de 2 secondes.
+        /// </summary>
         private async void Start()
         {
             await Task.Delay(2000);

@@ -413,8 +413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d668a91e704399d4b88ba7fb5a4cc001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuVolume: -20
-  _inGameVolume: -10
+  _menuVolume: -5
+  _inGameVolume: 0
   _volumeTransitionDuration: 1
   _volumeParameterName: MusicVolume
   _musics:
@@ -611,8 +611,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 5.091193
-  MaxDistance: 500
+  MinDistance: 1.4627097
+  MaxDistance: 3.3003054
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

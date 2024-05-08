@@ -6,6 +6,9 @@
 
 using UnityEngine;
 using TMPro;
+using FruitSystem;
+using System.Collections;
+using DG.Tweening;
 
 namespace UI.Stats
 {
@@ -20,12 +23,19 @@ namespace UI.Stats
         /// <summary>
         /// Change le texte affichant le nom du fruit et la quantité de fruit attrape.
         /// </summary>
-        /// <param name="fruitName">le nom du fruit</param>
+        /// <param name="fruitTypeData">le nom du fruit</param>
         /// <param name="quantity">la quantité de fruit attrapé</param>
-        public void Display(string fruitName, uint quantity)
+        public IEnumerator Display(FruitTypeData fruitTypeData, uint quantity)
         {
-            _fruitName.text = $"- {fruitName} :";
+            //on affiche le nom du fruit
+            _fruitName.text = $"- {fruitTypeData.fruitName} :";
+            _fruitName.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutBack).Play();
+
+            //on affiche la quantité de fruit attrapé
             _fruitQuantity.text = quantity.ToString();
+            _fruitQuantity.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutBack).Play();
+
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

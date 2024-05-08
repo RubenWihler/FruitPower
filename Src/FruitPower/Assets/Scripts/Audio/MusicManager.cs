@@ -63,7 +63,7 @@ namespace Audio
         /// <summary>
         /// Index de la musique actuelle
         /// </summary>
-        private uint _currentMusicIndex = 0;
+        private int _currentMusicIndex = 0;
         /// <summary>
         /// Temps actuel de la musique
         /// </summary>
@@ -79,32 +79,39 @@ namespace Audio
         /// </summary>
         public void Play()
         {
+            //On indique que la musique est en train de jouer
             _isPlaying = true;
 
-            if (_audioSource.clip == null)
-            {
-                NextMusic();
-                return;
-            }
-
-            _audioSource.Play();
+            //Si aucune musique n'est en cours, on joue la premiere musique
+            if (_audioSource.clip == null) NextMusic(0);
+            //Sinon on relance la musique
+            else _audioSource.Play();
         }
         /// <summary>
         /// Mets en pause la musique
         /// </summary>
         public void Stop()
         {
+            //On indique que la musique n'est plus en train de jouer
             _isPlaying = false;
+            //On met en pause la musique
             _audioSource.Pause();
         }
         /// <summary>
         /// Passe a la musique suivante
         /// </summary>
-        public void NextMusic()
+        public void NextMusic(int index = -1)
         {
-            if (_currentMusicIndex + 1 >= _musics.Length) _currentMusicIndex = 0;
-            else _currentMusicIndex++;
+            //Si l'index est -1, on passe a la musique suivante
+            if (index == -1)
+            {
+                if (_currentMusicIndex + 1 >= _musics.Length) _currentMusicIndex = 0;
+                else _currentMusicIndex++;
+            }
+            //Sinon on met l'index donne
+            else _currentMusicIndex = index;
 
+            // On change la musique et on la joue
             _audioSource.clip = _musics[_currentMusicIndex];
             _audioSource.Play();
             _currentMusicTime = 0;

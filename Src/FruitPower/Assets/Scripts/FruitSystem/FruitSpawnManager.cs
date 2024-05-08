@@ -159,7 +159,7 @@ namespace FruitSystem
         /// <returns></returns>
         private ushort CalculateSpawnCount(ushort spawnerRate, ushort score)
         {
-            return (ushort)(spawnerRate / score);
+            return Math.Clamp((ushort)(spawnerRate / score), (ushort)1, ushort.MaxValue);
         }
 
         /// <summary>

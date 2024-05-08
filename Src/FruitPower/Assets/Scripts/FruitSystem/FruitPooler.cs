@@ -17,9 +17,22 @@ namespace FruitSystem
     /// </summary>
     public sealed class FruitPooler
     {
+        /// <summary>
+        /// Dictionnaire qui contient les prefabs des fruits.
+        /// </summary>
         private readonly Dictionary<string, GameObject> _fruitsDictionary;
+        /// <summary>
+        /// Dictionnaire qui contient les pools de fruits organises par identifiant de type.
+        /// </summary>
         private readonly Dictionary<string, Queue<Fruit>> _fruitsPools;
+        /// <summary>
+        /// Fonction de callback appelee lors de l'instanciation d'un fruit. 
+        /// Il contient la fonction d'initialisation du fruit.
+        /// </summary>
         private readonly Func<Func<ulong, Fruit>, Fruit> _fruitInstantiationCallback;
+        /// <summary>
+        /// L'objet parent des fruits.
+        /// </summary>
         private readonly Transform _parent;
 
         /// <summary>
@@ -59,9 +72,11 @@ namespace FruitSystem
         /// <exception cref="FruitPoolDoesNotExistException">Si le pool de fruit n'existe pas.</exception>
         public Fruit InstantiateFruit(string typeId)
         {
+            // Verifie si le type de fruit existe
             if (!_fruitsDictionary.TryGetValue(typeId, out var prefab))
                 throw new FruitTypeIdDoesNotExistException(typeId);
 
+            // Verifie si le pool du type de fruit existe
             if (!_fruitsPools.TryGetValue(typeId, out var pool))
                 throw new FruitPoolDoesNotExistException(typeId);
 
@@ -79,6 +94,7 @@ namespace FruitSystem
         /// <exception cref="FruitPoolDoesNotExistException"></exception>
         public void PushFruitToPool(Fruit fruit)
         {
+            // Verifie si le pool du type de fruit existe
             if (!_fruitsPools.TryGetValue(fruit.TypeId, out var pool))
                 throw new FruitPoolDoesNotExistException(fruit.TypeId);
 
@@ -87,6 +103,11 @@ namespace FruitSystem
 
         #region Initialisation
 
+        /// <summary>
+        /// Initialise le dictionnaire des fruits a partir des donnees.
+        /// </summary>
+        /// <param name="fruitsData">un enumerable de tuples contenant les donnees necessaires pour initialiser le dictionnaire des fruits.</param>
+        /// <returns></returns>
         private Dictionary<string, GameObject> InitializeDictionary(IEnumerable<(string typeId, GameObject prefab)> fruitsData)
         {
            return fruitsData.ToDictionary(
@@ -94,6 +115,11 @@ namespace FruitSystem
                f => f.prefab
            );
         }
+        /// <summary>
+        /// Initialise les pools de fruits a partir des donnees.
+        /// </summary>
+        /// <param name="fruitsData">Un enumerable de tuples contenant les donnees necessaires pour initialiser les pools de fruits.</param>
+        /// <returns>l'ensemble des pools de fruits organise par identifiant de type.</returns>
         private Dictionary<string, Queue<Fruit>> InitializePools(IEnumerable<(string typeId, GameObject prefab, ushort poolSize)> fruitsData)
         {
             return fruitsData.ToDictionary(
@@ -101,6 +127,12 @@ namespace FruitSystem
                 f => InitializePool(f.prefab, f.poolSize)
             );
         }
+        /// <summary>
+        /// Initialise un pool de fruit et le remplit avec des fruits instancies.
+        /// </summary>
+        /// <param name="prefab">la prefab du fruit.</param>
+        /// <param name="size">le nombre de fruits a instancier.</param>
+        /// <returns></returns>
         private Queue<Fruit> InitializePool(GameObject prefab, ushort size)
         {
             var pool = new Queue<Fruit>(size);
@@ -110,14 +142,22 @@ namespace FruitSystem
 
             return pool;
         }
+        /// <summary>
+        /// Instancie un fruit a partir de la prefab.
+        /// </summary>
+        /// <param name="prefab">La prefab du fruit a instancier.</param>
+        /// <returns>le fruit instancie.</returns>
+        /// <exception cref="Exception">Une exception est levee si la prefab ne contient pas de component Fruit.</exception>
         private Fruit InstantiateFruit(GameObject prefab)
         {
+            //Instanciation de la prefab
             var gameObject = GameObject.Instantiate(prefab, _parent);
 
             // Verifie si le prefab contient un component Fruit
             if (!gameObject.TryGetComponent<Fruit>(out var fruit))
-                throw new Exception($"Prefab {gameObject.name} ne contient pas de component Fruit.");
+                throw new Exception();
 
+            //Appel du callback d'instanciation
             return _fruitInstantiationCallback((id) => fruit.Initialize(id, PushFruitToPool));
         }
 
@@ -125,11 +165,21 @@ namespace FruitSystem
 
         #region Exceptions
 
+        /// <summary>
+        /// Exception levee lorsque une tentative d'instanciation d'un fruit d'un type inexistant est faite.
+        /// </summary>
         public class FruitTypeIdDoesNotExistException : Exception
         { public FruitTypeIdDoesNotExistException(string typeId) : base($"Le type de fruit {typeId} n'existe pas.") { } }
-
+        /// <summary>
+        /// Exception levee lorsque une tentative d'instanciation d'un fruit d'un pool inexistant est faite.
+        /// </summary>
         public class FruitPoolDoesNotExistException : Exception
         { public FruitPoolDoesNotExistException(string typeId) : base($"Le pool de fruit {typeId} n'existe pas.") { } }
+        /// <summary>
+        /// Exception levee lorsque la prefab ne contient pas de composant Fruit.
+        /// </summary>
+        public class PrefabDoesNotContainsPoolableFruitComponent : Exception
+        { public PrefabDoesNotContainsPoolableFruitComponent(GameObject go) : base($"le prefab {go.name} ne contient pas de composant Fruit.") { } }
 
         #endregion
     }

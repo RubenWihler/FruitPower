@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="FruitSystem.Fruit">
-    <Position X="8.75" Y="1.5" Width="3.25" />
+    <Position X="16.75" Y="1.5" Width="4" />
     <TypeIdentifier>
-      <HashCode>AARCBAAAAAAAAxoAAAFAGEAAAIAAUAAwgAAQBCAAIEQ=</HashCode>
+      <HashCode>AARCBAABAEBIARIAAAFAGEAAAIAAUAA4gIEQBOAAIEQ=</HashCode>
       <FileName>Assets\Scripts\FruitSystem\Fruit.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -11,23 +11,29 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="FruitSystem.FruitManager">
-    <Position X="5.5" Y="1.5" Width="2.75" />
+    <Position X="6" Y="7" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>IAAEEQQAACAAAQABACAEAAAAAAAAAAAIQAAAAAAASEA=</HashCode>
+      <HashCode>IAAEEQQAACAAAQABACAEABAAAAAAAAAIQAAAQAAASEA=</HashCode>
       <FileName>Assets\Scripts\FruitSystem\FruitManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="fruitsEntries" />
       <Field Name="_fruitSpawnerManager" />
+      <Field Name="fruitTypesDatas" />
     </ShowAsAssociation>
   </Class>
   <Class Name="FruitSystem.FruitPooler">
-    <Position X="0.5" Y="3.5" Width="4.25" />
+    <Position X="0.5" Y="1.5" Width="4.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
       <Class Name="FruitSystem.FruitPooler.FruitTypeIdDoesNotExistException" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\FruitSystem\FruitPooler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="FruitSystem.FruitPooler.PrefabDoesNotContainsPoolableFruitComponent" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Assets\Scripts\FruitSystem\FruitPooler.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -44,7 +50,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="FruitSystem.FruitSpawner">
-    <Position X="8.75" Y="10.5" Width="3.25" />
+    <Position X="11" Y="1.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>ACAAAABAAACAAAACCAAAAAIAAAAAAAAIAAAABAAAAAA=</HashCode>
       <FileName>Assets\Scripts\FruitSystem\FruitSpawner.cs</FileName>
@@ -54,21 +60,45 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="FruitSystem.FruitSpawnManager">
-    <Position X="0.5" Y="8.75" Width="4.25" />
+    <Position X="6" Y="1.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAI0YAAAAAEYACAAAIAAAAAIAAAAAAABAAAAgEAAAI=</HashCode>
       <FileName>Assets\Scripts\FruitSystem\FruitSpawnManager.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="FruitSystem.FruitTypesDatas" Collapsed="true">
+    <Position X="0.5" Y="9.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\FruitSystem\FruitTypesDatas.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="datas" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FruitSystem.Basket">
+    <Position X="11" Y="7" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAACAAAAEAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\FruitSystem\Basket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="FruitSystem.FruitPoolData">
-    <Position X="0.5" Y="1.5" Width="3.75" />
+    <Position X="0.5" Y="7.75" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Assets\Scripts\FruitSystem\FruitPoolData.cs</FileName>
     </TypeIdentifier>
   </Struct>
+  <Struct Name="FruitSystem.FruitTypeData">
+    <Position X="0.5" Y="11" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAIAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\FruitSystem\FruitTypeData.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
   <Enum Name="FruitSystem.FruitState">
-    <Position X="13" Y="1.5" Width="3.25" />
+    <Position X="11" Y="4.75" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAEAAAAAAAAIAAAAAAIAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\FruitSystem\FruitState.cs</FileName>

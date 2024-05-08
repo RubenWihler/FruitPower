@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameOption:
-    gameDuration: 11
+    gameDuration: 30
     spawnerRate: 2
     countdownDuration: 3
   _lastSecondsSound: {fileID: 8300000, guid: a40e836c07a2f194292e0fb9c7fecce5, type: 3}
