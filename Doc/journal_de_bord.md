@@ -352,6 +352,8 @@ Pendant que j'essayais de faire une animation le text ne se mettait pas à jour.
 
 J'ai bien avancé sur le projet aujourd'hui. J'ai pu trouver des  bruitages pour mon jeu. J'ai également ajouté le package DoTween pour gérer les animations de l'interface. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur le projet demain.
 
+Pour me documenter sur DoTween je me suis aidé de [la documentation](https://dotween.demigiant.com/documentation.php)
+
 ### Jour 7 - 07.05.2024
 
 Aujourd'hui, je vais commencer par chercher une musique pour le jeu et l'intégrer dans le projet.
@@ -362,7 +364,9 @@ J'ai finalement abandonné l'idée de détailler chaque classes dans la document
 
 ### Jour 8 - 08.05.2024
 
-Aujourd'hui, je vais avancer sur la documentation. Je vais commencer par rédiger la partie sur les arabes et les buissons. 
+Aujourd'hui, je vais avancer sur la documentation. Je vais commencer par rédiger la partie sur les arabes et les buissons.
+
+J'ai recu une visite de M.Poulin, je lui ai posé quelques questions sur la documentation. Il a su répondre à mes questions et m'a donné quelques conseils pour améliorer la documentation.
 
 ### Jour 9 - 13.05.2024
 

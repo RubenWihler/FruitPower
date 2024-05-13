@@ -285,6 +285,26 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 | 018.1 | Conception de l'interface | Conception de l'interface pour qu'elle soit intuitive et en harmonie avec l'idée visuelle | P3 |
 | 018.2 | Implémentation de l'interface | Implémentation de l'interface dans le jeu | P3 |
 
+---
+
+## Analyse des fonctionnalités majeures
+
+Les fonctionnalités majeures du projet sont tirées du cahier des charges.
+
+- **Une partie dure 30 secondes**
+- **Le score est affiché à la fin de la partie**
+- **Un bouton est présent pour recommencer après la fin de la partie**
+- **Un fruit ramassé avec la télécommande donne 1 point** : etendu à plusieurs types de fruits (en accord avec le maitre d'apprentissage)
+- **Le jardin contient des arbres et buissons (par exemple une dizaine)** : 13 buissons et 4 arbres
+- **La génération des fruits est aléatoire dans un temps défini** : fruits générés aléatoirement sur les buissons et les arbres, temps équivalent pour chaque partie par soucis d'équité entre les joueurs (différent pour chaque type de fruit)
+- **Les fruits disparaissent après quelques secondes s'ils ne sont pas ramassés (par exemple 3 secondes)** : Différent pour chaque type de fruit (entre 2 et 3 secondes).
+- **Le jardin est clôturé ou a des limites visuelles** : murs autour du jardin.
+- **Fruits ramassés avec la télécommande et mis dans un panier** : fruits ramassés avec les contrôleurs et mis dans un panier statique pour gagner des points.
+- **Musique et bruitages** : musique et bruitages présents dans le projet. (details dans la partie son) Les musique et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
+- **Eléments 2D/3D gratuits** : tous les assets utilisés sont gratuits et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
+
+---
+
 ## Analyse organique
 
 Pour faciliter la partie conception ainsi que la partie implémentation, le projet a été divisé en plusieurs systèmes. Chaque système a une responsabilité bien définie et est plus ou moins indépendant des autres systèmes. Cela permet de faciliter la maintenance et l'évolution du projet.
@@ -308,9 +328,50 @@ Dans la même optique, l'utilisation de namespaces a été privilégiée pour un
 
 #### Conventions de nommage
 
-Pour faciliter la lecture du code, des conventions de nommage ont été mises en place. Voici les conventions de nommage utilisées dans le projet :
+Pour faciliter la lecture du code, des conventions de nommage ont été mises en place. Voici les conventions de nommage utilisées dans le projet (dans l'ordre)
 
-[todo]
+- Namespace : PascalCase
+- Enum : PascalCase
+- Classes : PascalCase
+- Interfaces : IPascalCase
+- champs public : camelCase
+- champs privé : _camelCase
+- Propriétés : PascalCase
+- Events : camelCase
+- Méthodes : PascalCase
+
+#### Héritage et composition
+
+Pour faciliter la maintenance du projet la composition a été privilégiée à l'héritage. Cela permet de réduire les dépendances entre les classes et de faciliter la maintenance du code. L'héritage est utilisé uniquement pour les classes qui ont une relation de parenté (ex : MonoBehaviour).
+
+Dans cette optique de minimiser les dépendances, l'abstraction de comportement a été réalisée à l'aide de delegates passés en constructeur. Nous aurions pu utiliser des interfaces mais cela aurait augmenté la complexité du code pour un gain de flexibilité minime (surtout vu la nature simpliste du projet).
+
+#### Design patterns
+
+Une combinaison de plusieurs design patterns a été utilisée pour réaliser un code propre et maintenable. Nous avons par exemple utilisé le pattern Observer pour la gestion de la partie et le pattern Pool pour la gestion des fruits.
+
+Le pattern Singleton a aussi beaucoup été utilisé pour les classes qui ne doivent être instanciés qu'une seule fois dans le jeu et qui doivent être accessibles de partout (GameManager, FruitManager, etc). Nous ne pouvons pas utiliser de classes statiques car ces dernières ne peuvent pas être un component Unity(doit hériter de MonoBehaviour).
+
+#### Commentaires de code
+
+Pour faciliter la lecture du code, des commentaires ont été ajoutés dans le code. Ces commentaires permettent de comprendre le code plus facilement et de savoir ce que fait chaque partie du code. Les commentaires sont écrits en français et utilisent les summary de C#.
+
+#### Inspecteur Unity
+
+Pour faciliter l'utilisation des scripts dans Unity, des attributs ont été ajoutés aux champs des classes pour les rendre visibles dans l'inspecteur Unity. Cela permet de modifier les valeurs des champs directement dans l'inspecteur sans avoir à modifier le code.
+
+Nous n'avons pas eu besoin de créer des éditeurs personnalisés pour les scripts car ils sont simples et ne nécessitent pas de modifications particulières dans l'inspecteur. Nous avons simplement utilisé les attributs `Header` et `Tooltip` pour rendre l'inspecteur plus lisible.
+
+> Il est important de noter que les attributs `Tooltip` sont affichés dans Visual Studio comme pour les summary de C#.
+
+Etant donné que les variables sont en anglais, nous avons mis les `Header` en anglais pour que l'inspecteur soit plus lisible. En revanche, comme pour les commentaires de code, les `Header` sont en français.
+
+Pour garder une ogranisation harmonieuse dans l'inspecteur, nous avons utilisé les mêmes `Header` pour séparer les différentes sections dans toutes les classes :
+
+- `Settings` : Pour les paramètres du script.
+- `References` : Pour les références aux autres composants.
+
+> D'autres `Header` plus spécifiques ont été utilisés en fonction des besoins du script.
 
 ### Gestions de la réalité virtuelle
 
@@ -412,13 +473,15 @@ Le déroulement d'une partie est le suivant :
 5. Après 30 secondes, la partie se termine et le score final est affiché.
 6. Le joueur peut rejouer en appuyant sur un bouton.
 
-![uml](./Uml/game_system_uml.jpg)
+#### Classes du système de gestion de partie
 
-#### GameManager
+![uml](./Uml/game_management_system.png)
+
+##### GameManager
 
 Le `GameManager` est la classe principale du système de gestion de partie. C'est un singleton qui centralise toutes les opérations sur la partie. Utilisant un pattern d'observer, il notifie les autres systèmes de l'état de la partie.
 
-#### GameOption
+##### GameOption
 
 La structure `GameOption` est une structure qui contient les options de la partie. Elle est utilisée par le `GameManager` pour modifier les options de la partie dans l'éditeur Unity et en cours d'exécution (bien que cela ne soit pas nécessaire car aucun menu d'options n'est implémenté).
 
@@ -428,15 +491,15 @@ Elle contient les champs suivants :
 - `public ushort spawnerRate` : Le nombre d'apparition de chaque type de fruits par seconde.
 - `public uint countdownDuration` : La durée du compte à rebours du début de partie en secondes.
 
-#### GameScore
+##### GameScore
 
 La classe `GameScore` est une classe qui contient le score du joueur. Elle est utilisée par le `GameManager` pour gérer le score du joueur.
 
-#### GameTimer
+##### GameTimer
 
 La classe `GameTimer` contient le timer de la partie. Elle utilise une coroutine pour le timer. Elle contient 3 Action (données en paramètre du constructeur) qui sont appelées à différents moments du timer. (début, 80% du timer, fin). Ces actions permettent d'abstraire le comportement sans avoir de dépendances entre les classes.
 
-#### GameStats
+##### GameStats
 
 La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de la partie (pour le moment, uniquement les fruits ramassés). Elle est utilisée par le `GameManager`.
 
@@ -474,7 +537,11 @@ Un [FruitSpawnerManager](#fruitspawnermanager) est utilisé pour gérer les [Fru
 
 #### Classes du système de fruit
 
-#### FruitManager
+![fruit system uml](./Uml/fruit_system.png)
+
+> Ce diagramme UML ne contient pas toutes le association entre les classes car l'outil de Visual Studio ne permet pas de visualiser les association de type générique. (par exemple, la classe FruitPooler contient un dictionnaire de FruitPoolData qui n'est pas sous forme de flèche dans le diagramme).
+
+##### FruitManager
 
 Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haut niveau de toutes les opérations sur les fruits. Elle implémente un pattern singleton pour donner un accès facile aux autres classes du système ainsi qu'aux autres systèmes.
 
@@ -483,7 +550,7 @@ Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en po
 Elle contient une référence au [FruitTypesDatas](#fruittypesdatas) qui contient les données des fruits.
 Grâce à la methode `public static GetFruitTypeData(string fruitId)` il est possible de récupérer les données d'un fruit en donnant son id. Cela permet de facilement accéder a ces données depuis d'autres systèmes (par exemple, pour afficher le nom des fruits ramassés dans l'interface de fin de partie).
 
-#### FruitPooler
+##### FruitPooler
 
 Le `FruitPooler` est une classe qui gère les fruits en pool. Elle permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois, cela permet un gain de performance non négligeable.
 
@@ -493,7 +560,7 @@ Afin de minimiser un maximum les dépendances entre les classes, l'opération d'
 
 La liste des données nécessaires pour le pooling des fruits est passée en paramètre du constructeur de la classe sous la forme d'un `FruitPoolData[]`.
 
-#### FruitPoolData
+##### FruitPoolData
 
 La structure `FruitPoolData` est une structure qui contient les données nécessaires pour le pooling des fruits. Elle est utilisée par le [FruitPooler](#fruitpooler) pour instancier les fruits.
 
@@ -503,7 +570,7 @@ Elle contient les champs suivants :
 - `GameObject prefab` : le prefab du fruit.
 - `ushort poolSize` : la taille du pool.
 
-#### Fruit
+##### Fruit
 
 Un `Fruit` représente un fruit dans le jeu. Cette classe hérite de `MonoBehaviour`. Ce composant permet de gérer les interactions du joueur avec le fruit (ramassage), gérer sa durée de vie, jouer les différents sons du fruit (apparition, ramassage, collision).
 
@@ -512,7 +579,7 @@ Un fruit peut se trouver dans 3 états différents, représentés par l'énumér
 Quand un fruit apparaît, il est attaché à un [FruitSpawner](#fruitspawner) - sa position est définie par le spawner et la gravité du fruit est désactivée(état `Grabbed`). Si le joueur ne le ramasse pas avant la fin de sa durée de vie, il disparaît et est mis dans l'état `Innactive`.
 Quand le joueur le ramasse, la gravité est activée et le fruit suit le contrôleur du joueur. Si le joueur le lâche, le fruit est remis dans l'état `Neutral`.
 
-#### FruitState
+##### FruitState
 
 L'énumération `FruitState` représente l'état d'un fruit. Un fruit peut se trouver dans 3 états différents :
 
@@ -521,7 +588,7 @@ L'énumération `FruitState` représente l'état d'un fruit. Un fruit peut se tr
 - `Neutral` : Le fruit est actif et peut être ramassé par le joueur. (la gravité est activée).
 - `Grabbed` : Le fruit est ramassé par le joueur et suit le contrôleur.
 
-#### FruitTypeData
+##### FruitTypeData
 
 La structure `FruitTypeData` est une structure qui contient les données d'un type de fruit. Elle est dans un [FruitTypesDatas](#fruittypesdatas) qui contient les données de tous les types de fruits.
 
@@ -532,18 +599,18 @@ Elle contient les champs suivants :
 - `points` : le nombre de points donné par le fruit.
 - `lifeTime` : la durée de vie du fruit.
 
-#### FruitTypesDatas
+##### FruitTypesDatas
 
 La classe `FruitTypesDatas` est une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity (dans un fichier .asset). Elle contient une liste de [FruitTypeData](#fruittypedata) qui contient les données de chaque type de fruit.
 
-#### FruitSpawner
+##### FruitSpawner
 
 Un `FruitSpawner` est une classe qui hérite de `MonoBehaviour` et est attachée à un GameObject.
 Les `FruitSpawner` permettent de définir la position et la rotation sur laquelle les fruits apparaissent. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
 
 ![fruit spawner inspector](./img/fruit_spawner_inspector.jpg)
 
-#### FruitSpawnerManager
+##### FruitSpawnerManager
 
 Le `FruitSpawnerManager` est une classe qui gère les [FruitSpawner](#fruitspawner).Elle gère le spawn des fruits en utilisant des coroutine récursive.
 
@@ -551,7 +618,7 @@ Une liste de [FruitSpawner](#fruitspawner) est passée en paramètre du construc
 
 Encore une fois dans le but de minimiser les dépendances entre les classes, l'opération d'instantiation des fruits est passée en paramètre du constructeur de la classe sous la forme d'une `Func<string, Fruit>`. Pour récupérer tous les fruits une fonction de type `Func<List<Fruit>>` est passée aussi en paramètre du constructeur.
 
-#### Basket
+##### Basket
 
 La classe `Basket` est une classe qui gère le panier. Elle hérite de `MonoBehaviour` et est attachée à un GameObject dans la scène. Ce composant est responsable de gérer les fruits qui sont mis dans le panier et de notifier le [GameManager](#gamemanager) des points gagnés.
 
@@ -585,6 +652,10 @@ Le canvas est un canvas de type `World Space` qui suit le regard du joueur ainsi
 
 Les fruits ramassés sont affichés dans une liste avec le nom du fruit et la quantité ramassée. Une animation grossit les fruits quand ils apparaissent pour attirer l'attention du joueur.
 
+En cliquant sur le bouton de crédits, une nouvelle fenêtre s'ouvre avec les crédits du jeu. Pour fermer cette fenêtre, il suffit de cliquer sur le bouton `Retour`.
+
+![credits](./img/credits.jpg)
+
 #### HUD
 
 Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
@@ -592,7 +663,6 @@ Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
 - Le score du joueur.
 - Le temps restant.
   
-
 ![hud](./img/ui_hud.jpg)
 
 Le canvas est un canvas de type `World Space` qui suit totalement le regard du joueur. Il est placé en haut de l'écran pour ne pas gêner la vue.
@@ -614,7 +684,11 @@ Le texte de fin de partie apparaît par la gauche et disparaît par la droite. C
 
 #### Classes du système d'interface utilisateur
 
-#### UIManager
+![ui system uml](./Uml/ui_system.png)
+
+> Ce diagramme UML ne contient pas toutes le association entre les classes car l'outil de Visual Studio ne permet pas de visualiser les association de type générique. (par exemple, la classe StatsVisualizer contient une liste de CaughtFruitElement qui n'est pas sous forme de flèche dans le diagramme).
+
+##### UIManager
 
 Le `UIManager` est la classe principale du système d'interface utilisateur. Elle possède une référence à toutes les canvas de l'interface (HUD, menu de fin de partie, etc) et gère leur affichage.
 
@@ -624,7 +698,7 @@ Ce composant s'occupe également de centrer correctement les canvas par rapport 
 
 ![ui manager inspector](./img/uimanager_inspector.jpg)
 
-#### StatsVisualizer
+##### StatsVisualizer
 
 `StatsVisualizer` hérite de `MonoBehaviour` et est attaché à un GameObject dans la scène. Il est responsable de visualiser les statistiques de la partie (fruits ramassés) dans le menu de fin de partie.
 
@@ -634,7 +708,7 @@ Il utilise un prefab contenant un [CaughtFruitElement](#caughtfruitelement) pour
 
 ![stats visualizer inspector](./img/statsvisualizer_inspector.jpg)
 
-#### CaughtFruitElement
+##### CaughtFruitElement
 
 La classe `CaughtFruitElement` est une classe qui hérite de `MonoBehaviour`. Elle est responsable d'afficher le nom du fruit et la quantité ramassée par le joueur.
 
@@ -644,7 +718,7 @@ Une animation de grossissement est utilisée pour afficher les fruits ramassés.
 
 ![caught fruit element inspector](./img/caughtfruitelement_inspector.jpg)
 
-#### PlayButton
+##### PlayButton
 
 La classe `PlayButton` est une classe qui hérite de `UnityEngine.UI.Button`. Elle est responsable de lancer une partie quand le joueur appuie sur ce dernier.
 
@@ -652,7 +726,7 @@ Lors de la prèmière frame (methode `Start`), elle ajoute un listener sur l'év
 
 > aucun champs exposé dans l'inspector. (seulement les paramètres de base de Button)
 
-#### QuitButton
+##### QuitButton
 
 La classe `QuitButton` hérite de `UnityEngine.UI.Button`. Elle est responsable de quitter le jeu quand le joueur appuie sur ce dernier.
 
@@ -660,13 +734,13 @@ Elle ajoute un listener sur l'évènement `Button.onClick` pour quitter le jeu v
 
 > aucun champs exposé dans l'inspector. (seulement les paramètres de base de Button)
 
-#### Credits
+##### Credits
 
 La classe `Credits` hérite de `MonoBehaviour`. Elle est responsable d'afficher ou de cacher le GameObject contenant les crédits via ses deux méthodes exposées `Show` et `Hide`.
 
 ![credits inspector](./img/credits_inspector.jpg)
 
-#### TimerVisualizer
+##### TimerVisualizer
 
 `TimerVisualizer` hérite de `TMPro.TextMeshProUGUI` et est attaché à un GameObject dans la scène. Il est responsable de visualiser le temps restant de la partie dans le HUD.
 
@@ -674,7 +748,7 @@ Pour éviter d'appeler un event à chaque mise à jour du timer, il utilise sont
 
 > aucun champs exposé dans l'inspector. (seulement les paramètres de base de TextMeshProUGUI)
 
-#### ScoreVisualizer
+##### ScoreVisualizer
 
 `ScoreVisualizer` hérite de `MonoBehaviour`. Il est responsable de visualiser le score du joueur dans le HUD et dans le menu de fin de partie.
 
@@ -686,7 +760,7 @@ Etant donné que ce composant est utilisé dans plusieurs contextes dans le lesq
 
 > Remarque : l'image montre le composant utilisé dans le HUD. Il est également utilisé dans le menu de fin de partie ou le champ `scoreTextFormat` est "Score : $".
 
-#### Countdown
+##### Countdown
 
 `Countdown` est une classe qui hérite de `MonoBehaviour`. Elle est appelée par le [UIManager](#uimanager) pour afficher le compte à rebours au début de la partie.
 
@@ -696,13 +770,84 @@ Un son est joué au début du compte à rebours.
 
 ![countdown inspector](./img/countdown_inspector.jpg)
 
-#### GameEndText
+##### GameEndText
 
 La classe `GameEndText` hérite de `MonoBehaviour`. Elle est appelée par le [UIManager](#uimanager) pour afficher un texte à la fin de la partie : **Partie terminée**.
 
 Elle apparaît par la gauche et disparaît par la droite (animation avec DoTween).
 
 ![game end text inspector](./img/gameendtext_inspector.jpg)
+
+---
+
+### Gestion du son
+
+Le son est important dans un jeu vidéo. Il permet d'immerger le joueur dans l'univers du jeu et de lui donner des informations sur ce qui se passe. Dans ce projet, le son est utilisé pour plusieurs choses :
+
+- Jouer de la musique pour donner une ambiance au jeu.
+- Son d'ambiance.
+- Sons pour les interactions du joueur avec le jeu (ramassage de fruits, collision, etc).
+
+Nous avons fait le choix de jouer la musique depuis une radio dans le jardin. Cela permet d'augmenter l'immersion du joueur. De plus, mélangé avec les sons d'ambiance, cela donne une ambiance chaleureuse et agréable.
+
+#### Musique
+
+La musique est jouée depuis une radio dans le jardin. 4 musiques différentes sont jouées en boucle.
+Le joueur peut changer de musique en appuyant sur le bouton bleu de la radio ou la couper en appuyant sur le bouton rouge.
+
+Les 4 musiques sont dans des styles différents pour varier les ambiances :
+
+- Une musique calme et relaxante.
+- Une musique jazz bien bougeante.
+- Une track plus rock
+- Une musique hip-hop.
+
+Toutes les musique sont des musiques libres de droits et sont créditées dans la partie crédits du jeu.
+
+#### Sons d'ambiance
+
+Il y a un seul son d'ambiance dans le jeu. Il s'agit d'un son de fond de forêt. Il est joué en boucle pour donner une ambiance naturelle au jardin.
+
+#### Sons d'interactions
+
+Il y a plusieurs sons d'interactions dans le jeu :
+
+- Un son de ramassage de fruit.
+- Son de collision de fruit. (2 type de matières différentes pour les fruits : bois et pierre).
+- Son quand le joueur met un fruit dans le panier.
+- Un son est joué quand la partie se termine dans 10 secondes.
+- Pedant le compte à rebours du début de partie.
+- Quand la partie se termine.
+
+Comme pour les musiques, tous les sons sont des sons libres de droits et sont crédités dans la partie crédits du jeu.
+
+#### Classes du système de son
+
+![audio system](./Uml/audio_system.png)
+
+#### MusicManager
+
+Le `MusicManager` est une classe qui gère la musique du jeu, elle hérite de `MonoBehaviour`. Elle est responsable de jouer les musiques depuis la radio et de gérer les différents évènements de la musique (changement de musique, arrêt, volume, etc).
+
+![music manager inspector](./img/musicmanager_inspector.jpg)
+
+#### Radio
+
+La classe `Radio` est une classe qui hérite de `MonoBehaviour`. Elle est responsable de gérer la radio dans le jardin et ses interactions avec le joueur. Elle s'occupe également de changer les matériaux des boutons de la radio pour donner un feedback visuel au joueur.
+
+Pour jouer les musiques, elle fait appel au [MusicManager](#musicmanager).
+
+![radio inspector](./img/radio_inspector.jpg)
+
+---
+
+## Sécurité
+
+Etant donné que le projet est un jeu vidéo solo, nous avons décidé de ne pas mettre la priorité sur la sécurité. Si le joueur veut tricher, il peut le faire. Cependant, nous avons quand même mis en place un obfuscateur pour éviter le reverse engineering (surtout car c# est un langage facile à décompiler).
+
+### Obfuscation
+
+Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420) de GuardingPearSoftware pour protéger notre code source.
 
 ---
 
@@ -719,26 +864,34 @@ Elle apparaît par la gauche et disparaît par la droite (animation avec DoTween
 - [Unity Test Framework](https://docs.unity3d.com/2020.3/Documentation/Manual/testing-editortestsrunner.html)
 - [XR Plugin Management](https://docs.unity3d.com/2022.3/Documentation/Manual/XR.html)
 - [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html)
+- [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420)
 
-## Analyse des fonctionnalités majeures
-
-## Sécurité
-
-Etant donné que le projet est un jeu vidéo solo, nous avons décidé de ne pas mettre la priorité sur la sécurité. Si le joueur veut tricher, il peut le faire. Cependant, nous avons quand même mis en place un obfuscateur pour éviter le reverse engineering (surtout car c# est un langage facile à décompiler).
-
-### Obfuscation
-
-Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420) de GuardingPearSoftware pour protéger notre code source.
+---
 
 ## Plan de test
 
-### Périmètre
-
 Le plan de test a pour but de valider les fonctionnalités principales du projet. Certains test sont effectués manuellement, d'autres sont automatisés. Les tests manuels sont effectués par le développeur pour vérifier le bon fonctionnement des fonctionnalités. Les tests automatisés sont effectués par le framework de test de Unity pour vérifier le bon fonctionnement des fonctionnalités de manière automatique.
 
-UnityTestFramework est un framework de test intégré à Unity qui permet de tester les fonctionnalités de l'application. Il est divisé en deux parties : les tests live et les tests en mode édition. Les tests live sont des tests qui sont exécutés en même temps que l'application. Les tests en mode édition sont des tests qui sont exécutés sans que l'application ne soit en cours d'exécution.
+UnityTestFramework est un framework de test intégré à Unity qui permet de tester les fonctionnalités de l'application. Il est divisé en deux parties : les tests live et les tests en mode édition. Les tests live sont des tests qui sont exécutés en même temps que l'application. Les tests en mode édition sont des tests qui sont exécutés sans que l'application ne soit en cours d'exécution. Nous avons choisi d'utiliser les tests live pour tester les fonctionnalités du projet.
+
+### Périmètre
+
+J’ai choisi d'effectuer des protocoles de test en fonction des actions qu’un utilisateur lambda pourrait effectuer sur cette application. Certains tests sont ciblés sur des fonctionnalités spécifiques, d'autres sont plus généraux.
+
+### Environnement de test
+
+Les tests sont effectués sur cette configuration :
+
+- Windows 10 Education
+- carte graphique Nvidia RTX 3060
+- processeur Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz
+- Casque de réalité virtuelle Oculus Quest 2
+- Contrôleurs Oculus Touch
+- Unity 2022.3.12f1
 
 ### Cas de test
+
+Les cas de test sont divisés en deux catégories : les tests manuels et les tests automatisés.
 
 #### Tests manuels
 
@@ -821,25 +974,75 @@ Les tests automatisés visent uniquement le système de gestion des fruits. En e
 | A5 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 | A6 |  | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
 
+> Remarque : Aucune regression n'a été détectée lors des tests.
+
+---
+
 ## Conclusion
 
 ### Difficultés rencontrées
 
 Pendant la réalisation de ce projet, plusieurs difficultés ont été rencontrées. Voici quelques exemples de difficultés rencontrées :
 
+- Difficulté à pendant la conception du système de fruits.
+- Difficulté à gérer les interactions entre les différents composants du jeu.
+- Trouver un équilibre pour le taux d'apparition des fruits.
+- Problème de performance lors de l'instanciation des fruits.
+
 ### Variantes de solutions et choix
 
 Pour résoudre ces difficultés, plusieurs solutions ont été envisagées. Voici quelques exemples de variantes de solutions et de choix effectués :
 
+#### Conception du système de fruits
+
+Pendant la conceptions du système de fruits, plusieurs choix s'offraient à nous concernant l'architecture du système. Au départ nous avions envisagé d'utiliser une Factory et un Builder pour gérer les fruits.  
+
+Cette solution était intéressante car elle permettait de simplement regrouper toutes les données des fruits dans un seul endroit (dans un scriptable object). Cela aurait permis de ne pas avoir de prefabs de fruits, mais de les générer dynamiquement à partir des données.  
+
+Cependant, après réflexion, cette solution était trop complexe pour les besoins du projet. Donc nous avons opté pour une solution plus simple en faisant un système hybride avec des prefabs et un scriptable object. Une variante beacoup plus adaptée à notre projet.
+
+#### Gestion des interactions entre les composants
+
+Pour gérer les interactions entre les différents composants du jeu, beacoup de choix s'offraient à nous. La plus simple étant de faire des références directes entre les composants. Cependable, cette solution n'était pas la plus adaptée car elle créait énormément de dépendances entre les composants. 
+
+Pour éviter cela, nous avons majoritairement opté pour des Singleton. Cela simplifie le code ainsi que l'utilisation dans l'éditeur Unity.
+
+Dans certains cas, un pattern d'observateur s'est avéré être la meilleure option. C'est le cas pour `GameManager` qui notifie plusieurs composants de l'application.
+
+#### Equilibre du taux d'apparition des fruits
+
+Pour trouver un équilibre pour le taux d'apparition des fruits, nous avons testé plusieurs valeurs pour le taux d'apparition. Nous avons également testé différentes méthodes pour calculer le taux d'apparition des fruits.
+
+Après plusieurs tests, les valeurs actuelles ont été choisies pour donner une expérience de jeu équilibrée et agréable.
+
+#### Problème de performance lors de l'instanciation des fruits
+
+Ayant deja un petit peu d'experience avec Unity, nous savions que l'instanciation de GameObjects en masse allait poser des problèmes de performance. Pour éviter cela, nous avions deja en tête d'utiliser un pool. Le problème était qu'aucun problème de performance n'était visible lors des premiers tests.
+
+Nous avons pris la décision de quand même implémenter un pool pour éviter tout problème de performance futur. Surtout que nous savions que le pc de développement offrait des performances bien supérieures à un pc moyen.
 
 ### Améliorations possibles
 
 Pour améliorer le projet, voici quelques pistes d'améliorations possibles :
 
+- Faire clignoter les fruits quand ils sont sur le point de disparaître.
+- Améliorer les texts d'informations pour les rendre plus jolis.
+- Ajouter des options pour personnaliser le jeu (couleurs, musique, etc).
+- Sauvegarder les scores des joueurs pour les comparer (leaderboard).
+- Ajouter des effets visuels pour les interactions avec les fruits (particules, etc).
+- Ajouter des niveaux de difficulté pour augmenter la durée de vie du jeu.
+- Ajouter des power-ups pour rendre le jeu plus intéressant.
+- Ajout d'autres types de fruits et de paniers pour varier les parties.
+- Ajout des outils débloquables qui facilitent la récolte des fruits (filet, gants, etc).
+- Plusieurs jardins avec des thèmes différents (jardin japonais, jardin anglais, etc).
 
 ### Bilan personnel
 
 Ce projet m'a permis de mettre en pratique les compétences acquises pendant ma formation. J'ai pu approfondir mes connaissances en C# et en Unity. J'ai également appris à travailler de manière autonome et à gérer mon temps efficacement. Ce projet m'a permis de développer mes compétences en matière de conception et d'implémentation de jeux vidéo en réalité virtuelle.
+
+J'ai bien aimé travailler sur ce projet car il était très ouvert et m'a permis d'exprimer ma créativité. J'ai pu explorer de nouvelles idées et tester de nouvelles fonctionnalités. Toutes la partie visuelle et sonore du projet était libre ce qui m'a beacoup plu.
+
+La partie documentation était également très intéressante. Non je rigole, c'était bien ennuyant. Mais bon, c'est une partie importante du projet donc il fallait la faire.
 
 ### Remerciements
 

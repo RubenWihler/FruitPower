@@ -18,8 +18,8 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="fruitsEntries" />
-      <Field Name="_fruitSpawnerManager" />
       <Field Name="fruitTypesDatas" />
+      <Field Name="_fruitSpawnerManager" />
     </ShowAsAssociation>
   </Class>
   <Class Name="FruitSystem.FruitPooler">
@@ -33,12 +33,12 @@
           <NewMemberFileName>Assets\Scripts\FruitSystem\FruitPooler.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="FruitSystem.FruitPooler.PrefabDoesNotContainsPoolableFruitComponent" Collapsed="true">
+      <Class Name="FruitSystem.FruitPooler.FruitPoolDoesNotExistException" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Assets\Scripts\FruitSystem\FruitPooler.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Class Name="FruitSystem.FruitPooler.FruitPoolDoesNotExistException" Collapsed="true">
+      <Class Name="FruitSystem.FruitPooler.PrefabDoesNotContainsPoolableFruitComponent" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Assets\Scripts\FruitSystem\FruitPooler.cs</NewMemberFileName>
         </TypeIdentifier>

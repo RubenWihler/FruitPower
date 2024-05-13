@@ -4,7 +4,7 @@ Ce document a pour but de vous expliquer comment utiliser le jeu FruitsPower.
 
 [TOC]
 
- <div style="page-break-after:always"></div>
+<div style="page-break-after:always"></div>
 
 ## Prérequis
 
@@ -44,7 +44,7 @@ Pour une expérience optimale, nous vous recommandons d'utiliser une configurati
 - **Manettes de réalité virtuelle** : Vous devez disposer de manettes de réalité virtuelle compatibles avec le logiciel SteamVR ou OpenXR.
 - **Espace de jeu** : Vous devez disposer d'un espace de jeu suffisamment grand pour pouvoir vous déplacer librement en réalité virtuelle. Nous recommandons un espace de jeu d'au moins 2 mètres sur 2 mètres.
 
- <div style="page-break-after:always"></div>
+<div style="page-break-after:always"></div>
 
 ## Lancement de l'application
 
@@ -75,7 +75,7 @@ Si vous utilisez un casque Oculus Quest, vous pouvez lancer l'application Fruits
 3. Cliquez sur l'application pour la lancer.
 4. Mettez votre casque de réalité virtuelle et suivez les instructions à l'écran pour commencer à jouer.
 
- <div style="page-break-after:always"></div>
+<div style="page-break-after:always"></div>
 
 ## Utilisation de l'application
 
@@ -94,7 +94,7 @@ Les manettes de réalité virtuelle sont représentées dans l'environnement vir
 - **Appuyer** : Pour appuyer sur un bouton ou un interrupteur, pointez le contrôleur vers l'objet et appuyez sur la gâchette de déclenchement.
 - **Interactions avec l'interface utilisateur** : Pour naviguer dans les menus ou les interfaces utilisateur, pointez le contrôleur vers les éléments interactifs et appuyez sur la gâchette de déclenchement.
 
- <div style="page-break-after:always"></div>
+<div style="page-break-after:always"></div>
 
 ### Objectif
 
