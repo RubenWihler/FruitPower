@@ -315,7 +315,7 @@ Cependant, je vais essayer de les nommer plus ou moins de cette manière.
 
 J'ai du faire quelques modifications dans le code pour pouvoir tester le ramassage des fruits. J'ai du ajouter un setter pour la variable `_typeId` dans la classe `Fruit` pour pouvoir changer le type du fruit dans les tests.
 
-#### Video pour l'interface
+#### Vidéo pour l'interface
 
 J'ai regarder [cette video](https://youtu.be/yhB921bDLYA?si=mdiTW4-eF60TvFj1) pour m'aider à centrer l'interface.
 
@@ -327,10 +327,10 @@ J'ai utilisé blender pour modifié les modèles 3D (libre de droit). Je me suis
 
 #### Visite de M.Aliprandi
 
-M.Aliprandi m'a rendue visite et j'ai pu lui montrer l'avancement de mon projet. Je lui ai demandé si je devais faire un plan de test meme si il n'etait pas demandé dans le cahier des charges. Il m'a dit que c'était une bonne idée et que je devrais le faire.
+M.Aliprandi m'a rendue visite et j'ai pu lui montrer l'avancement de mon projet. Je lui ai demandé si je devais faire un plan de test même si il n'etait pas demandé dans le cahier des charges. Il m'a dit que c'était une bonne idée et que je devrais le faire.
 C'est donc ce que je vais faire cette après-midi en plus d'avancer la documentation.
 
-Je me trouve fasse a un petit problem: vu que je n'avait pas fait le plan de test avant le 4eme jour, je ne peux pas savoir quels tests passait pendant les jours précédents. Je vais donc retourné grace à git pour retourner a l'état du projet avant chaque fin de journée pour pouvoir faire les tests.
+Je me trouve fasse a un petit problem: vu que je n'avait pas fait le plan de test avant le 4eme jour, je ne peux pas savoir quels tests passait pendant les jours précédents. Je vais donc retourné grâce à git pour retourner a l'état du projet avant chaque fin de journée pour pouvoir faire les tests.
 
 ### Jour 5 - 02.05.2024
 
@@ -342,7 +342,7 @@ Conclusion de la journée : J'ai bien avancé sur la documentation. J'ai pu réd
 
 Bonjours cher journal, aujourd'hui je vais commencer par chercher des musiques et des bruitages pour mon jeu. 
 
-Pendant l'implementation des bruitage je voulais utiliser une initialisation switch case mais je ne me souvenais plus de la syntaxe. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://stackoverflow.com/questions/8155772/setting-a-variable-to-a-switchs-result) qui m'a bien aidé.
+Pendant implémentation des bruitage je voulais utiliser une initialisation switch case mais je ne me souvenais plus de la syntaxe. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://stackoverflow.com/questions/8155772/setting-a-variable-to-a-switchs-result) qui m'a bien aidé.
 
 J'ai ajouter le package DoTween pour s'occuper des animation de l'interface. DoTween permet dans mon cas de simplifier et d'optimiser les interpolation linéaire (fade des textes, déplacement etc).
 
@@ -356,13 +356,13 @@ J'ai bien avancé sur le projet aujourd'hui. J'ai pu trouver des  bruitages pour
 
 Aujourd'hui, je vais commencer par chercher une musique pour le jeu et l'intégrer dans le projet.
 
-#### Décision sur le detail des classes dans la documentation
+#### Décision sur le détail des classes dans la documentation
 
-J'ai finnalement abandonné l'idée de détailler chaques classes dans la documentation (champs, méthodes, propriétés etc) car cela prenait trop de temps. J'ai donc décidé de n'écrire que des explications sur le fonctionnement des classes, liens entre elles, responsabilités etc.
+J'ai finalement abandonné l'idée de détailler chaque classes dans la documentation (champs, méthodes, propriétés etc.) car cela prenait trop de temps. J'ai donc décidé de n'écrire que des explications sur le fonctionnement des classes, liens entre elles, responsabilités etc.
 
 ### Jour 8 - 08.05.2024
 
-Aujourd'hui, je vais avancer sur la documentation. Je vais commencer par rédiger la partie sur les arabes et les buissons.
+Aujourd'hui, je vais avancer sur la documentation. Je vais commencer par rédiger la partie sur les arabes et les buissons. 
 
 ### Jour 9 - 13.05.2024
 

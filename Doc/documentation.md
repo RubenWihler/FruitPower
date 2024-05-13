@@ -104,9 +104,9 @@ J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que 
 
 ### Product backlog
 
-Les user stories sont des descriptions simples de ce que l'utilisateur a besoin pour savoir les différentes fonctionnalités à développer. Ces dèrnieres sont mises dans un product backlog.
+Les user stories sont des descriptions simples de ce que l'utilisateur a besoin pour savoir les différentes fonctionnalités à développer. Ces dernières sont mises dans un product backlog.
 
->les niveaux de priorités sont :  
+>Pour rappelle, les niveaux de priorités sont :  
 > - P1 Must  
 > - P2 Should  
 > - P3 Could  
@@ -325,7 +325,7 @@ Pour les main du joueur, nous avons utilisé les modèles de mains donnés dans 
 
 La seule classe que nous avons dû implémenter est lui aussi donné dans le tutoriel. Il s'agit de la classe `HandController` qui permet de faire le lien entre les contrôleurs et l'animator des mains.
 
-#### Deplacement du joueur
+#### Déplacement du joueur
 
 Les déplacements du joueur sont très simples étant donné que le joueur ne peut pas se déplacer dans l'environnement avec les contrôleurs. Il ne peut que se déplacer dans un rayon de 2 mètres autour de lui en marchant dans la réalité. Pour cela, nous avons utilisé les composants `LocomotionSystem`, `ContinuousMoveProvider` et `CharacterControllerDriver` du package XR Interaction Toolkit.
 
@@ -446,16 +446,9 @@ La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de
 
 Le système de gestion des fruits est un des systèmes les plus importants du projet. Il est responsable de la génération des fruits, de leur apparition, de leur disparition, de leur ramassage et de leur comptage.
 
-Avant d'aborder les détails du système, il est important de comprendre comment les fruits sont générés. Premièrement, il existe plusieur type de fruits (pommes, fraises, myrtilles). Chaque type de fruit a des caractéristiques différentes (points donnés, vitesse d'apparition, etc). Deuxièmement, les fruits apparaissent sur des arbres ou des buissons. Les pommes apparaissent sur les arbres, les fraises et les myrtilles apparaissent sur les buissons. Ils apparaissent à une vitesse définie :
+Avant d'aborder les détails du système, il est important de comprendre comment les fruits sont générés. Premièrement, il existe plusieur type de fruits (pommes, fraises, myrtilles). Chaque type de fruit a des caractéristiques différentes (points donnés, vitesse d'apparition, etc). Deuxièmement, les fruits apparaissent sur des arbres ou des buissons. Les pommes apparaissent sur les arbres, les fraises et les myrtilles apparaissent sur les buissons.
 
-$$ V_a = \frac{R}{\text{p}} $$
-où :
-
-- $V_a$ est la vitesse d'apparition des fruits. [fruits/s]
-- $p$ (points) est le nombre de points donnés par le fruit.
-- $R$ (rate) est le nombre de fruits qui vont apparaître par seconde (en meme temps).
-
-Chaques fruits ont un temps de vie configurable. Si le joueur ne les ramasse pas avant la fin de leur temps de vie, ils disparaissent. Quand le joueur ramasse un fruit, sa durée de vie est stoppé et ne disparaît pas. C'est seulement quand le joueur lache le fruit qu'il reprend sa durée de vie (qui est remise à zéro). Une fois que le fruit est mis dans le panier des points sont ajoutés au score du joueur.
+Chaque fruits ont un temps de vie configurable. Si le joueur ne les ramasse pas avant la fin de leur temps de vie, ils disparaissent. Quand le joueur ramasse un fruit, sa durée de vie est stoppé et ne disparaît pas. C'est seulement quand le joueur lache le fruit qu'il reprend sa durée de vie (qui est remise à zéro). Une fois que le fruit est mis dans le panier des points sont ajoutés au score du joueur.
 
 ![uml sequence fruit generation](./Uml/fruit_generation_sequence.svg)
 
@@ -599,6 +592,7 @@ Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
 - Le score du joueur.
 - Le temps restant.
   
+
 ![hud](./img/ui_hud.jpg)
 
 Le canvas est un canvas de type `World Space` qui suit totalement le regard du joueur. Il est placé en haut de l'écran pour ne pas gêner la vue.

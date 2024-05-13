@@ -1,10 +1,12 @@
 # Manuel Utilisateur - FruitsPower
 
-Ce document a pour but de vous expliquer comment utiliser l'application FruitsPower.
+Ce document a pour but de vous expliquer comment utiliser le jeu FruitsPower.
 
 [TOC]
 
-## Prérerquis
+ <div style="page-break-after:always"></div>
+
+## Prérequis
 
 Pour utiliser l'application FruitsPower, vous devez disposer d'un casque de réalité virtuelle compatible avec le logiciel SteamVR ou OpenXR ainsi que d'un ordinateur suffisamment puissant pour faire fonctionner l'application.
 
@@ -25,6 +27,8 @@ Pour une expérience optimale, nous vous recommandons d'utiliser une configurati
 - **Mémoire vive** : 16 Go de RAM
 - **Carte graphique** : Nvidia RTX série 20 / AMD Radeon RX série 6000
 
+<div style="page-break-after:always"></div>
+
 ### Autres prérequis
 
 - **Casque de réalité virtuelle** : Vous devez disposer d'un casque de réalité virtuelle compatible avec le logiciel SteamVR ou OpenXR. Voici une liste de casques compatibles :
@@ -39,6 +43,8 @@ Pour une expérience optimale, nous vous recommandons d'utiliser une configurati
 - **SteamVR** : Pour utiliser l'application, vous devez disposer du logiciel SteamVR installé sur votre ordinateur. Vous pouvez le télécharger sur le site officiel de Steam.
 - **Manettes de réalité virtuelle** : Vous devez disposer de manettes de réalité virtuelle compatibles avec le logiciel SteamVR ou OpenXR.
 - **Espace de jeu** : Vous devez disposer d'un espace de jeu suffisamment grand pour pouvoir vous déplacer librement en réalité virtuelle. Nous recommandons un espace de jeu d'au moins 2 mètres sur 2 mètres.
+
+ <div style="page-break-after:always"></div>
 
 ## Lancement de l'application
 
@@ -69,9 +75,11 @@ Si vous utilisez un casque Oculus Quest, vous pouvez lancer l'application Fruits
 3. Cliquez sur l'application pour la lancer.
 4. Mettez votre casque de réalité virtuelle et suivez les instructions à l'écran pour commencer à jouer.
 
+ <div style="page-break-after:always"></div>
+
 ## Utilisation de l'application
 
-Après avoir mis votre casque de réalité virtuelle et lancé l'application FruitsPower, vous vous retrouverez dans un environnement virtuel où vous pourrez interagir avec différents éléments. Voici quelques conseils pour bien utiliser l'application :
+Après avoir mis votre casque de réalité virtuelle et lancé le jeu FruitsPower, vous vous retrouverez dans un environnement virtuel où vous pourrez interagir avec différents éléments. Voici quelques conseils pour bien utiliser l'application :
 
 ### Déplacement
 
@@ -86,13 +94,13 @@ Les manettes de réalité virtuelle sont représentées dans l'environnement vir
 - **Appuyer** : Pour appuyer sur un bouton ou un interrupteur, pointez le contrôleur vers l'objet et appuyez sur la gâchette de déclenchement.
 - **Interactions avec l'interface utilisateur** : Pour naviguer dans les menus ou les interfaces utilisateur, pointez le contrôleur vers les éléments interactifs et appuyez sur la gâchette de déclenchement.
 
+ <div style="page-break-after:always"></div>
+
 ### Objectif
 
-L'objectif de l'application FruitsPower est de collecter un maximum de fruits en un temps limité. Pour cela, vous devez vous déplacer dans l'environnement virtuel, attraper les fruits qui apparaissent et les mettre dans le panier. Vous pouvez également lancer les fruits dans le panier pour les collecter plus rapidement. Attention, les fruits disparaissent après un certain temps, alors soyez rapide !
+L'objectif du jeux est de collecter un maximum de fruits en un temps limité. Pour cela, vous devez vous déplacer dans l'environnement virtuel, attraper les fruits qui apparaissent et les mettre dans le panier. Vous pouvez également lancer les fruits dans le panier pour les collecter plus rapidement. Attention, les fruits disparaissent après un certain temps, alors soyez rapide !
 
 Une partie dure 30 secondes. A la fin de la partie, un menu apparaît pour vous permettre de rejouer, quitter l'application ou afficher les crédits.
-
-![environnement](./img/env_02.jpg)
 
 ### fruits
 
@@ -104,9 +112,11 @@ Il existe 3 types de fruits différents :
 
 ![fruits](./img/fruits.jpg)
 
+<div style="page-break-after:always"></div>
+
 ### Interface utilisateur
 
-L'interface utilisateur de l'application FruitsPower est simple et intuitive. Elle est séparée en 2 parties :
+L'interface utilisateur est simple et intuitive. Elle est séparée en 2 parties :
 
 - **En jeu** : En haut de l'écran, vous trouverez un affichage tête haute (HUD) qui indique votre score actuel, le temps restant et le nombre de fruits collectés. Uniquement visible pendant la partie.
 - **Menu** : Quand une partie est terminée, un menu apparaît pour vous permettre de rejouer, quitter l'application ou afficher les crédits. Vous pouvez naviguer dans le menu en pointant le contrôleur vers les boutons et en appuyant sur la gâchette de déclenchement.
@@ -120,17 +130,19 @@ Au cours de la partie, un affichage tête haute (HUD) est affiché en haut de l'
   
 ![HUD](./img/hud_ingame.jpg)
 
-#### Menu
+<div style="page-break-after:always"></div>
 
-![menu](./img/ui_game_end.jpg)
+#### Menu
 
 Dans le menu, une liste des fruits collectés est affichée, elle présente le type de fruit et la quantité collectée. Un texte indique le score final de la partie.
 
 Un bouton "Rejouer" permet de relancer une partie, un bouton "Quitter" permet de quitter l'application et un bouton "Crédits" permet d'afficher les crédits de l'application.
 
-![credits](./img/credits.jpg)
+![menu](./img/ui_game_end.jpg)
 
 Pour quittez les crédits, appuyez sur le bouton "Retour" en bas de l'écran.
+
+![credits](./img/credits.jpg)
 
 ### Musique
 
@@ -138,4 +150,5 @@ A coté du panier, une radio diffuse de la musique. Vous pouvez changer de musiq
 
 ### Aide
 
-Si vous avez des questions ou des problèmes lors de l'utilisation de l'application, n'hésitez pas à contactez le support technique à l'adresse suivante : <ruben.whlr@eduge.ch>
+Si vous avez des questions ou des problèmes lors de l'utilisation de l'application, n'hésitez pas à contactez le support technique à l'adresse suivante :  
+<ruben.whlr@eduge.ch>
