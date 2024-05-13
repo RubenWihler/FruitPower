@@ -313,7 +313,6 @@ namespace FruitSystem
         {
             yield return new WaitForSeconds(_lifetime);
             Despawn();
-            Debug.Log($"[i] Fruit despawned: {Id}");
         }
 
         #endregion

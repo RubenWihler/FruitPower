@@ -291,6 +291,8 @@ Pour faciliter la partie conception ainsi que la partie implémentation, le proj
 
 ### Informations générales
 
+#### Assemblies et namespaces
+
 Pour faciliter l'organisation du code, chaque système possède une définition d'assebly.
 
 | Nom | Description | Chemin (racine du projet unity) |
@@ -304,9 +306,11 @@ Pour faciliter l'organisation du code, chaque système possède une définition 
 
 Dans la même optique, l'utilisation de namespaces a été privilégiée pour une meilleure organisation du code.
 
-> Remarques :
->
->
+#### Conventions de nommage
+
+Pour faciliter la lecture du code, des conventions de nommage ont été mises en place. Voici les conventions de nommage utilisées dans le projet :
+
+[todo]
 
 ### Gestions de la réalité virtuelle
 
@@ -564,7 +568,7 @@ Cela est réalisé en utilisant un box collider qui est un trigger. Quand un fru
 
 ### Interface utilisateur
 
-L'interface utilisateur est un élément important du projet. Elle permet au joueur de voir les informations importantes de la partie (score, timer, etc) et d'interagir avec le jeu (bouton rejouer, bouton de credits, etc).
+L'interface utilisateur est un élément important du projet. Elle permet au joueur de voir les informations de la partie (score, timer, etc) et d'interagir avec le jeu (bouton rejouer, bouton de credits, etc).
 
 L'interface est divisée en plusieurs parties :
 
@@ -572,30 +576,157 @@ L'interface est divisée en plusieurs parties :
 - Un HUD : affiche le score du joueur et le temps restant (afficher uniquement pendant la partie).
 - Texts d'informations : affiche le compte a rebours du début de partie, et un text quand la partie est finie.
   
+#### Menu de fin de partie
 
+Le menu de fin de partie est affiché à la fin de la partie. Il affiche les informations suivantes :
 
+- Le score final du joueur.
+- Le nombre de fruits ramassés.
+- Un bouton pour rejouer.
+- Un bouton pour afficher les crédits.
+- Un bouton pour quitter le jeu.
 
+![end game menu](./img/ui_game_end.jpg)
 
+Le canvas est un canvas de type `World Space` qui suit le regard du joueur ainsi que sa position. Contrairement au HUD, il ne suit pas la rotation en Y du joueur pour rester toujours face à lui. (si le joueur regarde en haut ou en bas, le menu reste à la même hauteur).
+
+Les fruits ramassés sont affichés dans une liste avec le nom du fruit et la quantité ramassée. Une animation grossit les fruits quand ils apparaissent pour attirer l'attention du joueur.
+
+#### HUD
+
+Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
+
+- Le score du joueur.
+- Le temps restant.
+  
+![hud](./img/ui_hud.jpg)
+
+Le canvas est un canvas de type `World Space` qui suit totalement le regard du joueur. Il est placé en haut de l'écran pour ne pas gêner la vue.
+
+#### Texts d'informations
+
+Cette partie de l'interface regroupe différents textes qui s'affichent à différents moments de la partie :
+
+- Un texte qui affiche le compte à rebours du début de partie.
+- Un texte qui affiche la fin de la partie.
+
+![countdown text](./img/ui_countdown.jpg)
+
+Une animation de fade in/out est utilisée pour afficher le compte à rebours. Chaques chiffres apparaissent un par un pour donner un effet de compte à rebours.
+
+![end game text](./img/ui_game_ended_text.jpg)
+
+Le texte de fin de partie apparaît par la gauche et disparaît par la droite. Cela donne un effet jolie et fluide.
+
+#### Classes du système d'interface utilisateur
+
+#### UIManager
+
+Le `UIManager` est la classe principale du système d'interface utilisateur. Elle possède une référence à toutes les canvas de l'interface (HUD, menu de fin de partie, etc) et gère leur affichage.
+
+Il utilise les évènements du [GameManager](#gamemanager) pour afficher les canvas au bon moment.
+
+Ce composant s'occupe également de centrer correctement les canvas par rapport à la caméra du joueur.
+
+![ui manager inspector](./img/uimanager_inspector.jpg)
+
+#### StatsVisualizer
+
+`StatsVisualizer` hérite de `MonoBehaviour` et est attaché à un GameObject dans la scène. Il est responsable de visualiser les statistiques de la partie (fruits ramassés) dans le menu de fin de partie.
+
+Il est appelé par le [UIManager](#uimanager) pour afficher les fruits ramassés lors de la fin de la partie.
+
+Il utilise un prefab contenant un [CaughtFruitElement](#caughtfruitelement) pour afficher les fruits ramassés. Ces éléments sont instanciés dynamiquement à partir des données de la partie et sont affichés un par un avec une animation.
+
+![stats visualizer inspector](./img/statsvisualizer_inspector.jpg)
+
+#### CaughtFruitElement
+
+La classe `CaughtFruitElement` est une classe qui hérite de `MonoBehaviour`. Elle est responsable d'afficher le nom du fruit et la quantité ramassée par le joueur.
+
+Ce composant est attaché à un GameObject mis en prefab dans l'éditeur Unity. Il est instancié dynamiquement par le [StatsVisualizer](#statsvisualizer) pour afficher les fruits ramassés.
+
+Une animation de grossissement est utilisée pour afficher les fruits ramassés. Cela permet de donner un effet visuel et d'attirer l'attention du joueur.
+
+![caught fruit element inspector](./img/caughtfruitelement_inspector.jpg)
+
+#### PlayButton
+
+La classe `PlayButton` est une classe qui hérite de `UnityEngine.UI.Button`. Elle est responsable de lancer une partie quand le joueur appuie sur ce dernier.
+
+Lors de la prèmière frame (methode `Start`), elle ajoute un listener sur l'évènement `Button.onClick` pour lancer une partie via le [GameManager](#gamemanager).
+
+> aucun champs exposé dans l'inspector. (seulement les paramètres de base de Button)
+
+#### QuitButton
+
+La classe `QuitButton` hérite de `UnityEngine.UI.Button`. Elle est responsable de quitter le jeu quand le joueur appuie sur ce dernier.
+
+Elle ajoute un listener sur l'évènement `Button.onClick` pour quitter le jeu via la méthode `UnityEngine.Application.Quit()`.
+
+> aucun champs exposé dans l'inspector. (seulement les paramètres de base de Button)
+
+#### Credits
+
+La classe `Credits` hérite de `MonoBehaviour`. Elle est responsable d'afficher ou de cacher le GameObject contenant les crédits via ses deux méthodes exposées `Show` et `Hide`.
+
+![credits inspector](./img/credits_inspector.jpg)
+
+#### TimerVisualizer
+
+`TimerVisualizer` hérite de `TMPro.TextMeshProUGUI` et est attaché à un GameObject dans la scène. Il est responsable de visualiser le temps restant de la partie dans le HUD.
+
+Pour éviter d'appeler un event à chaque mise à jour du timer, il utilise sont propre timer pour mettre à jour le texte. Il s'abonne aux évènements `OnGameStart` et `OnGameStop` du [GameManager](#gamemanager) pour commencer et arrêter le timer.
+
+> aucun champs exposé dans l'inspector. (seulement les paramètres de base de TextMeshProUGUI)
+
+#### ScoreVisualizer
+
+`ScoreVisualizer` hérite de `MonoBehaviour`. Il est responsable de visualiser le score du joueur dans le HUD et dans le menu de fin de partie.
+
+Il s'abonne aux évènements `OnScoreChanged` du [GameManager](#gamemanager) pour mettre à jour le score du joueur.
+
+Etant donné que ce composant est utilisé dans plusieurs contextes dans le lesquels le texte du score n'est pas le même, il utilise un champ exposé dans l'éditeur Unity pour définir le texte du score (en remplaçant le `$` par le score du joueur).
+
+![score visualizer inspector](./img/scorevisualizer_inspector.jpg)
+
+> Remarque : l'image montre le composant utilisé dans le HUD. Il est également utilisé dans le menu de fin de partie ou le champ `scoreTextFormat` est "Score : $".
+
+#### Countdown
+
+`Countdown` est une classe qui hérite de `MonoBehaviour`. Elle est appelée par le [UIManager](#uimanager) pour afficher le compte à rebours au début de la partie.
+
+Elle utilise une coroutine pour afficher les chiffres un par un avec une animation de fade in/out (en utilisant DoTween).
+
+Un son est joué au début du compte à rebours.
+
+![countdown inspector](./img/countdown_inspector.jpg)
+
+#### GameEndText
+
+La classe `GameEndText` hérite de `MonoBehaviour`. Elle est appelée par le [UIManager](#uimanager) pour afficher un texte à la fin de la partie : **Partie terminée**.
+
+Elle apparaît par la gauche et disparaît par la droite (animation avec DoTween).
+
+![game end text inspector](./img/gameendtext_inspector.jpg)
 
 ---
 
-## Implémentation
-
-### Généralités concernant l'implémentation
+## Généralités concernant l'implémentation
 
 - [Unity 2022.3.12f1](https://unity.com/releases/editor/archive)
 - [.NET Standard 2.1](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-1)
 - [C# 9.0](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-9)
 - compilateur C# : [Roslyn](https://github.com/dotnet/roslyn)
 
-#### Librairies et outils externes
+## Librairies et outils externes
 
 - [DoTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
 - [Unity Test Framework](https://docs.unity3d.com/2020.3/Documentation/Manual/testing-editortestsrunner.html)
 - [XR Plugin Management](https://docs.unity3d.com/2022.3/Documentation/Manual/XR.html)
 - [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html)
 
-### Analyse des fonctionnalités majeures
+## Analyse des fonctionnalités majeures
 
 ## Sécurité
 

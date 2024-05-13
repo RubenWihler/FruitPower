@@ -17,18 +17,18 @@ namespace GameManagement
         /// <summary>
         /// Score du jeu.
         /// </summary>
-        private ulong _score;
+        private int _score;
 
         /// <summary>
         /// Propriete permettant d'acceder au score du jeu.
         /// </summary>
-        public ulong Score => _score;
+        public int Score => _score;
 
         /// <summary>
         /// Constructeur de la classe GameScore.
         /// </summary>
         /// <param name="score">le score initial du jeu. (default: 0)</param>
-        public GameScore(ulong score = 0)
+        public GameScore(int score = 0)
         {
             this._score = score;
         }
@@ -38,13 +38,13 @@ namespace GameManagement
         /// </summary>
         /// <param name="points">Le nombre de points a ajouter.</param>
         /// <returns>le nouveau score du jeu.</returns>
-        public ulong AddPoints(ulong points)
+        public int AddPoints(int points)
         {
             // Verifie si le score est trop eleve pour etre ajoute.
-            if (_score + points > ulong.MaxValue)
+            if (_score + points > int.MaxValue)
             {
-                Debug.LogWarning($"[!] Le score est trop eleve pour etre ajoute. (max: {ulong.MaxValue})");
-                _score = ulong.MaxValue;
+                Debug.LogWarning($"[!] Le score est trop eleve pour etre ajoute. (max: {int.MaxValue})");
+                _score = int.MaxValue;
             }
             else
             {

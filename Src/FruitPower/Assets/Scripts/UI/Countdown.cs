@@ -11,7 +11,7 @@ namespace UI
     {
         [Header("Options")]
         [SerializeField, Tooltip("Le text a afficher pour la fin du compte a rebours")]
-        private string _endText = "C'est partie";
+        private string _endText = "C'est parti";
         [SerializeField, Tooltip("Le temps du fade in des text")]
         private float _fadeInTime = 0.2f;
         [SerializeField, Tooltip("Le temps du fade out des text")]
@@ -37,7 +37,7 @@ namespace UI
         /// <summary>
         /// Commence le compte a rebours.
         /// </summary>
-        /// <param name="duration">La durée du compte a rebours en secondes</param>
+        /// <param name="duration">La duree du compte a rebours en secondes</param>
         public void StartCountdown(uint duration)
         {
             _duration = duration;

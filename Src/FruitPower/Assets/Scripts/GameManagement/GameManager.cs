@@ -53,7 +53,7 @@ namespace GameManagement
         /// <summary>
         /// Evenement appele lorsque le score change. Les abonnes a cet evenement recevront le nouveau score.
         /// </summary>
-        public static event Action<ulong> OnScoreChange;
+        public static event Action<int> OnScoreChange;
         /// <summary>
         /// Evenement appele lorsque le compte a rebours commence. Un callback est passe en parametre pour lancer la partie.
         /// </summary>
@@ -79,7 +79,7 @@ namespace GameManagement
         /// <summary>
         /// Le score actuel du jeu.
         /// </summary>
-        public static ulong Score => Instance._gameScore.Score;
+        public static int Score => Instance._gameScore.Score;
         /// <summary>
         /// Les fruits attrapes durant la partie.
         /// </summary>
@@ -167,7 +167,7 @@ namespace GameManagement
         /// Ajoute des points au score actuel.
         /// </summary>
         /// <param name="points">Les points a ajouter.</param>
-        public static bool AddPoints(ulong points, string fruitTypeId = "")
+        public static bool AddPoints(int points, string fruitTypeId = "")
         {
             // Si le fruitTypeId n'est pas vide, on ajoute le fruit aux statistiques.
             if (!string.IsNullOrEmpty(fruitTypeId))
@@ -190,7 +190,7 @@ namespace GameManagement
         public static void ResetPoints()
         {
             Instance._gameScore = new GameScore();
-            OnScoreChange?.Invoke(0ul);
+            OnScoreChange?.Invoke(0);
         }
         /// <summary>
         /// Remet les statistiques a 0.

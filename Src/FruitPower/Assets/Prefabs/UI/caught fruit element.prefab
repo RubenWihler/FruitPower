@@ -88,6 +88,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fruitName: {fileID: 1675126125940916798}
   _fruitQuantity: {fileID: 2322107769314328563}
+  _textScale: 1.15
+  _inDuration: 0.15
+  _outDuration: 0.2
 --- !u!1 &6537056642128676145
 GameObject:
   m_ObjectHideFlags: 0
