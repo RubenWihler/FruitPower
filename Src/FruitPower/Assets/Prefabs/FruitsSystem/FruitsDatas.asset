@@ -16,7 +16,7 @@ MonoBehaviour:
   - fruitId: APPLE
     fruitName: pomme
     pointsGiven: 2
-    lifeTime: 2
+    lifeTime: 3
   - fruitId: STRAWBERRY
     fruitName: fraise
     pointsGiven: 1
