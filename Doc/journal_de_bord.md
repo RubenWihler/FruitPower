@@ -364,3 +364,6 @@ J'ai finnalement abandonné l'idée de détailler chaques classes dans la docume
 
 Aujourd'hui, je vais avancer sur la documentation. Je vais commencer par rédiger la partie sur les arabes et les buissons.
 
+### Jour 9 - 13.05.2024
+
+Au cours de ces derniers jours, j'ai pu avancer sur la documentation. Aujourd'hui, je vais continuer à travailler sur la documentation mais avant cela je vais faire le manuel utilisateur.
