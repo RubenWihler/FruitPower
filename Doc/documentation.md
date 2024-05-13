@@ -1046,7 +1046,7 @@ La partie documentation était également très intéressante. Non je rigole, c'
 
 ### Remerciements
 
-Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au long de ce projet. Je tiens également à remercier Mickaël Strazzeri et Yvan Poulin pour leur expertise et leurs retours constructifs.
+Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au long de ce projet. Je tiens également à remercier Yvan Poulin pour son expertise et son retours constructifs.
 
 ## Références
 
