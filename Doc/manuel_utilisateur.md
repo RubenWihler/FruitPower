@@ -104,7 +104,6 @@ Il existe 3 types de fruits différents :
 
 ![fruits](./img/fruits.jpg)
 
-
 ### Interface utilisateur
 
 L'interface utilisateur de l'application FruitsPower est simple et intuitive. Elle est séparée en 2 parties :
