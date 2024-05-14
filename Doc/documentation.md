@@ -34,7 +34,6 @@ Pour les experts et le maître d’apprentissage :
 - Journal de travail
 - Version compilée et sources du projet Unity C#
 
-
 ### Matériel et logiciels à disposition
 
 - Un PC standard école, 2 écrans
@@ -54,7 +53,9 @@ Lors de cette étape, j’ai dû m’informer sur le cahier des charges, l’ana
 
 ##### 2. Planifier
 
-Dans cette étape, j’ai créé un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire et quand. Pour faire ce planning, j’ai dû découper le travail en plusieurs tâches. Pour ces tâches, j’ai décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer. J’ai décidé de mettre aussi en place la méthode MoSCoW qui attribue des priorités sur les tâches afin de pouvoir s’attarder sur ce qui est prioritaire. Les niveaux de priorités sont :
+Dans cette étape, j’ai créé un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire et quand. Pour faire ce planning, j’ai dû découper le travail en plusieurs tâches. Pour ces tâches, j’ai décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
+
+J’ai décidé de mettre aussi en place la méthode MoSCoW qui attribue des priorités sur les tâches afin de pouvoir s’attarder sur ce qui est prioritaire. Les niveaux de priorités sont :
 
 - P1 Must
 - P2 Should
@@ -90,6 +91,10 @@ Pour versionner mon projet, j’ai utilisé Git. J’ai créé un dépôt sur Gi
 
 Concernant mon organisation des sauvegardes, j’ai décidé d'adopter la méthode 3-2-1. Cela signifie que je garde 3 copies de mes données, sur 2 supports différents, dont 1 hors site. J’ai donc sauvegardé mon code source sur GitHub, sur un disque dur externe et sur un google drive.
 
+La nomenclature des backups est la suivante : `YYYYMMDDFruitPower.7zip` où `YYYYMMDD` est la date du backup et `FruitPower` est le nom du projet.
+
+Les backups contiennent le code source du projet, la documentation, le journal de bord, les rapports, les manuels, les versions compilées, les assets, etc.
+
 ## Planification
 
 J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire en découpant les user stories en plusieurs tâches. Pour ces tâches, j’ai décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
@@ -99,7 +104,6 @@ J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que 
 Le planning si dessous contient la planification prévisionnelle et effectif du projet.
 
 ![Planning prévisionnel](./images/planning-previsionnel.png)
-
 
 ### Product backlog
 
@@ -533,7 +537,7 @@ Pour regrouper et donner un accès facile aux données de chaque fruit, une stru
 
 ![Fruit Types Datas Inspector](./img/fruittypesdatas_inspector.jpg)
 
-Un [FruitSpawnManager](#FruitSpawnManager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
+Un [FruitSpawnManager](#fruitspawnmanager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
 
 ![fruit spawners](./img/fruit_spawners.jpg)
 
@@ -549,7 +553,7 @@ Un [FruitSpawnManager](#FruitSpawnManager) est utilisé pour gérer les [FruitSp
 
 Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haut niveau de toutes les opérations sur les fruits. Elle implémente un pattern singleton pour donner un accès facile aux autres classes du système ainsi qu'aux autres systèmes.
 
-Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnManager](#FruitSpawnManager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner).
+Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnManager](#fruitspawnmanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner).
 
 Elle contient une référence au [FruitTypesDatas](#fruittypesdatas) qui contient les données des fruits.
 Grâce à la methode `public static GetFruitTypeData(string fruitId)` il est possible de récupérer les données d'un fruit en donnant son id. Cela permet de facilement accéder a ces données depuis d'autres systèmes (par exemple, pour afficher le nom des fruits ramassés dans l'interface de fin de partie).
@@ -560,7 +564,7 @@ Le `FruitPooler` est une classe qui gère les fruits en pool. Elle permet de ré
 
 Son fonctionnement est simple. Au démarrage de la partie, elle instancie un nombre de fruits défini dans l'éditeur Unity. Ces fruits sont ensuite désactivés et organisés dans un dictionaire qui contient l'id du type de fruit et une queue de fruits. Quand un fruit est ramassé, il est désactivé et remis dans la queue. Quand un fruit doit apparaître, il est récupéré de la queue et activé. Si la queue est vide, un nouveau fruit est instancié.
 
-Afin de minimiser un maximum les dépendances entre les classes, l'opération d'instanciation des fruits est passée en paramètre du constructeur de la classe sous la forme d'une `Func<Func<ulong, Fruit>, Fruit>`.
+Afin de minimiser un maximum les dépendances entre les classes, l'opération d'attribution de l'identifiant du fruit est passée en paramètre du constructeur de la classe sous la forme d'une `Func<Func<ulong, Fruit>, Fruit>`.
 
 La liste des données nécessaires pour le pooling des fruits est passée en paramètre du constructeur de la classe sous la forme d'un `FruitPoolData[]`.
 
@@ -1015,7 +1019,7 @@ Cependant, après réflexion, cette solution était trop complexe pour les besoi
 
 #### Gestion des interactions entre les composants
 
-Pour gérer les interactions entre les différents composants du jeu, beacoup de choix s'offraient à nous. La plus simple étant de faire des références directes entre les composants. Cependable, cette solution n'était pas la plus adaptée car elle créait énormément de dépendances entre les composants. 
+Pour gérer les interactions entre les différents composants du jeu, beacoup de choix s'offraient à nous. La plus simple étant de faire des références directes entre les composants. Cependable, cette solution n'était pas la plus adaptée car elle créait énormément de dépendances entre les composants.
 
 Pour éviter cela, nous avons majoritairement opté pour des Singleton. Cela simplifie le code ainsi que l'utilisation dans l'éditeur Unity.
 
@@ -1062,6 +1066,24 @@ J'ai aussi eu beaucoup de mal avec le journal de bord. J'ai eu du mal à le teni
 
 Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au long de ce projet. Je tiens également à remercier Yvan Poulin pour son expertise et son retours constructifs.
 
+---
+
+### Glossaire
+
+- **VR** : Réalité Virtuelle.
+- **HUD** : Head-Up Display, interface utilisateur affichée à l'écran.
+- **UI** : User Interface, interface utilisateur.
+- **Prefab** : Préfabriqué, objet prédéfini dans Unity.
+- **Coroutine** : Une coroutine est une fonction qui peut être interrompue et reprise plus tard. Même elle est exécutée sur le même thread, elle remplace dans beaucoup de cas l'utilisation de l'async traditionnel car elle est sync sur les frames. (async est quand même utilisé pour les opérations longues).
+- **Singleton** : Un singleton est un design pattern qui permet de s'assurer qu'une classe n'a qu'une seule instance et fournit un point d'accès global à cette instance.
+- **Pool** : Un pool est un design pattern qui permet de réutiliser des objets au lieu de les détruire et de les recréer.
+- **Inspector** : Fenêtre dans l'éditeur Unity qui permet de visualiser et de modifier les propriétés d'un GameObject.
+- **GameObject** : Objet dans la scène Unity.
+- **ScriptableObject** : Un ScriptableObject est une classe Unity qui peut contenir des données et être utilisée dans des scripts.
+- **Component/Composant** : Composant d'un GameObject dans Unity.
+
+---
+
 ## Bibliographie
 
 - [Unity Documentation](https://docs.unity3d.com/2022.3/Documentation/Manual/index.html) - Documentation officielle de Unity.
@@ -1075,6 +1097,8 @@ Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au l
 - [Bonne pratique tests unitaires](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices) - Bonnes pratiques pour les tests unitaires.
 - [Design pattern](https://refactoring.guru/design-patterns/behavioral-patterns) - Documentation sur les design patterns.
 - [Pool design pattern](https://sourcemaking.com/design_patterns/object_pool) - Documentation sur le design pattern de pool.
+
+---
 
 ## Annexe
 
@@ -1113,6 +1137,7 @@ En suivant l'une de ces approches, vous pouvez rendre votre documentation plus c
 En général, la plupart des documentations techniques suivent ces conventions pour organiser et structurer les informations de manière logique et compréhensible.
 ```
 
+---
 
 ### Code source
 
