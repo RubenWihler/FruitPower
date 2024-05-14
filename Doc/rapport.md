@@ -97,13 +97,19 @@ Les backups contiennent le code source du projet, la documentation, le journal d
 
 ## Planification
 
-J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire en découpant les user stories en plusieurs tâches. Pour ces tâches, j’ai décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
+J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire en découpant le cahier des charges en plusieurs user stories.  C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
 
 ### Planning prévisionnel et effectif
 
-Le planning si dessous contient la planification prévisionnelle et effectif du projet.
+Le planning si dessous contient la planification prévisionnelle et effective du projet.
 
-![Planning prévisionnel](./images/planning-previsionnel.png)
+![Planning 1](./Img/planification_1.jpg)
+![Planning 2](./Img/planification_2.jpg)
+![Planning 3](./Img/planification_3.jpg)
+
+Comme on peut le voir sur le planning, la planification prévisionnelle est très différente de la planification effective. En effet, la plupart des taches ont été sur-estimées. Certaines taches ont été réalisées simultanément. C'est le cas par exemple de tous le système de fruit.
+
+La partie rejouer n'a tous simplement pas été réalisée en changeant de scène. En effet, ce n'était pas nécessaire pour le projet.
 
 ### Product backlog
 
@@ -297,13 +303,13 @@ Les fonctionnalités majeures du projet sont tirées du cahier des charges.
 - **Une partie dure 30 secondes**
 - **Le score est affiché à la fin de la partie**
 - **Un bouton est présent pour recommencer après la fin de la partie**
-- **Un fruit ramassé avec la télécommande donne 1 point** : etendu à plusieurs types de fruits (en accord avec le maitre d'apprentissage)
+- **Un fruit ramassé avec la télécommande donne 1 point** : étendu à plusieurs types de fruits (en accord avec le maitre d'apprentissage)
 - **Le jardin contient des arbres et buissons (par exemple une dizaine)** : 13 buissons et 4 arbres
 - **La génération des fruits est aléatoire dans un temps défini** : fruits générés aléatoirement sur les buissons et les arbres, temps équivalent pour chaque partie par soucis d'équité entre les joueurs (différent pour chaque type de fruit)
 - **Les fruits disparaissent après quelques secondes s'ils ne sont pas ramassés (par exemple 3 secondes)** : Différent pour chaque type de fruit (entre 2 et 3 secondes).
 - **Le jardin est clôturé ou a des limites visuelles** : murs autour du jardin.
 - **Fruits ramassés avec la télécommande et mis dans un panier** : fruits ramassés avec les contrôleurs et mis dans un panier statique pour gagner des points.
-- **Musique et bruitages** : musique et bruitages présents dans le projet. (details dans la partie son) Les musique et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
+- **Musique et bruitages** : musique et bruitages présents dans le projet. (détails dans la partie son) Les musique et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
 - **Eléments 2D/3D gratuits** : tous les assets utilisés sont gratuits et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
 
 ---
@@ -331,7 +337,7 @@ Dans la même optique, l'utilisation de namespaces a été privilégiée pour un
 
 #### Conventions de nommage
 
-Pour faciliter la lecture du code, des conventions de nommage ont été mises en place. Voici les conventions de nommage utilisées dans le projet (dans l'ordre)
+Pour faciliter la lecture du code, des conventions de nommage ont été mises en place. Voici les conventions de nommage utilisées dans le projet
 
 - Namespace : PascalCase
 - Enum : PascalCase
@@ -353,21 +359,21 @@ Dans cette optique de minimiser les dépendances, l'abstraction de comportement 
 
 Une combinaison de plusieurs design patterns a été utilisée pour réaliser un code propre et maintenable. Nous avons par exemple utilisé le pattern Observer pour la gestion de la partie et le pattern Pool pour la gestion des fruits.
 
-Le pattern Singleton a aussi beaucoup été utilisé pour les classes qui ne doivent être instanciés qu'une seule fois dans le jeu et qui doivent être accessibles de partout (GameManager, FruitManager, etc). Nous ne pouvons pas utiliser de classes statiques car ces dernières ne peuvent pas être un component Unity(doit hériter de MonoBehaviour).
+Le pattern Singleton a aussi beaucoup été utilisé pour les classes qui ne doivent être instanciés qu'une seule fois dans le jeu et qui doivent être accessibles de partout (GameManager, FruitManager, etc). Nous ne pouvons pas utiliser de classes statiques car ces dernières ne peuvent pas être un component Unity (doit hériter de `MonoBehaviour`).
 
 #### Commentaires de code
 
-Pour faciliter la lecture du code, des commentaires ont été ajoutés dans le code. Ces commentaires permettent de comprendre le code plus facilement et de savoir ce que fait chaque partie du code. Les commentaires sont écrits en français et utilisent les summary de C#.
+Pour faciliter la lecture du code, des commentaires ont été ajoutés dans le code. Ces commentaires permettent de comprendre le code plus facilement et d'en comprendre chaque parties. Les commentaires sont écrits en français et utilisent les summary de C#.
 
 #### Inspecteur Unity
 
-Pour faciliter l'utilisation des scripts dans Unity, des attributs ont été ajoutés aux champs des classes pour les rendre visibles dans l'inspecteur Unity. Cela permet de modifier les valeurs des champs directement dans l'inspecteur sans avoir à modifier le code.
+Pour faciliter l'utilisation des scripts dans l'interface d'Unity, des attributs ont été ajoutés aux champs des classes pour les rendre visibles dans l'inspecteur. Cela permet de modifier les valeurs des champs directement dans l'inspecteur sans avoir à modifier le code.
 
 Nous n'avons pas eu besoin de créer des éditeurs personnalisés pour les scripts car ils sont simples et ne nécessitent pas de modifications particulières dans l'inspecteur. Nous avons simplement utilisé les attributs `Header` et `Tooltip` pour rendre l'inspecteur plus lisible.
 
 > Il est important de noter que les attributs `Tooltip` sont affichés dans Visual Studio comme pour les summary de C#.
 
-Etant donné que les variables sont en anglais, nous avons mis les `Header` en anglais pour que l'inspecteur soit plus lisible. En revanche, comme pour les commentaires de code, les `Header` sont en français.
+Etant donné que les variables sont en anglais, nous avons mis les `Header` en anglais pour que l'inspecteur soit plus lisible. En revanche, comme pour les commentaires de code, les `Tootip` sont en français.
 
 Pour garder une ogranisation harmonieuse dans l'inspecteur, nous avons utilisé les mêmes `Header` pour séparer les différentes sections dans toutes les classes :
 
@@ -378,16 +384,16 @@ Pour garder une ogranisation harmonieuse dans l'inspecteur, nous avons utilisé 
 
 ### Gestions de la réalité virtuelle
 
-La gestion de la réalité virtuelle est un des points clés du projet. Elle permet au joueur d'interagir avec le jeu en utilisant un casque de réalité virtuelle et ses contrôleurs. Pour cela, nous avons utilisé le package XR d'Unity qui permet de gérer la réalité virtuelle de manière simple et efficace. Nous avons également utilisé le package XR Interaction Toolkit qui permet de gérer l'interaction avec les objets du jeu.
-Pour gagner du temps, nous avons utiliser le sample de l'XR Interaction Toolkit pour la gestion des contrôleurs. Ce dernier nous a permis d'avoir tout de suite les InputsActions et les interactions de base (grab, select, etc).
+La gestion de la réalité virtuelle est un des points clés du projet. Elle permet au joueur d'interagir avec le jeu en utilisant un casque de réalité virtuelle et ses contrôleurs. Pour cela, nous avons utilisé le package XR d'Unity qui permet de gérer la réalité virtuelle de manière simple et efficace. Nous avons également utilisé le package `XR Interaction Toolkit` qui permet de gérer l'interaction avec les objets du jeu.
+Pour gagner du temps, nous avons utiliser le sample de l'`XR Interaction Toolkit` pour la gestion des contrôleurs. Ce dernier nous a permis d'avoir tout de suite les InputsActions et les interactions de base (grab, select, etc).
 
 #### Mains du joueur
 
-Pour les main du joueur, nous avons utilisé les modèles de mains donnés dans une séries de tutoriels de Unity. Ces modèles sont des modèles de mains de base qui sont deja animés. Nous avons simplement suivi le tutoriel pour les importer dans le projet et les utiliser.
+Pour les main du joueur, nous avons utilisé les modèles de mains donnés dans une séries de tutoriels. Ces modèles sont des modèles de mains qui sont déjà animés. Nous avons simplement suivi le tutoriel pour les importer dans le projet et les utiliser.
 
 > Référence de la vidéo : [How to Make a VR Game in Unity 2022 - PART 2 - INPUT and HAND PRESENCE](https://www.youtube.com/watch?v=8PCNNro7Rt0)
 
-La seule classe que nous avons dû implémenter est lui aussi donné dans le tutoriel. Il s'agit de la classe `HandController` qui permet de faire le lien entre les contrôleurs et l'animator des mains.
+La seule classe que nous avons dû implémenter est lui aussi donné dans le tutoriel. Il s'agit de la classe [HandController](#handcontroller) qui permet de faire le lien entre les contrôleurs et l'animator des mains.
 
 #### Déplacement du joueur
 
@@ -440,6 +446,14 @@ Voici la liste des composants d'une main :
 
 En plus de ces composants, il y a un GameObject enfant de la main qui contient le modèle de la main. Ce GameObject est animé par l'animator de la main.
 Il possède également un `HandController` ([HandController](#handcontroller)) qui permet de faire le lien entre les contrôleurs et l'animator de la main.
+
+#### Classe de la gestion des contrôleurs
+
+![uml inputs](./Uml/inputs.png)
+
+##### HandController
+
+La classe `HandController` est une classe qui permet de faire le lien entre les contrôleurs et l'animator de la main. Elle est utilisée pour animer les mains du joueur en fonction de l'état des contrôleurs.
 
 ### Environnement 3D
 
@@ -504,7 +518,7 @@ La classe `GameScore` est une classe qui contient le score du joueur. Elle est u
 
 ##### GameTimer
 
-La classe `GameTimer` contient le timer de la partie. Elle utilise une coroutine pour le timer. Elle contient 3 Action (données en paramètre du constructeur) qui sont appelées à différents moments du timer. (début, 80% du timer, fin). Ces actions permettent d'abstraire le comportement sans avoir de dépendances entre les classes.
+La classe `GameTimer` contient le timer de la partie. Elle utilise une coroutine pour le timer. Elle contient 3 Action (données en paramètre du constructeur) qui sont appelées à différents moments du timer. (début, 10s avant la fin timer, fin). Ces actions permettent d'abstraire le comportement sans avoir de dépendances entre les classes.
 
 ##### GameStats
 
@@ -671,6 +685,7 @@ Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
 - Le score du joueur.
 - Le temps restant.
   
+
 ![hud](./Img/ui_hud.jpg)
 
 Le canvas est un canvas de type `World Space` qui suit totalement le regard du joueur. Il est placé en haut de l'écran pour ne pas gêner la vue.
@@ -1049,7 +1064,7 @@ Pour améliorer le projet, voici quelques pistes d'améliorations possibles :
 - Ajouter des niveaux de difficulté pour augmenter la durée de vie du jeu.
 - Ajouter des power-ups pour rendre le jeu plus intéressant.
 - Ajout d'autres types de fruits et de paniers pour varier les parties.
-- Ajout des outils débloquables qui facilitent la récolte des fruits (filet, gants, etc).
+- Ajout des outils déblocables qui facilitent la récolte des fruits (filet, gants, etc).
 - Plusieurs jardins avec des thèmes différents (jardin japonais, jardin anglais, etc).
 
 ### Bilan personnel

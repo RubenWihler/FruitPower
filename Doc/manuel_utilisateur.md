@@ -1,6 +1,6 @@
-# Manuel Utilisateur - FruitsPower
+# Manuel Utilisateur - FruitPower
 
-Ce document a pour but de vous expliquer comment utiliser le jeu FruitsPower.
+Ce document a pour but de vous expliquer comment utiliser le jeu FruitPower.
 
 [TOC]
 
@@ -8,7 +8,7 @@ Ce document a pour but de vous expliquer comment utiliser le jeu FruitsPower.
 
 ## Prérequis
 
-Pour utiliser l'application FruitsPower, vous devez disposer d'un casque de réalité virtuelle compatible avec le logiciel SteamVR ou OpenXR ainsi que d'un ordinateur suffisamment puissant pour faire fonctionner l'application.
+Pour utiliser l'application FruitPower, vous devez disposer d'un casque de réalité virtuelle compatible avec le logiciel SteamVR ou OpenXR ainsi que d'un ordinateur suffisamment puissant pour faire fonctionner l'application.
 
 ### Configuration minimale
 
@@ -50,28 +50,28 @@ Pour une expérience optimale, nous vous recommandons d'utiliser une configurati
 
 ### Depuis Steam
 
-Pour lancer l'application FruitsPower depuis Steam, suivez les étapes suivantes :
+Pour lancer l'application FruitPower depuis Steam, suivez les étapes suivantes :
 
 1. Ouvrez le logiciel Steam sur votre ordinateur.
 2. Connectez-vous à votre compte Steam.
-3. Dans la barre de recherche, saisissez "FruitsPower" et appuyez sur Entrée.
+3. Dans la barre de recherche, saisissez "FruitPower" et appuyez sur Entrée.
 4. Cliquez sur le bouton "Jouer" pour lancer l'application.
 5. Mettez votre casque de réalité virtuelle et suivez les instructions à l'écran pour commencer à jouer.
 
 ### Depuis le bureau
 
-Vous pouvez également lancer l'application FruitsPower directement depuis le bureau de votre ordinateur en suivant les étapes suivantes :
+Vous pouvez également lancer l'application FruitPower directement depuis le bureau de votre ordinateur en suivant les étapes suivantes :
 
-1. Ouvrez le dossier contenant l'application FruitsPower.
+1. Ouvrez le dossier contenant l'application FruitPower.
 2. Double-cliquez sur l'icône de l'application pour la lancer.
 3. Mettez votre casque de réalité virtuelle et suivez les instructions à l'écran pour commencer à jouer.
 
 ### Depuis MetaQuest
 
-Si vous utilisez un casque Oculus Quest, vous pouvez lancer l'application FruitsPower directement depuis l'application MetaQuest en suivant les étapes suivantes :
+Si vous utilisez un casque Oculus Quest, vous pouvez lancer l'application FruitPower directement depuis l'application MetaQuest en suivant les étapes suivantes :
 
 1. Ouvrez l'application MetaQuest sur votre casque Oculus Quest.
-2. Recherchez "FruitsPower" dans la barre de recherche.
+2. Recherchez "FruitPower" dans la barre de recherche.
 3. Cliquez sur l'application pour la lancer.
 4. Mettez votre casque de réalité virtuelle et suivez les instructions à l'écran pour commencer à jouer.
 
@@ -79,7 +79,7 @@ Si vous utilisez un casque Oculus Quest, vous pouvez lancer l'application Fruits
 
 ## Utilisation de l'application
 
-Après avoir mis votre casque de réalité virtuelle et lancé le jeu FruitsPower, vous vous retrouverez dans un environnement virtuel où vous pourrez interagir avec différents éléments. Voici quelques conseils pour bien utiliser l'application :
+Après avoir mis votre casque de réalité virtuelle et lancé le jeu FruitPower, vous vous retrouverez dans un environnement virtuel où vous pourrez interagir avec différents éléments. Voici quelques conseils pour bien utiliser l'application :
 
 ### Déplacement
 

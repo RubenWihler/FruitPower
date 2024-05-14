@@ -1,4 +1,4 @@
-# Journal de bord - FruitPower
+# Journal de bord
 
 ## Introduction
 
@@ -21,39 +21,13 @@ J'ai également commencé à réfléchir à la structure de mon projet. J'ai dé
 J'ai créé un repository Git pour mon projet et j'ai commencé à versionner mon code.
 Je l'ai également mis en ligne sur GitHub pour pouvoir y accéder de partout.
 
-#### Planing prévisionnel
+<div style="page-break-after:always"></div>
+
+#### Planning prévisionnel
 
 Je vais maintenant commencer à faire la planification de mon projet. Je vais commencer par créer un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire et quand.
 
 Pour cela je vais d'abord découper le travail en plusieurs tâches sous forme de user stories. Ensuite je vais mettre en place la méthode MoSCoW pour attribuer des priorités sur les tâches. Je vais toutes les regrouper dans un backlog.
-
-Voici le backlog que j'ai créé :
-
-> Pour rappel, les niveaux de priorités sont :  
-> - P1 Must  
-> - P2 Should  
-> - P3 Could  
-
-| ID | Nom | Description | Priorité |
-|----|-----|-------------|----------|
-| 001 | Implémentation VR | En tant qu'utilisateur, je veux pouvoir interagir avec le jeu en utilisant un casque VR et ses contrôleurs. | P1 |
-| 002 | Environnement 3D | En tant qu'utilisateur, je veux pouvoir évoluer dans un jardin en 3D de 2x2 mètres. et ne pas pouvoir sortir de la zone de jeu. | P1 |
-| 003 | Main du joueur | En tant qu'utilisateur, je veux voir les contrôleurs dans le jeu sous forme de mains. | P1 |
-| 004 | Arbres et buissons | En tant qu'utilisateur, je veux que le jardin contienne des arbres et des buissons. (Une dizaine) | P1 |
-| 005 | Génération de fruits | En tant qu'utilisateur, je veux que des fruits apparaissent aléatoirement sur des arbres ou des buissons. Les fruits doivent apparaître à une vitesse définie. | P1 |
-| 006 | Ramassage de fruits | En tant qu'utilisateur, je veux pouvoir ramasser des fruits en les ramassant avec les contrôleurs. | P1 |
-| 007 | Disparition des fruits | En tant qu'utilisateur, je veux que les fruits disparaissent après quelques secondes s'ils ne sont pas ramassés | P1 |
-| 008 | Compteur de points | En tant qu'utilisateur, je veux pouvoir ramasser des fruits pour gagner des points. Chaque fruit ramassé donne 1 point. | P1 |
-| 009 | Visualisation des points | En tant qu'utilisateur, je veux voir le nombre de fruits que j'ai ramassé. | P1 |
-| 010 | Compteur de temps | En tant qu'utilisateur, je veux voir le temps restant pour la partie. | P1 |
-| 011 | Fin de partie | En tant qu'utilisateur, je veux que la partie se termine après 30 secondes. | P1 |
-| 012 | Score final | En tant qu'utilisateur, je veux voir mon score final à la fin de la partie. | P1 |
-| 013 | Rejouer | En tant qu'utilisateur, je veux pouvoir rejouer après avoir vu mon score final. | P1 |
-| 014 | Musique et bruitages | En tant qu'utilisateur, je veux entendre de la musique et des bruitages. | P2 |
-| 015 | Graphismes | En tant qu'utilisateur, je veux que le jeu soit agréable visuellement. | P2 |
-| 016 | Modèles 3D | En tant qu'utilisateur, je veux que les modèles 3D soient de qualité. | P2 |
-| 017 | Post-traitement | En tant qu'utilisateur, je veux que le jeu soit agréable visuellement grâce à un post-traitement. | P3 |
-| 018 | Interface | En tant qu'utilisateur, je veux que l'interface soit intuitive. | P3 |
 
 Une fois le backlog créé, j'ai créé un projet sur GitHub pour y mettre toutes les tâches à réaliser. J'ai commencé à créer des issues pour chaque tâche à réaliser.
 Une fois toutes les tâches créées, je l'ai est converti en issues pour pouvoir les suivre plus facilement.
@@ -72,6 +46,8 @@ M.Poulin m'a rendu visite et m'a donné quelques conseils pour la suite du proje
 #### Fin de la planification
 
 J'ai fini de planifier toutes les tâches dans le planning prévisionnel. J'ai également fini de créer toutes les tâches dans le projet GitHub. Je vais maintenant commencer à travailler sur la première tâche.
+
+<div style="page-break-after:always"></div>
 
 #### Création du projet Unity
 
@@ -96,19 +72,23 @@ J'ai importé toutes les assets de mon projet de preparation dans le projet Unit
 
 J'ai fini d'ajouter le system de déplacement dans le jeu et de tester le tout. J'ai pu tester le déplacement avec les contrôleurs et tout fonctionne correctement.
 
+<div style="page-break-after:always"></div>
+
 #### Environnement 3D
 
 Je vais maintenant passer à la tâche suivante : `002 - Environnement 3D`. Je vais commencer par créer une branche `002-environnement-3d` pour cette tâche.
 
-Pour construire le jardin, je vais commencer par créer un terrain de 2x2 mètres. Sachant que la taille d'une unité dans Unity correspond à 1 mètre, je vais donc créer un terrain de 2x2 unités. 
+Pour construire le jardin, je vais commencer par créer un terrain de 2x2 mètres. Sachant que la taille d'une unité dans Unity correspond à 1 mètre, je vais donc créer un terrain de 2x2 unités.
 
 Pour les buisson et les arbres, je vais utiliser plusieurs assets trouvés gratuitement sur le store d'Unity. Je vais les importer dans le projet et les placer dans le jardin.
 
 - [Simple Nature Pack](https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153)
 
-#### Conclusion
+#### Conclusion J1
 
 J'ai bien avancé sur le projet aujourd'hui. J'ai réussi à implémenter la VR et à créer un environnement 3D de base. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur le projet demain.
+
+
 
 ---
 
@@ -119,6 +99,8 @@ Cher journal, aujourd'hui est un nouveau jour. Je suis prêt à continuer à tra
 > Effectivement, je n'ai pas fais de branches pour les tâches précédentes, mais cela ne me dérange pas surtous car ce sont des tâches assez simples et rapides à réaliser en plus de cela je suis seul sur le projet.
 
 Avant de commencer à travailler sur le projet, je vais commencer par faire une sauvegarde sur mon disque dur externe, sur une clé USB et sur le drive. Cela me permettra de ne pas perdre mon travail en cas de problème.
+
+<div style="page-break-after:always"></div>
 
 #### recherche sur les exeptions
 
@@ -148,11 +130,11 @@ Je ne savais plus si le max(deuxieme parametre) de la fonction `UnityEngine.Rand
 
 J'ai pu avancer sur la tâche `005 - Génération de fruits`. J'ai réussi à créer un système de génération de fruits aléatoires sur les arbres et les buissons. Les fruits apparaissent aléatoirement à une vitesse définie. J'ai également ajouté un système de disparition des fruits après quelques secondes s'ils ne sont pas ramassés.
 
-#### Conclusion du J2
+#### Conclusion J2
 
 J'ai bien avancé sur le projet aujourd'hui. J'ai réussi à implémenter le système de génération de fruits. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur le projet demain.
 
----
+<div style="page-break-after:always"></div>
 
 ### Jour 3 - 29.04.2024
 
@@ -185,7 +167,7 @@ J'ai regarder [cette video](https://youtu.be/yhB921bDLYA?si=mdiTW4-eF60TvFj1) po
 
 J'ai bien avancé sur le projet aujourd'hui. J'ai réussi à faire les tests unitaires pour le ramassage des fruits. Je suis maintenant sûr que tout le système fonctionne correctement. Je suis en avance de 16h jours sur mon planning.
 
----
+<div style="page-break-after:always"></div>
 
 ### Jour 4 - 30.04.2024
 
@@ -204,6 +186,8 @@ Je me trouve fasse a un petit problem: vu que je n'avait pas fait le plan de tes
 
 J'ai bien avancé sur plein d'aspect du projet aujourd'hui. En plus d'avoir ajouté les fruits, j'ai pu avancer sur la documentation et j'ai commencé à rédiger le plan de test. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur le projet demain. De plus j'ai encore beaucoup d'avance sur mon planning.
 
+
+
 ---
 
 ### Jour 5 - 02.05.2024
@@ -213,6 +197,8 @@ Aujourd'hui, je vais commencer par avancer la documentation.
 J'ai commencé par rédiger la partie sur l'implémentation de la VR. J'ai expliqué comment j'ai ajouté le package XR, le package Unity Input System et le package XR Interaction Toolkit. J'ai également expliqué comment j'ai configuré le casque VR et les contrôleurs.
 
 J'ai ensuite rédigé la partie sur l'environnement 3D. J'ai expliqué comment j'ai créé un terrain de 2x2 mètres et comment j'ai ajouté des arbres et des buissons.
+
+<div style="page-break-after:always"></div>
 
 #### Visite de M.Poulin
 
@@ -232,7 +218,9 @@ Bonjours cher journal, aujourd'hui je vais commencer par chercher des musiques e
 
 Pendant implémentation des bruitage je voulais utiliser une initialisation switch case mais je ne me souvenais plus de la syntaxe. J'ai donc cherché sur internet et j'ai trouvé [cette page](https://stackoverflow.com/questions/8155772/setting-a-variable-to-a-switchs-result) qui m'a bien aidé.
 
-> Finallement cette fonctionnalité de c# n'est pas disponible dans la version que j'utilise.
+> Finalement cette fonctionnalité de c# n'est pas disponible dans la version que j'utilise.
+
+<div style="page-break-after:always"></div>
 
 #### Ajout du package DoTween
 
@@ -267,7 +255,7 @@ J'ai finalement abandonné l'idée de détailler chaque classes dans la document
 J'ai perdu beaucoup de temps avec le problème de la documentation.
 Mais cela m'a permis de prendre une décision qui m'a fait gagner du temps pour la suite du projet. De plus j'étais tellement en avance que cela ne pose pas de problème.
 
----
+<div style="page-break-after:always"></div>
 
 ### Jour 8 - 08.05.2024
 
@@ -285,15 +273,19 @@ J'ai commencé à rédiger le manuel utilisateur. J'ai commencé par les préreq
 
 J'ai bien avancé sur la documentation aujourd'hui. J'ai pu rédiger la partie sur les arbres et les buissons. J'ai également fini de rédiger le manuel utilisateur. Je suis content de mon avancement mais je n'ai pas hâte de continuer à travailler sur la documentation demain.
 
+
+
 ---
 
 ### Jour 9 - 13.05.2024
 
 Au cours de ces derniers jours, j'ai pu avancer sur la documentation. Aujourd'hui, je vais continuer à travailler sur la documentation mais avant cela je vais faire le manuel utilisateur.
 
-#### Paufinage de la documentation
+#### Peaufinage de la documentation
 
 J'ai passé la matinée à paufiner la documentation. J'ai corrigé les fautes d'orthographe et de grammaire. J'ai également ajouté des captures d'écran pour illustrer les explications.
+
+<div style="page-break-after:always"></div>
 
 #### Rapport de fin de projet
 
@@ -301,3 +293,35 @@ Pour cette après-midi, je vais rédiger le rapport de fin de projet.
 
 #### Conclusion J9
 
+J'ai bien avancé sur la documentation aujourd'hui. J'ai pu peaufiner la documentation et ajouter des captures d'écran. J'ai également commencé à rédiger le rapport de fin de projet. Je suis content de mon avancement et j'ai hâte de continuer à travailler sur le projet demain.
+
+---
+
+### Jour 10 - 14.05.2024
+
+Aujourd'hui, je vais continuer à travailler sur le rapport de fin de projet. Je vais commencer par rédiger la partie sur les difficultés rencontrées et les solutions apportées.
+
+J'ai également peaufiné tous les documents ce qui m'a pris toute la journée.
+
+#### Conclusion J10
+
+J'ai bien avancé sur le rapport de fin de projet aujourd'hui. J'ai pu rédiger la partie sur les difficultés rencontrées et les solutions apportées. J'ai également peaufiné tous les documents. Je suis content de mon avancement et je suis prêt à rendre le projet demain.
+
+---
+
+### Jour 11 - 15.05.2024
+
+Aujourd'hui, je vais rendre le projet. Je vais faire une dernière vérification de tous les documents pour m'assurer qu'ils sont prêts à être rendus.
+J'ai fait une dernière vérification de tous les documents et j'ai rendu le projet.
+
+#### Conclusion J11
+
+Je n'ai pas travaillé sur le projet aujourd'hui. J'avais suffisamment de temps pour tout finir avant la date de rendu. Je suis content de mon travail et j'ai hâte de voir les retours sur mon projet.
+
+<div style="page-break-after:always"></div>
+
+## Conclusion
+
+Ce journal de bord m'a permis de suivre l'avancement de mon projet tout au long de sa réalisation. J'ai pu noter les différentes étapes de la réalisation du projet, les difficultés rencontrées et les solutions apportées. Comme le montre bien ce journal, j'ai surtout travaillé sur le projet les 4-5 premiers jours. Ensuite j'ai surtout travaillé sur la documentation. Ce qui explique pourquoi moins de détails sont donnés sur les derniers jours.
+
+Je suis content de mon travail et j'ai hâte de voir les retours sur mon projet. Je suis fier de ce que j'ai accompli et j'espère que mon projet sera apprécié.

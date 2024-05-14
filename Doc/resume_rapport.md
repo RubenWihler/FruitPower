@@ -1,9 +1,9 @@
-# Résumé du rapport - FruitsPower
+# Résumé du rapport - FruitPower
 
 ## Situation de départ
 
 Dans le contexte de l'obtention du Certificat Fédéral de Capacité et pour marquer la fin de la formation, un "Travail Pratique Individuel" (TPI) a été lancé, s'étendant sur
-une durée de 11 jours soit 88 heures. Le but de ce TPI est de mettre en pratique les compétences acquises durant la formation et de réaliser un projet concret. Le projet attribué est un jeu en réalité virtuelle nommé FruitsPower avec le moteur de jeu Unity. Le jeu consiste à récolter des fruits dans un jardin virtuel de 2x2m en utilisant des contrôleurs de réalité virtuelle. Le joueur doit attraper les fruits qui apparaissent aléatoirement dans le jardin et les mettre dans un panier pour gagner des points. Une partie dure 30 secondes.
+une durée de 11 jours soit 88 heures. Le but de ce TPI est de mettre en pratique les compétences acquises durant la formation et de réaliser un projet concret. Le projet attribué est un jeu en réalité virtuelle nommé FruitPower avec le moteur de jeu Unity. Le jeu consiste à récolter des fruits dans un jardin virtuel de 2x2m en utilisant des contrôleurs de réalité virtuelle. Le joueur doit attraper les fruits qui apparaissent aléatoirement dans le jardin et les mettre dans un panier pour gagner des points. Une partie dure 30 secondes.
 
 ## Mise en œuvre
 
@@ -11,4 +11,4 @@ Le projet a été réalisé en utilisant Unity 2022.3.12f1, un moteur de jeu tr�
 
 ## Résultats
 
-Le jeu FruitsPower a été développé avec succès et fonctionne comme prévu. Le joueur peut se déplacer dans un jardin virtuel de 2x2m, attraper des fruits qui apparaissent aléatoirement et les mettre dans un panier pour gagner des points. Une partie dure 30 secondes et se termine automatiquement. Le joueur peut voir son score à la fin de la partie et rejouer pour essayer de battre son record. Le jeu est accompagné de musique et de sons d'ambiance pour une expérience immersive. Le code source du projet est bien structuré et documenté pour faciliter la maintenance et les futures améliorations.
+Le jeu FruitPower a été développé avec succès et fonctionne comme prévu. Le joueur peut se déplacer dans un jardin virtuel de 2x2m, attraper des fruits qui apparaissent aléatoirement et les mettre dans un panier pour gagner des points. Une partie dure 30 secondes et se termine automatiquement. Le joueur peut voir son score à la fin de la partie et rejouer pour essayer de battre son record. Le jeu est accompagné de musique et de sons d'ambiance pour une expérience immersive. Le code source du projet est bien structuré et documenté pour faciliter la maintenance et les futures améliorations.

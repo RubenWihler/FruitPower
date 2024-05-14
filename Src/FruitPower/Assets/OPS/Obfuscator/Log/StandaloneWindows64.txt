@@ -26,79 +26,79 @@
 [Info][OPS.OBF][OnPreBuild] Process component Analyse Unity Event Component
 [Info][OPS.OBF][OnPreBuild] Process component Analyse MonoScript
 [Info][OPS.OBF][OnAnalyse_Assets] Process component Analyse Unity Animation Methods
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Animations/r_hand_fist_anim.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Animations/r_hand_fist_anim.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Tree_05.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Trees/Tree_05.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Mushroom_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Mushroom_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Models/r_hand_skeletal_lowres.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Hands/r_hand_skeletal_lowres.fbx (0):
 
 [Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/basket 1.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/strawberry.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Fruits/strawberry.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/apple.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Fruits/apple.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Rock_04.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Rocks/Rock_04.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Grass_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Grass/Grass_02.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Tree_04.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Trees/Tree_04.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Rock_03.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Rocks/Rock_03.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Tree_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Trees/Tree_02.fbx (0):
 
 [Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Radio.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Ground_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Grounds/Ground_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Branch_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Branch_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Flowers_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Flowers/Flowers_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Animations/r_hand_pinch_anim.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Animations/r_hand_pinch_anim.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Ground_03.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Grounds/Ground_03.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Stump_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Stump_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Animations/r_hand_default_anim.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Animations/r_hand_default_anim.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Ground_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Grounds/Ground_02.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Bush_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Bushs/Bush_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Tree_03.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Trees/Tree_03.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Animations/l_hand_pinch_anim.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Animations/l_hand_pinch_anim.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Rock_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Rocks/Rock_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Animations/l_hand_default_anim.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Animations/l_hand_default_anim.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Rock_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Rocks/Rock_02.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/blueberry.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Fruits/blueberry.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Bush_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Bushs/Bush_02.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Models/l_hand_skeletal_lowres.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Hands/l_hand_skeletal_lowres.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Rock_05.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Rocks/Rock_05.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Bush_03.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Bushs/Bush_03.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Mushroom_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Trees/Mushroom_02.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Tree_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Trees/Tree_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Oculus Hands/Animations/l_hand_fist_anim.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Animations/l_hand_fist_anim.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Grass_01.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Grass/Grass_01.fbx (0):
 
-[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Flowers_02.fbx (0):
+[Debug][OPS.OBF][OnAnalyse_Assets] Found methods in model Assets/Models/Environment/Flowers/Flowers_02.fbx (0):
 
 [Debug][OPS.OBF][OnAnalyse_Assets] Found methods in AnimationClip Packages/com.unity.timeline/Editor/StyleSheets/res/HumanoidDefault.anim (0):
 
@@ -2742,17 +2742,17 @@
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\ScriptAssemblies
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.visualscripting@1.9.1\Editor\VisualScripting.Core\Dependencies\YamlDotNet
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom
+  - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\OPS\Editor\Plugins\Mono.Cecil
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.testtools.codecoverage@1.2.4\lib\ReportGenerator
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.collab-proxy@2.3.1\Lib\Editor\PlasticSCM
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\Plugins\Demigiant\DOTween\Editor
+  - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\OPS\Obfuscator\Editor\Plugins
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.visualscripting@1.9.1\Editor\VisualScripting.Core\Dependencies\DotNetZip
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\Plugins\Demigiant\DOTween
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.visualscripting@1.9.1\Runtime\VisualScripting.Flow\Dependencies\NCalc
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.ide.rider@3.0.25\Rider\Editor
-  - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.visualscripting@1.9.1\Editor\VisualScripting.Core\EditorAssetResources
   - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\OPS\Plugins\Json
-  - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\OPS\Editor\Plugins\Mono.Cecil
-  - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Assets\OPS\Obfuscator\Editor\Plugins
+  - C:\Users\wihler\Desktop\FruitPower\Src\FruitPower\Library\PackageCache\com.unity.visualscripting@1.9.1\Editor\VisualScripting.Core\EditorAssetResources
   - C:\Program Files\Unity\Hub\Editor\2022.3.12f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\Variations\mono\Managed
   - Assets\Plugins\Demigiant\DOTween
   - Assets\OPS\Plugins\Json
