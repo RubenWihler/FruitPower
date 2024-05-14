@@ -145,6 +145,8 @@ Pour quittez les crédits, appuyez sur le bouton "Retour" en bas de l'écran.
 
 ![credits](./img/credits.jpg)
 
+<div style="page-break-after:always"></div>
+
 ### Musique
 
 A coté du panier, une radio diffuse de la musique. Vous pouvez changer de musique en appuyant sur le bouton bleu de la radio. Il y a 4 musique disponibles. Pour stopper la musique, appuyez sur le bouton rouge de la radio.

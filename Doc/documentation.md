@@ -1141,4 +1141,2848 @@ En général, la plupart des documentations techniques suivent ces conventions p
 
 ### Code source
 
-...
+Le code source est découpé par [assembly](#assemblies-et-namespaces). Chaque assembly contient un ensemble de classes et de scripts qui sont liés par un thème commun. Voici la liste des assemblies et des classes qu'ils contiennent :
+
+#### FruitSystem
+
+##### FruitTypeData.cs
+
+```csharp file=FruitTypeData.cs
+/*
+ TPI - 2024
+ FruitPower - FruitTypeData
+ Wihler Ruben
+ */
+
+using UnityEngine;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// Objet de donnees representant un type de fruit.
+    /// </summary>
+    [System.Serializable]
+    public struct FruitTypeData
+    {
+        [Tooltip("Identifiant du fruit.")]
+        public string fruitId;
+        [Tooltip("Nom du fruit.")]
+        public string fruitName;
+        [Tooltip("Nombre de points donnes par le fruit.")]
+        public ushort pointsGiven;
+        [Tooltip("Duree de vie du fruit.")]
+        public float lifeTime;
+    }
+}
+```
+
+##### FruitTypesDatas.cs
+
+```csharp file=FruitTypesDatas.cs
+/*
+ TPI - 2024
+ FruitPower - FruitTypesDatas
+ Wihler Ruben
+ */
+
+using UnityEngine;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// Scriptable object contenant les donnees des differents types de fruits.
+    /// </summary>
+    [CreateAssetMenu(fileName = "FruitsDatas", menuName = "FruitSystem/FruitsDatas")]
+    public sealed class FruitTypesDatas : ScriptableObject
+    {
+        [Tooltip("Les donnees des differents types de fruits.")]
+        public FruitTypeData[] datas;
+    }
+}
+```
+
+##### Fruit.cs
+
+```csharp file=Fruit.cs
+/*
+ TPI - 2024
+ FruitPower - Fruit
+ Wihler Ruben
+ */
+
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// Classe representant un fruit. Un fruit est un objet interactif qui peut etre ramasse par un joueur pour gagner des points.
+    /// Il peut etre dans plusieurs etats: <see cref="FruitState.Inactive"/>, <see cref="FruitState.Attached"/>, <see cref="FruitState.Grabbed"/> et <see cref="FruitState.Neutral"/>.
+    /// Les fruit sont geres par un <see cref="FruitPooler"/> qui permet de recycler les fruits.
+    /// </summary>
+    [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
+    public sealed class Fruit : MonoBehaviour
+    {
+        [Header("Fruit Settings")]
+        [SerializeField, Tooltip("Identifiant du type de fruit.")]
+        private string _typeId;
+        [Header("Model et materials")]
+        [SerializeField, Tooltip("MeshRenderer du fruit.")]
+        private MeshRenderer _meshRenderer;
+        [SerializeField, Tooltip("Materials par defaut du fruit.")]
+        private Material[] _defaultMaterials;
+        [SerializeField, Tooltip("Materials lorsque le fruit est attrapable ou attrape par le joueur.")]
+        private Material[] _hoverMaterials;
+        [Header("Audio")]
+        [SerializeField, Tooltip("AudioSource pour les sons du fruit.")]
+        private AudioSource _audioSource;
+        [SerializeField, Tooltip("AudioClips qui se joue lorsque le fruit est attrape.")]
+        private AudioClip[] _fruitGrabAudioClips;
+        [SerializeField, Tooltip("AudioClips qui se joue lorsque le fruit entre en collision avec de l'herbe.")]
+        private AudioClip[] _fruitGrassCollisionAudioClips;
+        [SerializeField, Tooltip("AudioClips qui se joue lorsque le fruit entre en collision avec de la pierre.")]
+        private AudioClip[] _fruitRockCollisionAudioClips;
+
+        /// <summary>
+        /// Identifiant unique du fruit.
+        /// </summary>
+        private ulong _id;
+        /// <summary>
+        /// Le nombre de points que le joueur gagne en ramassant le fruit.
+        /// </summary>
+        private ushort _pointGiven;
+        /// <summary>
+        /// Le temps de vie du fruit.
+        /// </summary>
+        private float _lifetime;
+        /// <summary>
+        /// L'etat actuel du fruit.
+        /// </summary>
+        private FruitState _state;
+        /// <summary>
+        /// La coroutine de duree de vie du fruit.
+        /// </summary>
+        private Coroutine _lifetimeCoroutine;
+        /// <summary>
+        /// Le composant XRGrabInteractable du fruit.
+        /// </summary>
+        private XRGrabInteractable _grabInteractable;
+        /// <summary>
+        /// Le composant Rigidbody du fruit.
+        /// </summary>
+        private Rigidbody _rigidbody;
+        /// <summary>
+        /// L'action appelee lors du despawn du fruit.
+        /// </summary>
+        private Action<Fruit> _onDespawn;
+        
+        /// <summary>
+        /// Evenement appele lorsque le fruit entre dans l'etat "attache".
+        /// </summary>
+        private event Action OnEnterAttached;
+        /// <summary>
+        /// Evenement appele lorsque le fruit quitte l'etat "attache".
+        /// </summary>
+        public event Action OnExitAttached;
+
+        /// <summary>
+        /// L'identifiant unique du fruit (Ne change jamais meme apres un cycle de pool).
+        /// </summary>
+        public ulong Id { get => _id; set => _id = value; }
+        /// <summary>
+        /// L'identifiant du type de fruit.
+        /// </summary>
+        public string TypeId { get => _typeId; set => _typeId = value;}
+        /// <summary>
+        /// Le nombre de points que le joueur gagne en ramassant le fruit.
+        /// </summary>
+        public ushort PointsGiven { get => _pointGiven; set => _pointGiven = value; }
+        /// <summary>
+        /// Retourne l'etat actuel du fruit.
+        /// </summary>
+        public FruitState State { get => _state; set => _state = value; }
+
+        /// <summary>
+        /// Prend les composants XRGrabInteractable et Rigidbody du fruit et initialise les evenements de l'interactable.
+        /// </summary>
+        private void Awake()
+        {
+            _grabInteractable = GetComponent<XRGrabInteractable>();
+            _grabInteractable.selectEntered.AddListener(OnGrab);
+            _grabInteractable.selectExited.AddListener(OnDrop);
+            _grabInteractable.hoverEntered.AddListener(OnEnterHover);
+            _grabInteractable.hoverExited.AddListener(OnExitHover);
+
+            _rigidbody = GetComponent<Rigidbody>();
+            _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        /// <summary>
+        /// Initialise le fruit avec un identifiant unique.
+        /// Cette methode est appelee par le <see cref="FruitPooler"/> lors de l'initialisation d'un fruit (appelee qu'une seule fois).
+        /// </summary>
+        /// <param name="id">l'identifiant unique du fruit.</param>
+        /// <returns>se retourne soi-meme.</returns>
+        public Fruit Initialize(ulong id, Action<Fruit> onDespawn)
+        {
+            var fruitTypeData = FruitManager.GetFruitTypeData(_typeId);
+            _pointGiven = fruitTypeData.pointsGiven;
+            _lifetime = fruitTypeData.lifeTime;
+            _id = id;
+
+            _state = FruitState.Inactive;
+            gameObject.SetActive(false);
+            _onDespawn = onDespawn;
+
+            OnEnterAttached += OnEnterAttachedState;
+            OnExitAttached += OnExitAttachedState;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Fait apparaitre le fruit, l'attache a un FruitSpawner et demarre le coroutine de duree de vie.
+        /// </summary>
+        /// <returns></returns>
+        public Fruit Spawn()
+        {
+            gameObject.SetActive(true);
+            StartLifetimeCoroutine();
+            return this;
+        }
+        /// <summary>
+        /// Fait disparaitre le fruit et le met en etat "inactive".
+        /// </summary>
+        /// <returns>se retourne soi-meme.</returns>
+        public Fruit Despawn()
+        {
+            SetState(FruitState.Inactive);
+            gameObject.SetActive(false);
+            _onDespawn.Invoke(this);
+            return this;
+        }
+
+        /// <summary>
+        /// Attache le fruit a une position et une rotation specifiee ainsi que le met en etat "attache".
+        /// Cette methode est appelee par un <see cref="FruitSpawner"/> lorsqu'un fruit y est attache.
+        /// </summary>
+        /// <param name="position">la position a laquelle attacher le fruit.</param>
+        /// <param name="rotation">la rotation a laquelle attacher le fruit.</param>
+        /// <returns>se retourne soi-meme.</returns>
+        public Fruit Attach(Vector3 position, Quaternion rotation)
+        {
+            transform.SetPositionAndRotation(position, rotation);
+            SetState(FruitState.Attached);
+            return this;
+        }
+
+        #region XR Interaction
+
+        /// <summary>
+        /// Appele lorsqu'un joueur attrape le fruit.
+        /// Lorsque le fruit est attrape, il est mis en etat "grabbed" et la coroutine de duree de vie est arretee.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnGrab(SelectEnterEventArgs args)
+        {
+            if (_state == FruitState.Inactive) return;
+
+            //si le fruit est attache, le mettre en etat "grabbed"
+            SetState(FruitState.Grabbed);
+
+            //arreter la coroutine de duree de vie
+            StopLifetimeCoroutine();
+
+            //jouer un son aleatoire de fruit attrape
+            _fruitGrabAudioClips.PlayRandom(_audioSource);
+        }
+        /// <summary>
+        /// Appele lorsqu'un joueur lache le fruit.
+        /// Lorsque le fruit est lache, il est mis en etat "neutral" et la coroutine de duree de vie est relancee.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnDrop(SelectExitEventArgs args)
+        {
+            if (_state == FruitState.Inactive) return;
+
+            //mettre le fruit en etat "neutral" lorsqu'il est lache
+            SetState(FruitState.Neutral);
+
+            //relancer la coroutine de duree de vie
+            StartLifetimeCoroutine();
+        }
+
+        /// <summary>
+        /// Appele lorsque le fruit entre dans la zone de survol d'un joueur.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnEnterHover(HoverEnterEventArgs args)
+        {
+            if (_state == FruitState.Inactive) return;
+
+            _meshRenderer.materials = _hoverMaterials;
+        }
+        /// <summary>
+        /// Appele lorsque le fruit quitte la zone de survol d'un joueur.
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnExitHover(HoverExitEventArgs args)
+        {
+            _meshRenderer.materials = _defaultMaterials;
+        }
+
+        #endregion
+
+        #region State Management
+
+        /// <summary>
+        /// Definit l'etat du fruit.
+        /// </summary>
+        /// <param name="state">Le nouvel etat du fruit.</param>
+        private void SetState(FruitState state)
+        {
+            //si l'etat est le meme, ne rien faire
+            if (_state == state) return;
+
+            //quitter l'etat actuel et appeler les evenements de sortie
+            switch (_state)
+            {
+                case FruitState.Attached:
+                    OnExitAttached?.Invoke();
+                    break;
+
+                default:
+                    break;
+            }
+
+            //entrer dans le nouvel etat et appeler les evenements d'entree
+            switch (state)
+            {
+                case FruitState.Attached:
+                    OnEnterAttached?.Invoke();
+                    break;
+
+                default:
+                    break;
+            }
+
+            _state = state;
+        }
+
+        /// <summary>
+        /// Appele lorsqu'un fruit entre dans l'etat "attache".
+        /// </summary>
+        private void OnEnterAttachedState()
+        {
+            //bloquer le rigidbody et le mettre en mode de detection de collision discret
+            _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        }
+        /// <summary>
+        /// Appele lorsqu'un fruit quitte l'etat "attache".
+        /// </summary>
+        private void OnExitAttachedState()
+        {
+            //debloquer le rigidbody et le mettre en mode de detection de collision continu (pour eviter les traversees de murs)
+            _rigidbody.constraints = RigidbodyConstraints.None;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
+
+        #endregion
+
+        #region Lifecycle Management
+
+        /// <summary>
+        /// Commence la coroutine de duree de vie du fruit.
+        /// </summary>
+        private void StartLifetimeCoroutine()
+        {
+            StopLifetimeCoroutine();
+            _lifetimeCoroutine = StartCoroutine(LifetimeCoroutine());
+        }
+        /// <summary>
+        /// Force l'arret de la coroutine de duree de vie du fruit.
+        /// </summary>
+        private void StopLifetimeCoroutine()
+        {
+            if (_lifetimeCoroutine != null)
+                StopCoroutine(_lifetimeCoroutine);
+        }
+        /// <summary>
+        /// Coroutine de duree de vie du fruit.
+        /// Une fois le temps ecoule, le fruit est desactive.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LifetimeCoroutine()
+        {
+            yield return new WaitForSeconds(_lifetime);
+            Despawn();
+        }
+
+        #endregion
+
+        #region Collision Management
+
+        /// <summary>
+        /// Joue un son aleatoire de collision en fonction du tag de la matiere qui entre en collision avec le fruit.
+        /// </summary>
+        /// <param name="collision">la colliison.</param>
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (_state == FruitState.Inactive) return;
+
+            var other = collision.gameObject;
+
+            //jouer un son aleatoire de collision en fonction du tag de la matiere
+            if (other.CompareTag("Grass"))
+                _fruitGrassCollisionAudioClips.PlayRandom(_audioSource);
+            else if (other.CompareTag("Rock"))
+                _fruitRockCollisionAudioClips.PlayRandom(_audioSource);
+        }
+
+        #endregion
+    }
+}
+```
+
+##### FruitState.cs
+
+```csharp file=FruitState.cs
+namespace FruitSystem
+{
+    /// <summary>
+    /// enumeration des etats possibles d'un fruit.
+    /// </summary>
+    public enum FruitState
+    {
+        /// <summary>
+        /// Le fruit est desactive
+        /// </summary>
+        Inactive,
+        /// <summary>
+        /// Le fruit est attache a un FruitSpawner et peut etre ramasse par le joueur.
+        /// </summary>
+        Attached,
+        /// <summary>
+        /// Le fruit est actif et peut etre ramasse par le joueur. (la gravite est activee)
+        /// </summary>
+        Neutral,
+        /// <summary>
+        /// Le fruit est dans la main du joueur.
+        /// </summary>
+        Grabbed,
+    }
+}
+
+```
+
+##### FruitManager.cs
+
+```csharp file=FruitManager.cs
+/*
+ TPI - 2024
+ FruitPower - Fruit Manager
+ Wihler Ruben
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using GameManagement;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// La classe <see cref="FruitManager"/> est responsable de la gestion des fruits dans la sc�ne.
+    /// Etant un singleton, elle permet d'acceder facilement de l'exerieur a la liste des fruits et aux differents managers.
+    /// </summary>
+    public sealed class FruitManager : MonoBehaviour
+    {
+        #region Singleton
+        
+        private static FruitManager _instance;
+        public static FruitManager Instance
+        {
+            get
+            {
+                if (_instance is null) 
+                    throw new NullReferenceException("Aucun FruitManager n'a ete trouve dans la sc�ne.");
+
+                return _instance;
+            }
+        }
+
+        #endregion
+
+        [Header("References")]
+        [SerializeField, Tooltip("Tout les fruits disponibles.")]
+        private FruitPoolData[] fruitsEntries;
+        [SerializeField, Tooltip("Le parent qui contient les spawners de fruits.")]
+        private Transform fruitSpawnersParent;
+        [SerializeField, Tooltip("Les donnees des differents types de fruits.")]
+        private FruitTypesDatas fruitTypesDatas;
+
+        /// <summary>
+        /// reference vers le manager de spawn de fruits.
+        /// </summary>
+        private FruitSpawnManager _fruitSpawnerManager;
+        /// <summary>
+        /// reference vers le pooler de fruits.
+        /// </summary>
+        private FruitPooler _fruitPooler;
+        /// <summary>
+        /// Liste de tous les fruits (actifs et inactifs).
+        /// </summary>
+        private List<Fruit> _fruits;
+        /// <summary>
+        /// Compteur d'identifiant pour les fruits.
+        /// </summary>
+        private ulong _idCounter;
+        
+        /// <summary>
+        /// Donne le fruitTypeData en fonction de l'identifiant du fruit.
+        /// </summary>
+        /// <param name="fruitId">L'identifiant du fruit.</param>
+        /// <returns>L'objet FruitTypeData correspondant a l'identifiant du fruit.</returns>
+        public static FruitTypeData GetFruitTypeData(string fruitId)
+        {
+            return Instance.fruitTypesDatas.datas.FirstOrDefault(data => data.fruitId == fruitId);
+        }
+
+        /// <summary>
+        /// Mise en place du singleton et initialisation de la liste de fruits.
+        /// </summary>
+        private void Awake()
+        {
+            //Singleton
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this);
+                Debug.LogWarning("[!] Une autre instance de FruitManager a ete trouvee. L'instance actuelle a ete detruite.");
+                return;
+            }
+
+            _instance = this;
+            DontDestroyOnLoad(this);
+
+            //Initialisation de la liste de fruits et du compteur d'identifiant
+            _fruits = new List<Fruit>();
+            _idCounter = 0;
+        }
+        /// <summary>
+        /// Initialisation du pooler et du manager de spawn de fruits.
+        /// </summary>
+        private void Start()
+        {
+            //Initialisation de la factory et du manager de spawn
+            (_fruitPooler, _fruitSpawnerManager) = Initialize();
+        }
+
+        /// <summary>
+        /// On s'abonne aux evenements de debut et de fin de jeu.
+        /// </summary>
+        private void OnEnable()
+        {
+            GameManager.OnGameStart += OnGameStart;
+            GameManager.OnGameEnd += OnGameEnd;
+        }
+        /// <summary>
+        /// On se desabonne aux evenements de debut et de fin de jeu pour eviter.
+        /// </summary>
+        private void OnDisable()
+        {
+            GameManager.OnGameStart -= OnGameStart;
+            GameManager.OnGameEnd -= OnGameEnd;
+        }
+
+        /// <summary>
+        /// On dit au manager de spawn de fruits de commencer a spawn des fruits.
+        /// </summary>
+        /// <param name="options">Les options de la partie donnees</param>
+        private void OnGameStart(GameOption options)
+        {
+            _fruitSpawnerManager.StartSpawning(options.spawnerRate);
+        }
+        /// <summary>
+        /// On dit au manager de spawn de fruits d'arreter de spawn des fruits et on despawn tout les fruits actifs.
+        /// </summary>
+        private void OnGameEnd()
+        {
+            _fruitSpawnerManager.StopSpawning();
+            //despawn tout les fruits actifs
+            _fruits.Where(fruit => fruit.State != FruitState.Inactive).ToList().ForEach(fruit => fruit.Despawn());
+        }
+
+        /// <summary>
+        /// Initialise le pooler et le manager de spawn de fruits.
+        /// </summary>
+        /// <returns>Un tuple contenant le pooler et le manager de spawn.</returns>
+        private (FruitPooler, FruitSpawnManager) Initialize()
+        {
+            //Initialisation du pooler de fruits
+            var fruitPooler = new FruitPooler(fruitsEntries, transform, (instantiate) =>
+            {
+                var fruit = instantiate(_idCounter++);
+                _fruits.Add(fruit);
+                return fruit;
+            });
+
+            //Initialisation du manager de spawn de fruits
+            var fruitSpawners = fruitSpawnersParent.GetComponentsInChildren<FruitSpawner>();
+            var fruitSpawnManager = new FruitSpawnManager(fruitPooler.InstantiateFruit, () => _fruits, this, fruitSpawners);
+
+            return (fruitPooler, fruitSpawnManager);
+        }
+    }
+}
+```
+
+##### FruitPoolData.cs
+
+```csharp file=FruitPoolData.cs
+/*
+ TPI - 2024
+ FruitPower - FruitPoolData
+ Wihler Ruben
+ */
+
+using UnityEngine;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// Structure qui contient les donnees d'un pool de fruits.
+    /// </summary>
+    [System.Serializable]
+    public struct FruitPoolData
+    {
+        [Tooltip("Identifiant du type de fruit. (Le meme que dans le component Fruit)")]
+        public string typeId;
+
+        [Tooltip("Prefab qui contient le fruit.")]
+        public GameObject prefab;
+        
+        [Tooltip("Nombre de fruits dans le pool. [default: 5]")]
+        public ushort poolSize;
+    }
+}
+```
+
+##### FruitPooler.cs
+
+```csharp file=FruitPooler.cs
+/*
+ TPI - 2024
+ FruitPower - Fruit Pooler
+ Wihler Ruben
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// La classe <see cref="FruitPooler"/> est responsable de la gestion des pools de fruits.
+    /// Elle permet de recycler les fruits afin d'eviter les instanciations et destructions inutiles.
+    /// </summary>
+    public sealed class FruitPooler
+    {
+        /// <summary>
+        /// Dictionnaire qui contient les prefabs des fruits.
+        /// </summary>
+        private readonly Dictionary<string, GameObject> _fruitsDictionary;
+        /// <summary>
+        /// Dictionnaire qui contient les pools de fruits organises par identifiant de type.
+        /// </summary>
+        private readonly Dictionary<string, Queue<Fruit>> _fruitsPools;
+        /// <summary>
+        /// Fonction de callback appelee lors de l'instanciation d'un fruit. 
+        /// Il contient la fonction d'initialisation du fruit.
+        /// </summary>
+        private readonly Func<Func<ulong, Fruit>, Fruit> _fruitInstantiationCallback;
+        /// <summary>
+        /// L'objet parent des fruits.
+        /// </summary>
+        private readonly Transform _parent;
+
+        /// <summary>
+        /// Constructeur de la classe <see cref="FruitPooler"/>.
+        /// Initialise la factory avec les objets <see cref="FruitPoolData"/> et le parent des fruits.
+        /// </summary>
+        /// <param name="fruitsEntries">Un tableau d'objets <see cref="FruitPoolData"/> qui contient les donnees necessaires pour initialiser les pools de fruits.</param>
+        /// <param name="parent">L'objet parent des fruits.</param>
+        /// <param name="fruitInstantiationCallback">Fonction de callback appelee lors de l'instanciation d'un fruit.</param>
+        public FruitPooler(FruitPoolData[] fruitsEntries, Transform parent, Func<Func<ulong, Fruit>, Fruit> fruitInstantiationCallback)
+        {
+            _parent = parent;
+            _fruitInstantiationCallback = fruitInstantiationCallback;
+
+            // Initialisation du dictionnaire
+            _fruitsDictionary = InitializeDictionary(fruitsEntries.Select(entry => (
+                typeId: entry.typeId,
+                prefab: entry.prefab
+            )));
+
+            // Initialisation des pools
+            _fruitsPools = InitializePools(fruitsEntries.Select(entry => (
+                typeId: entry.typeId,
+                prefab: entry.prefab,
+                poolSize: entry.poolSize
+            )));
+
+            Debug.Log("[i] FruitFactory initialized.");
+        }
+
+        /// <summary>
+        /// Instancie un fruit du type specifie a partir du pool.
+        /// </summary>
+        /// <param name="typeId">L'identifiant du type de fruit.</param>
+        /// <returns>le fruit instancie.</returns>
+        /// <exception cref="FruitTypeIdDoesNotExistException">Si le type de fruit n'existe pas.</exception>
+        /// <exception cref="FruitPoolDoesNotExistException">Si le pool de fruit n'existe pas.</exception>
+        public Fruit InstantiateFruit(string typeId)
+        {
+            // Verifie si le type de fruit existe
+            if (!_fruitsDictionary.TryGetValue(typeId, out var prefab))
+                throw new FruitTypeIdDoesNotExistException(typeId);
+
+            // Verifie si le pool du type de fruit existe
+            if (!_fruitsPools.TryGetValue(typeId, out var pool))
+                throw new FruitPoolDoesNotExistException(typeId);
+
+            //si le pool est vide, on en cree un nouveau et on l'ajoute au pool
+            if (pool.Count == 0)
+                pool.Enqueue(InstantiateFruit(prefab));
+
+            return pool.Dequeue();
+        }
+
+        /// <summary>
+        /// Remet un fruit dans le pool.
+        /// </summary>
+        /// <param name="fruit">le fruit a remettre dans le pool.</param>
+        /// <exception cref="FruitPoolDoesNotExistException"></exception>
+        public void PushFruitToPool(Fruit fruit)
+        {
+            // Verifie si le pool du type de fruit existe
+            if (!_fruitsPools.TryGetValue(fruit.TypeId, out var pool))
+                throw new FruitPoolDoesNotExistException(fruit.TypeId);
+
+            pool.Enqueue(fruit);
+        }
+
+        #region Initialisation
+
+        /// <summary>
+        /// Initialise le dictionnaire des fruits a partir des donnees.
+        /// </summary>
+        /// <param name="fruitsData">un enumerable de tuples contenant les donnees necessaires pour initialiser le dictionnaire des fruits.</param>
+        /// <returns></returns>
+        private Dictionary<string, GameObject> InitializeDictionary(IEnumerable<(string typeId, GameObject prefab)> fruitsData)
+        {
+           return fruitsData.ToDictionary(
+               f => f.typeId,
+               f => f.prefab
+           );
+        }
+        /// <summary>
+        /// Initialise les pools de fruits a partir des donnees.
+        /// </summary>
+        /// <param name="fruitsData">Un enumerable de tuples contenant les donnees necessaires pour initialiser les pools de fruits.</param>
+        /// <returns>l'ensemble des pools de fruits organise par identifiant de type.</returns>
+        private Dictionary<string, Queue<Fruit>> InitializePools(IEnumerable<(string typeId, GameObject prefab, ushort poolSize)> fruitsData)
+        {
+            return fruitsData.ToDictionary(
+                f => f.typeId, 
+                f => InitializePool(f.prefab, f.poolSize)
+            );
+        }
+        /// <summary>
+        /// Initialise un pool de fruit et le remplit avec des fruits instancies.
+        /// </summary>
+        /// <param name="prefab">la prefab du fruit.</param>
+        /// <param name="size">le nombre de fruits a instancier.</param>
+        /// <returns></returns>
+        private Queue<Fruit> InitializePool(GameObject prefab, ushort size)
+        {
+            var pool = new Queue<Fruit>(size);
+
+            for (var i = 0; i < size; i++)
+                pool.Enqueue(InstantiateFruit(prefab));
+
+            return pool;
+        }
+        /// <summary>
+        /// Instancie un fruit a partir de la prefab.
+        /// </summary>
+        /// <param name="prefab">La prefab du fruit a instancier.</param>
+        /// <returns>le fruit instancie.</returns>
+        /// <exception cref="Exception">Une exception est levee si la prefab ne contient pas de component Fruit.</exception>
+        private Fruit InstantiateFruit(GameObject prefab)
+        {
+            //Instanciation de la prefab
+            var gameObject = GameObject.Instantiate(prefab, _parent);
+
+            // Verifie si le prefab contient un component Fruit
+            if (!gameObject.TryGetComponent<Fruit>(out var fruit))
+                throw new Exception();
+
+            //Appel du callback d'instanciation
+            return _fruitInstantiationCallback((id) => fruit.Initialize(id, PushFruitToPool));
+        }
+
+        #endregion
+
+        #region Exceptions
+
+        /// <summary>
+        /// Exception levee lorsque une tentative d'instanciation d'un fruit d'un type inexistant est faite.
+        /// </summary>
+        public class FruitTypeIdDoesNotExistException : Exception
+        { public FruitTypeIdDoesNotExistException(string typeId) : base($"Le type de fruit {typeId} n'existe pas.") { } }
+        /// <summary>
+        /// Exception levee lorsque une tentative d'instanciation d'un fruit d'un pool inexistant est faite.
+        /// </summary>
+        public class FruitPoolDoesNotExistException : Exception
+        { public FruitPoolDoesNotExistException(string typeId) : base($"Le pool de fruit {typeId} n'existe pas.") { } }
+        /// <summary>
+        /// Exception levee lorsque la prefab ne contient pas de composant Fruit.
+        /// </summary>
+        public class PrefabDoesNotContainsPoolableFruitComponent : Exception
+        { public PrefabDoesNotContainsPoolableFruitComponent(GameObject go) : base($"le prefab {go.name} ne contient pas de composant Fruit.") { } }
+
+        #endregion
+    }
+}
+```
+
+##### FruitSpawnManager.cs
+
+```csharp file=FruitSpawnManager.cs
+/*
+ TPI - 2024
+ FruitPower - FruitSpawnManager
+ Wihler Ruben
+ */
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// Classe responsable de la gestion des spawners de fruits. Elle permet de gerer le spawn de fruits.
+    /// </summary>
+    public sealed class FruitSpawnManager
+    {
+        /// <summary>
+        /// Etant donne que cette classe n'est pas un MonoBehaviour, on doit passer un MonoBehaviour pour pouvoir lancer des coroutines.
+        /// </summary>
+        private readonly MonoBehaviour _coroutineOwner;
+        /// <summary>
+        /// Dictionnaire contenant les spawners de fruits classes par type de fruit.
+        /// </summary>
+        private readonly Dictionary<string, List<FruitSpawner>> _fruitsSpawners;
+        /// <summary>
+        /// Dictionnaire de cache pour optimiser les performances. Il contient le nombre de fruits a spawn pour chaque type de fruit.
+        /// </summary>
+        private readonly Dictionary<string, ushort> _fruitTypeSpawnCount;
+        /// <summary>
+        /// La fonction qui instancie un fruit a partir de son type. (Utilisee lors du spawn de fruit)
+        /// </summary>
+        private readonly Func<string, Fruit> _instantiateFruit;
+        /// <summary>
+        /// La fonction qui retourne tous les fruits.
+        /// </summary>
+        private readonly Func<List<Fruit>> _getAllFruits;
+
+        private Coroutine _spawnCoroutine;
+        private bool _isSpawning;
+        private ushort _spawnerRate;
+
+        /// <summary>
+        /// Constructeur de la classe <see cref="FruitSpawnManager"/>.
+        /// </summary>
+        /// <param name="instantiateFruit">Fonction qui instancie un fruit a partir de son type (Utilisee lors du spawn de fruit).</param>
+        /// <param name="getAllFruits">Fonction qui retourne tous les fruits.</param>
+        /// <param name="coroutineOwner">Le MonoBehaviour qui va lancer les coroutines.</param>
+        /// <param name="fruitSpawners">Une liste de tous les spawners de fruits.</param>
+        public FruitSpawnManager(Func<string, Fruit> instantiateFruit, Func<List<Fruit>> getAllFruits, MonoBehaviour coroutineOwner, FruitSpawner[] fruitSpawners)
+        {
+            _coroutineOwner = coroutineOwner;
+            _instantiateFruit = instantiateFruit;
+            _getAllFruits = getAllFruits;
+            _fruitsSpawners = InitializeFruitSpawners(fruitSpawners);
+            _fruitTypeSpawnCount = new Dictionary<string, ushort>();
+        }
+
+        /// <summary>
+        /// Commence a faire apparaitre les fruits.
+        /// </summary>
+        /// <param name="spawnerRate"></param>
+        public void StartSpawning(ushort spawnerRate)
+        {
+            this._spawnerRate = spawnerRate;
+            _isSpawning = true;
+            StartSpawnCoroutine();
+        }
+        /// <summary>
+        /// Arrete de faire apparaitre les fruits.
+        /// </summary>
+        public void StopSpawning()
+        {
+            _isSpawning = false;
+            StopSpawnCoroutine();
+        }
+
+        /// <summary>
+        /// Commence la coroutine responsable du spawn des fruits.
+        /// </summary>
+        private void StartSpawnCoroutine()
+        {
+            StopSpawnCoroutine();
+            _spawnCoroutine = _coroutineOwner.StartCoroutine(SpawnCoroutine());
+        }
+        /// <summary>
+        /// Arrete la coroutine responsable du spawn des fruits.
+        /// </summary>
+        private void StopSpawnCoroutine()
+        {
+            if (_spawnCoroutine != null)
+            {
+                _coroutineOwner.StopCoroutine(_spawnCoroutine);
+                _spawnCoroutine = null;
+            }
+        }
+        /// <summary>
+        /// Coroutine responsable du spawn des fruits.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator SpawnCoroutine()
+        {
+            SpawnFruits();
+            yield return new WaitForSeconds(1);
+
+            //recucrsion si on est toujours en train de spawner
+            if (_isSpawning) StartSpawnCoroutine();
+        }
+
+        /// <summary>
+        /// Fait apparaitre les fruits pour chaque type de fruit.
+        /// Le nombre de fruits a apparaitre est calcule avec <see cref="CalculateSpawnCount(ushort, ushort)"/>.
+        /// </summary>
+        private void SpawnFruits()
+        {
+            //on spawn (spawnRate/nombre de points) fruits pour chaque type de fruit
+            foreach (var fruitTypeId in _fruitsSpawners.Keys)
+            {
+                //recuperer les spawners qui ne sont pas pleins
+                var spawners = _fruitsSpawners[fruitTypeId].Where((s) => !s.IsFull).ToList();
+                var spawnCount = GetCachedFruitSpawnCount(fruitTypeId);
+
+                for (int i = 0; i < spawnCount; i++)
+                {
+                    if (spawners.Count == 0) break;//si il n'y a plus de spawner, on arrete
+
+                    //prendre un spawner au hasard
+                    var spawner = spawners[UnityEngine.Random.Range(0, spawners.Count)];
+                    spawners.Remove(spawner);//on enleve le spawner de la liste pour eviter de le reprendre
+                    spawner.SpawnFruit(_instantiateFruit(fruitTypeId));//_fruitFactory.InstantiateFruit()
+                }
+            }
+        }
+        /// <summary>
+        /// Retourne le nombre de fruits a apparaitre pour un type de fruit donne. 
+        /// Utilise <see cref="_fruitTypeSpawnCount"/> pour eviter de recalculer le nombre de fruits a apparaitre a chaque fois.
+        /// </summary>
+        /// <param name="typeId">L'identifiant du type de fruit.</param>
+        /// <returns></returns>
+        private int GetCachedFruitSpawnCount(string typeId)
+        {
+            //si le type de fruit n'existe pas encore dans le dictionnaire, on le calcule et on l'ajoute
+            if (!_fruitTypeSpawnCount.ContainsKey(typeId))
+            {
+                var score = _getAllFruits().Find(f => f.TypeId == typeId).PointsGiven;
+                var spawnCount = CalculateSpawnCount(_spawnerRate, score);
+                _fruitTypeSpawnCount.Add(typeId, spawnCount);
+            }
+
+            return _fruitTypeSpawnCount[typeId];
+        }
+        /// <summary>
+        /// Calcule le nombre de fruits a apparaitre en fonction du score du fruit et du taux de spawn.
+        /// </summary>
+        /// <param name="spawnerRate">Le taux de spawn (global pour tous les fruits).</param>
+        /// <param name="score">le nombre de points que le joueur gagne en ramassant le fruit.</param>
+        /// <returns></returns>
+        private ushort CalculateSpawnCount(ushort spawnerRate, ushort score)
+        {
+            return Math.Clamp((ushort)(spawnerRate / score), (ushort)1, ushort.MaxValue);
+        }
+
+        /// <summary>
+        /// cree un dictionnaire qui contiendra les spawners de fruits classes par type de fruit
+        /// </summary>
+        /// <returns>le dictionnaire des spawners de fruits</returns>
+        private Dictionary<string, List<FruitSpawner>> InitializeFruitSpawners(FruitSpawner[] spawners)
+        {
+            var dictionary = new Dictionary<string, List<FruitSpawner>>();
+
+            //Ajouter chaque spawner dans le dictionnaire
+            foreach (var spawner in spawners)
+            {
+                //Si le type de fruit n'existe pas encore dans le dictionnaire, on le cree
+                if (!dictionary.ContainsKey(spawner.FruitType))
+                    dictionary.Add(spawner.FruitType, new List<FruitSpawner>());
+
+                //Ajouter le spawner dans la liste correspondante
+                dictionary[spawner.FruitType].Add(spawner);
+            }
+
+            return dictionary;
+        }
+
+    }
+}
+```
+
+##### FruitSpawner.cs
+
+```csharp file=FruitSpawner.cs
+/*
+ TPI - 2024
+ FruitPower - FruitSpawner
+ Wihler Ruben
+ */
+
+using UnityEngine;
+
+namespace FruitSystem
+{
+    public sealed class FruitSpawner : MonoBehaviour
+    {
+        [Header("Settings")]
+        [SerializeField, Tooltip("The type of fruit to spawn.")]
+        private string _fruitType;
+
+        [Header("References")]
+        [SerializeField, Tooltip("The spawner's spawn point.")]
+        private Transform _spawnPoint;
+
+        private bool _full;
+        private Fruit _attachedFruit;
+
+        public string FruitType => _fruitType;
+        public bool IsFull => _full;
+
+        public void SpawnFruit(Fruit fruit)
+        {
+            if (_full)
+            {
+                //meme si cela ne devrait pas arriver, mettre un warning pour le signaler nous assure qu'on ne rate pas un comportement inattendu
+                Debug.LogWarning($"[!] Une tentative de spawn a ete effectuee sur un spawner plein: {name}");
+                return;
+            }
+
+            _attachedFruit = fruit.Spawn().Attach(_spawnPoint.position, _spawnPoint.rotation);
+            _attachedFruit.OnExitAttached += OnFruitDetached;
+            _full = true;
+        }
+        private void OnFruitDetached()
+        {
+            _attachedFruit.OnExitAttached -= OnFruitDetached;
+            _attachedFruit = null;
+            _full = false;
+        }
+    }
+}
+```
+
+##### Basket.cs
+
+```csharp file=Basket.cs
+/*
+ TPI - 2024
+ FruitPower - Basket
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using GameManagement;
+
+namespace FruitSystem
+{
+    /// <summary>
+    /// Composant representant un panier de fruits. Il permet de recuperer les fruits qui entrent dans sa zone de collision trigger.
+    /// </summary>
+    [RequireComponent(typeof(Collider))]
+    public sealed class Basket : MonoBehaviour
+    {
+        [Header("Audio")]
+        [SerializeField, Tooltip("Source audio pour les sons de capture de fruits")]
+        private AudioSource _audioSource;
+        [SerializeField, Tooltip("Sons joues quand un fruit est attrape")]
+        private AudioClip[] _catchSounds;
+
+        /// <summary>
+        /// Quand un objet entre dans la zone de collision trigger du panier
+        /// On regarde si l'objet a un composant Fruit et on l'attrape
+        /// </summary>
+        /// <param name="other"></param>
+        private void OnTriggerEnter(Collider other)
+        {
+            //si le collider de l'objet qui entre en collision avec le panier a un composant Fruit, on attrape l'attrape
+            if (other.attachedRigidbody.TryGetComponent(out Fruit fruit)) CatchFruit(fruit);
+        }
+
+        /// <summary>
+        /// Ajoute les points du fruit attrape au score et desactive le fruit
+        /// </summary>
+        /// <param name="fruit">le fruit attrape</param>
+        private void CatchFruit(Fruit fruit)
+        {
+            //si le jeu n'est pas en cours, on ne fait rien
+            if (GameManager.IsGameRunning == false) return;
+
+            //ajout des points (si l'ajout des points echoue, on ne fait rien)
+            if (!GameManager.AddPoints(fruit.PointsGiven, fruit.TypeId)) return;
+
+            //on joue un son aleatoire de capture
+            _catchSounds.PlayRandom(_audioSource);
+
+            //on desactive le fruit
+            fruit.Despawn();
+        }
+    }
+}
+```
+
+---
+
+#### GameManagement
+
+##### GameOption.cs
+
+```csharp file=GameOption.cs
+/*
+ TPI - 2024
+ FruitPower - Fruit System
+ Wihler Ruben
+ */
+
+using UnityEngine;
+
+/// <summary>
+/// Structure qui contient les options du jeu.
+/// </summary>
+[System.Serializable]
+public struct GameOption
+{
+    [Header("Game Options")]
+    [Tooltip("Le temps de jeu en secondes.")]
+    public float gameDuration;
+    [Tooltip("Le nombre d'apparition de fruits par seconde.")]
+    public ushort spawnerRate;
+    [Tooltip("Le nombre de seconde que dure le compte a rebours avant une partie")]
+    public uint countdownDuration;
+}
+
+```
+
+##### GameManager.cs
+
+```csharp file=GameManager.cs
+/*
+ TPI - 2024
+ FruitPower - Game Manager
+ Wihler Ruben
+ */
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace GameManagement
+{
+    /// <summary>
+    /// Classe responsable de la gestion du jeu. C'est ici que l'on demarre et termine le jeu.
+    /// Cette classe est un singleton pour permettre un acc�s facile a partir de n'importe o�.
+    /// </summary>
+    public sealed class GameManager : MonoBehaviour
+    {
+        #region Singleton
+
+        private static GameManager _instance;
+        public static GameManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    throw new Exception("Aucune instance de GameManager n'a ete trouvee ! Assurez-vous que GameManager est present dans la scene.");
+
+                return _instance;
+            }
+        }
+
+        #endregion
+
+        [Header("Game Options")]
+        [SerializeField, Tooltip("Les options du jeu.")]
+        private GameOption _gameOption;
+
+        [Header("Audio")]
+        [SerializeField, Tooltip("Le son jouer quand il reste 10 secondes")]
+        private AudioClip _lastSecondsSound;
+
+        /// <summary>
+        /// Evenement appele lorsque le jeu demarre. Les abonnes a cet evenement recevront les options du jeu.
+        /// </summary>
+        public static event Action<GameOption> OnGameStart;
+        /// <summary>
+        /// Evenement appele lorsque le jeu se termine.
+        /// </summary>
+        public static event Action OnGameEnd;
+        /// <summary>
+        /// Evenement appele lorsque le score change. Les abonnes a cet evenement recevront le nouveau score.
+        /// </summary>
+        public static event Action<int> OnScoreChange;
+        /// <summary>
+        /// Evenement appele lorsque le compte a rebours commence. Un callback est passe en parametre pour lancer la partie.
+        /// </summary>
+        public static event Action<uint> OnCountdownStart;
+
+        /// <summary>
+        /// reference vers le score du jeu.
+        /// </summary>
+        private GameScore _gameScore;
+        /// <summary>
+        /// reference vers le timer du jeu.
+        /// </summary>
+        private GameTimer _gameTimer;
+        /// <summary>
+        /// reference vers les statistiques du jeu.
+        /// </summary>
+        private GameStats _gameStats;
+        /// <summary>
+        /// variable indiquant si le jeu est en cours.
+        /// </summary>
+        private bool _isGameRunning;
+
+        /// <summary>
+        /// Le score actuel du jeu.
+        /// </summary>
+        public static int Score => Instance._gameScore.Score;
+        /// <summary>
+        /// Les fruits attrapes durant la partie.
+        /// </summary>
+        public static Dictionary<string, uint> FruitsCaught => Instance._gameStats.FruitsCaught;
+        /// <summary>
+        /// Indique si le jeu est en cours.
+        /// </summary>
+        public static bool IsGameRunning => Instance._isGameRunning;
+
+        /// <summary>
+        /// Setup du singleton.
+        /// </summary>
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        /// <summary>
+        /// Commence le jeu apres un delai de 2 secondes.
+        /// </summary>
+        private async void Start()
+        {
+            await Task.Delay(2000);
+            StartGame();
+        }
+
+        /// <summary>
+        /// Commence le jeu avec les options actuelles.
+        /// </summary>
+        [ContextMenu("Start Game")]
+        public static void StartGame()
+        {
+            Debug.Log($"[i] Starting game...");
+            Instance.StartCoroutine(Instance.StartingCoroutine());
+        }
+
+        /// <summary>
+        /// Termine le jeu.
+        /// </summary>
+        [ContextMenu("End Game")]
+        public static void EndGame()
+        {
+            // Si le jeu n'est pas en cours, on ne fait rien.
+            if (!IsGameRunning) return;
+
+            //On met le temps en pause
+            Time.timeScale = 0;
+            //On arrete le timer
+            Instance.StopTimer();
+            Debug.Log($"[i] GameEnded");
+        }
+
+        /// <summary>
+        /// Coroutine de demarrage du jeu.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator StartingCoroutine()
+        {
+            // Si le jeu est deja en cours, on ne fait rien.
+            if (IsGameRunning) yield break;
+
+            //On remet le temps a la normale
+            Time.timeScale = 1;
+            //On remet le score a 0
+            ResetPoints();
+            ResetStats();
+
+            //On appelle l'evenement de debut de compte a rebours et on attend sa fin
+            var countdownDuration = _gameOption.countdownDuration;
+            OnCountdownStart?.Invoke(countdownDuration);
+            yield return new WaitForSeconds(countdownDuration + 1);//+1 pour attendre le message de fin de compte a rebours
+
+            StartTimer();
+        }
+
+        #region Score Management
+
+        /// <summary>
+        /// Ajoute des points au score actuel.
+        /// </summary>
+        /// <param name="points">Les points a ajouter.</param>
+        public static bool AddPoints(int points, string fruitTypeId = "")
+        {
+            // Si le fruitTypeId n'est pas vide, on ajoute le fruit aux statistiques.
+            if (!string.IsNullOrEmpty(fruitTypeId))
+                Instance._gameStats.AddFruit(fruitTypeId);
+
+            // Si le jeu n'est pas en cours, on notifie dans les logs qu'un comportement inattendu a eu lieu et on ne fait rien.
+            if (!IsGameRunning)
+            {
+                Debug.LogWarning("[!] Une tentative d'ajout de points a ete faite alors que le jeu n'est pas en cours.");
+                return false;
+            }
+
+            var newScore = Instance._gameScore.AddPoints(points);
+            OnScoreChange?.Invoke(newScore);
+            return true;
+        }
+        /// <summary>
+        /// Remet le score a 0.
+        /// </summary>
+        public static void ResetPoints()
+        {
+            Instance._gameScore = new GameScore();
+            OnScoreChange?.Invoke(0);
+        }
+        /// <summary>
+        /// Remet les statistiques a 0.
+        /// </summary>
+        public static void ResetStats()
+        {
+            Instance._gameStats = new GameStats();
+        }
+
+        #endregion
+
+        #region Timer Management
+
+        /// <summary>
+        /// Start the game timer.
+        /// </summary>
+        private void StartTimer()
+        {
+            // Si le jeu est deja en cours, on ne fait rien.
+            if (_isGameRunning) return;
+
+            // On cree un nouveau timer avec les options actuelles.
+            _gameTimer = new GameTimer(_gameOption.gameDuration, this,
+                //lancement de la partie
+                () => {
+                    _isGameRunning = true;
+                    OnGameStart?.Invoke(_gameOption);
+                },
+                //fin de la partie
+                () => {
+                    _isGameRunning = false;
+                    OnGameEnd?.Invoke();
+                },
+                //dernieres secondes (10 secondes restantes)
+                () => {
+                    AudioSource.PlayClipAtPoint(_lastSecondsSound, Camera.main.transform.position);
+                }
+            );
+
+            // On demarre le timer.
+            _gameTimer.Start();
+        }
+
+        /// <summary>
+        /// Stop the game timer.
+        /// </summary>
+        private void StopTimer()
+        {
+            // Si le jeu n'est pas en cours, on ne fait rien.
+            if (!_isGameRunning) return;
+
+            _gameTimer.Stop();
+            _gameTimer = null;
+        }
+
+        #endregion
+    }
+}
+```
+
+##### GameScore.cs
+
+```csharp file=GameScore.cs
+/*
+ TPI - 2024
+ FruitPower - GameTimer
+ Wihler Ruben
+ */
+
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace GameManagement
+{
+    /// <summary>
+    /// Classe responsable de la gestion du score du jeu.
+    /// </summary>
+    public sealed class GameScore
+    {
+        /// <summary>
+        /// Score du jeu.
+        /// </summary>
+        private int _score;
+
+        /// <summary>
+        /// Propriete permettant d'acceder au score du jeu.
+        /// </summary>
+        public int Score => _score;
+
+        /// <summary>
+        /// Constructeur de la classe GameScore.
+        /// </summary>
+        /// <param name="score">le score initial du jeu. (default: 0)</param>
+        public GameScore(int score = 0)
+        {
+            this._score = score;
+        }
+
+        /// <summary>
+        /// Methode permettant d'ajouter des points au score du jeu.
+        /// </summary>
+        /// <param name="points">Le nombre de points a ajouter.</param>
+        /// <returns>le nouveau score du jeu.</returns>
+        public int AddPoints(int points)
+        {
+            // Verifie si le score est trop eleve pour etre ajoute.
+            if (_score + points > int.MaxValue)
+            {
+                Debug.LogWarning($"[!] Le score est trop eleve pour etre ajoute. (max: {int.MaxValue})");
+                _score = int.MaxValue;
+            }
+            else
+            {
+                _score += points;
+            }
+
+            return _score;
+        }
+    }
+}
+```
+
+##### GameStats.cs
+
+```csharp file=GameStats.cs
+using System.Collections.Generic;
+
+namespace GameManagement
+{
+    /// <summary>
+    /// Classe responsable de la gestion des statistiques du jeu. 
+    /// Pour l'instant, elle ne contient que les fruits attrapes.
+    /// </summary>
+    public sealed class GameStats
+    {
+        /// <summary>
+        /// dictionnaire contenant les fruits attrapes et leur quantite.
+        /// TKey: l'identifiant du type de fruit.
+        /// TValue: la quantite de fruit attrape.
+        /// </summary>
+        private readonly Dictionary<string, uint> _fruitsCaught;
+
+        /// <summary>
+        /// Dictionnaire contenant les fruits attrapes et leur quantite.
+        /// </summary>
+        public Dictionary<string, uint> FruitsCaught => _fruitsCaught;
+
+        /// <summary>
+        /// Constructeur de la classe GameStats.
+        /// </summary>
+        public GameStats()
+        {
+            _fruitsCaught = new Dictionary<string, uint>();
+        }
+        
+        /// <summary>
+        /// Ajoute un fruit attrape
+        /// </summary>
+        /// <param name="fruitTypeId"></param>
+        public void AddFruit(string fruitTypeId)
+        {
+            if (_fruitsCaught.ContainsKey(fruitTypeId))
+            {
+                _fruitsCaught[fruitTypeId]++;
+            }
+            else
+            {
+                _fruitsCaught.Add(fruitTypeId, 1);
+            }
+        }
+    }
+}
+```
+
+##### GameTimer.cs
+
+```csharp file=GameTimer.cs
+/*
+ TPI - 2024
+ FruitPower - GameTimer
+ Wihler Ruben
+ */
+
+using System;
+using System.Collections;
+using UnityEngine;
+
+namespace GameManagement
+{
+    /// <summary>
+    /// Classe responsable de la gestion du temps de jeu.
+    /// </summary>
+    public sealed class GameTimer
+    {
+        /// <summary>
+        /// temps de la partie en secondes.
+        /// </summary>
+        private readonly float _duration;
+        /// <summary>
+        /// reference vers le MonoBehaviour qui possede le coroutine.
+        /// </summary>
+        private readonly MonoBehaviour _coroutineOwner;
+        /// <summary>
+        /// delegate appele lorsque le jeu demarre.
+        /// </summary>
+        private readonly Action _onStart;
+        /// <summary>
+        /// delegate appele lorsque le jeu se termine.
+        /// </summary>
+        private readonly Action _onEnd;
+        /// <summary>
+        /// delegate appele lorsque le jeu est sur le point de se terminer.
+        /// </summary>
+        private readonly Action _onEndSoon;
+        /// <summary>
+        /// Reference vers la coroutine du timer.
+        /// </summary>
+        private Coroutine _timerCoroutine;
+
+        /// <summary>
+        /// Constructeur de la classe GameTimer.
+        /// </summary>
+        /// <param name="duration">La duree de la partie en secondes.</param>
+        /// <param name="coroutineOwner">Le MonoBehaviour qui possede le coroutine.</param>
+        /// <param name="onStart">Le delegate appele lorsque le jeu demarre.</param>
+        /// <param name="onEnd">Le delegate appele lorsque le jeu se termine.</param>
+        /// <param name="onEndSoon">Le delegate appele lorsque le jeu est sur le point de se terminer.</param>
+        public GameTimer(float duration, MonoBehaviour coroutineOwner, Action onStart, Action onEnd, Action onEndSoon)
+        {
+            this._duration = duration;
+            this._coroutineOwner = coroutineOwner;
+            this._onStart = onStart;
+            this._onEnd = onEnd;
+            this._onEndSoon = onEndSoon;
+        }
+
+        /// <summary>
+        /// Commence le timer du jeu.
+        /// </summary>
+        public void Start() => StartTimerCoroutine();
+        /// <summary>
+        /// Force l'arret du timer du jeu.
+        /// </summary>
+        public void Stop() => StopTimerCoroutine();
+
+        /// <summary>
+        /// Commence la coroutine du timer du jeu.
+        /// </summary>
+        private void StartTimerCoroutine()
+        {
+            StopTimerCoroutine();
+            _timerCoroutine = _coroutineOwner.StartCoroutine(TimerCoroutine());
+        }
+        /// <summary>
+        /// Arrete la coroutine du timer du jeu.
+        /// </summary>
+        private void StopTimerCoroutine()
+        {
+            if (_timerCoroutine == null) return;
+
+            _coroutineOwner.StopCoroutine(_timerCoroutine);
+            _timerCoroutine = null;
+            _onEnd.Invoke();
+        }
+        /// <summary>
+        /// Coroutine du timer du jeu.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator TimerCoroutine()
+        {
+            //On appelle le delegate lorsque le jeu demarre.
+            _onStart.Invoke();
+
+            //si la duree de la partie est inferieure a 10 secondes, on passe directement aux dernieres secondes
+            var timeBeforeLastSeconds = _duration < 10 ? 0 : _duration - 10;
+
+            //si la duree de la partie est < a 10 secondes, on attend seulement la duree de la partie
+            var lastSeconds = _duration < 10 ? _duration : 10;
+
+            //on attend qu'il reste 10 secondes avant la fin de la partie
+            yield return new WaitForSeconds(timeBeforeLastSeconds);
+            _onEndSoon.Invoke();
+
+            //On attend que le jeu soit termine pour appeler le delegate de fin de jeu.
+            yield return new WaitForSeconds(lastSeconds);
+            _onEnd.Invoke();
+        }
+    }
+}
+```
+
+---
+
+#### UISystem
+
+##### UIManager.cs
+
+```csharp file=UIManager.cs
+/*
+ TPI - 2024
+ FruitPower - UI Manager
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using GameManagement;
+using UI.Stats;
+
+namespace UI
+{
+    /// <summary>
+    /// Composant responsable de la gestion de l'interface utilisateur.
+    /// </summary>
+    public sealed class UIManager : MonoBehaviour
+    {
+        [Header("Settings")]
+        [SerializeField, Tooltip("Distance de l'ecran par rapport a la tete du joueur [default: 1.2]")]
+        private float _screenDistance = 1.2f;
+        [SerializeField, Tooltip("Reference vers le transform de la tete du joueur")]
+        private Transform _headTransform;
+
+        [Header("Canvas references")]
+        [SerializeField, Tooltip("Reference vers le canvas de l'affichage tete haute(HUD)")]
+        private Canvas _hud;
+        [SerializeField, Tooltip("Reference vers le canvas de fin de partie")]
+        private Canvas _endGameUI;
+        [SerializeField, Tooltip("Reference vers le canvas qui affiche les grands texts")]
+        private Canvas _largeTextUI;
+
+        [Header("References")]
+        [SerializeField, Tooltip("Reference vers le composant de l'affichage des statistiques")]
+        private StatsVisualizer _statsVisualizer;
+        [SerializeField, Tooltip("Reference vers le composant de l'affichage des credits")]
+        private Credits _credits;
+        [SerializeField, Tooltip("Reference vers le composant de l'affichage du compte a rebours")]
+        private Countdown _countdown;
+        [SerializeField, Tooltip("Reference vers le composant de l'affichage du texte de fin de partie")]
+        private GameEndText _gameEndText;
+
+        /// <summary>
+        /// On s'abonne aux evenements de debut et de fin de jeu quand le composant s'active.
+        /// </summary>
+        private void OnEnable()
+        {
+            GameManager.OnCountdownStart += OnCountdownStart;
+            GameManager.OnGameStart += OnGameStart;
+            GameManager.OnGameEnd += OnGameEnd;
+        }
+        /// <summary>
+        /// On se desabonne aux evenements de debut et de fin de jeu quand le composant se desactive.
+        /// </summary>
+        private void OnDisable()
+        {
+            GameManager.OnCountdownStart -= OnCountdownStart;
+            GameManager.OnGameStart -= OnGameStart;
+            GameManager.OnGameEnd -= OnGameEnd;
+        }
+
+        /// <summary>
+        /// On met a jour la position des canvas de l'interface utilisateur a chaque frame.
+        /// </summary>
+        private void Update()
+        {
+            if (_endGameUI.isActiveAndEnabled) CenterEndGameUI();
+            if (_hud.isActiveAndEnabled) CenterCanvas(_hud);
+            if (_largeTextUI.isActiveAndEnabled) CenterCanvas(_largeTextUI);
+        }
+
+        /// <summary>
+        /// On demarre le compte a rebours quand le game manager le demande.
+        /// </summary>
+        private void OnCountdownStart(uint duration)
+        {
+            SetActiveEndGameUI(false);
+            _countdown.StartCountdown(duration);
+        }
+
+        /// <summary>
+        /// On desactive le canvas de fin de partie et on active le canvas de l'interface utilisateur au lancement de la partie.
+        /// </summary>
+        /// <param name="options"></param>
+        private void OnGameStart(GameOption options)
+        {
+            SetActiveHUD(true);
+        }
+        /// <summary>
+        /// On active le canvas de fin de partie et on desactive le canvas de l'HUD a la fin de la partie.
+        /// </summary>
+        private void OnGameEnd()
+        {
+            // On desactive l'HUD
+            SetActiveHUD(false);
+
+            // On affiche le texte de fin de partie et passe le reste des instructions dans le callback
+            _gameEndText.Show(() =>
+            {
+                // On affiche l'ecran de fin de partie
+                SetActiveEndGameUI(true);
+                //On affiche les statistiques (fruits attrapes)
+                _statsVisualizer.Display(GameManager.FruitsCaught);
+            });
+        }
+
+        /// <summary>
+        /// On centre le canvas de fin de partie par rapport a la tete du joueur.
+        /// </summary>
+        private void CenterEndGameUI()
+        {
+            _endGameUI.transform.position = _headTransform.position + new Vector3(_headTransform.forward.x, 0, _headTransform.forward.z).normalized * _screenDistance;
+            _endGameUI.transform.LookAt(new Vector3(_headTransform.position.x, _endGameUI.transform.position.y, _headTransform.position.z));
+            _endGameUI.transform.forward *= -1;
+        }
+        /// <summary>
+        /// On centre le canvas par rapport a la tete du joueur pour qu'il suivent l'orientation de la tete.
+        /// </summary>
+        private void CenterCanvas(Canvas canvas)
+        {
+            canvas.transform.position = _headTransform.position + _headTransform.forward.normalized * _screenDistance;
+            canvas.transform.LookAt(_headTransform.position);
+            canvas.transform.forward *= -1;
+        }
+
+        /// <summary>
+        /// Active ou desactive le canvas de l'HUD.
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetActiveHUD(bool value)
+        {
+            _hud.enabled = value;
+        }
+        /// <summary>
+        /// Active ou desactive le canvas de fin de partie.
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetActiveEndGameUI(bool value)
+        {
+            _endGameUI.enabled = value;
+        }
+    }
+}
+```
+
+##### ScoreVisualizer.cs
+
+```csharp file=ScoreVisualizer.cs
+/*
+ TPI - 2024
+ FruitPower - ScoreVisualizer
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using TMPro;
+using GameManagement;
+
+namespace UI
+{
+    public sealed class ScoreVisualizer : MonoBehaviour
+    {
+        [Header("Settings")]
+        [SerializeField, Tooltip("Format du texte du score [score = $]")]
+        private string _scoreTextFormat = "$ points";
+
+        [Header("References")]
+        [SerializeField, Tooltip("Text affichant le score")]
+        private TextMeshProUGUI _scoreText;
+        
+        /// <summary>
+        /// Abonne la methode SetScore a l'evenement OnScoreChange quand le script est active
+        /// </summary>
+        private void OnEnable() => GameManager.OnScoreChange += SetScore;
+        /// <summary>
+        /// Desabonne la methode SetScore a l'evenement OnScoreChange quand le script est desactive
+        /// </summary>
+        private void OnDisable() => GameManager.OnScoreChange -= SetScore;
+
+        /// <summary>
+        /// Met a jour le score affiche a l'ecran
+        /// </summary>
+        /// <param name="score"></param>
+        private void SetScore(int score)
+        {
+            //on met a jour le score affiche a l'ecran
+            _scoreText.text = _scoreTextFormat.Replace("$", score.ToString());
+        }
+    }
+}
+```
+
+##### StatsVisualizer.cs
+
+```csharp file=StatsVisualizer.cs
+/*
+ TPI - 2024
+ FruitPower - Stats Visualizer
+ Wihler Ruben
+ */
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace UI.Stats
+{
+    /// <summary>
+    /// Classe permettant d'afficher les fruits attrapes dans le menu de fin de partie.
+    /// Utilise des <see cref="CaughtFruitElement"/> pour afficher les fruits attrapes."/>
+    /// </summary>
+    public sealed class StatsVisualizer : MonoBehaviour
+    {
+        [Header("Settings")]
+        [SerializeField, Tooltip("Temps d'attente entre l'affichage de chaque fruit attrape.")]
+        private float _timeBetweenFruits = 0.1f;
+
+        [Header("References")]
+        [SerializeField, Tooltip("Prefab de l'element representant un fruit attrape.")]
+        private GameObject _caughtFruitElementPrefab;
+
+        [SerializeField, Tooltip("Parent des elements representant les fruits attrapes.")]
+        private Transform _caughtFruitsParent;
+
+        /// <summary>
+        /// Liste des elements representant les fruits attrapes.
+        /// </summary>
+        private List<CaughtFruitElement> _caughtFruitElements = new();
+
+        /// <summary>
+        /// Affiche les fruits attrapes et leur quantite.
+        /// </summary>
+        /// <param name="fruitsCatched">les fruits attrapes et leur quantite.</param>
+        public void Display(Dictionary<string, uint> fruitsCatched)
+        {
+            Clear();
+            StartCoroutine(AnimateDisplay(fruitsCatched));
+        }
+
+        /// <summary>
+        /// Efface les elements representant les fruits attrapes.
+        /// </summary>
+        private void Clear()
+        {
+            // On detruit les elements representant les fruits attrapes precedemment.
+            foreach (var caughtFruitElement in _caughtFruitElements)
+            {
+                Destroy(caughtFruitElement.gameObject);
+            }
+            _caughtFruitElements.Clear();
+        }
+
+        /// <summary>
+        /// Affiche les fruits attrapes un par un.
+        /// </summary>
+        /// <param name="fruitsCatched"></param>
+        /// <returns></returns>
+        private IEnumerator AnimateDisplay(Dictionary<string, uint> fruitsCatched)
+        {
+            // On cree les elements representant les fruits attrapes.
+            foreach (var fruit in fruitsCatched)
+            {
+                // On anime l'element representant le fruit attrape.
+                yield return AnimateElement((fruit.Key, fruit.Value));
+                
+                // On attend un certain temps avant d'afficher le prochain fruit attrape.
+                yield return new WaitForSeconds(_timeBetweenFruits);
+            }
+        }
+        /// <summary>
+        /// Anime l'element representant un fruit attrape.
+        /// </summary>
+        /// <param name="fruitCatched"></param>
+        /// <returns></returns>
+        private IEnumerator AnimateElement((string typeId, uint quantity) fruitCatched)
+        {
+            // On instancie un element representant un fruit attrape.
+            var caughtFruitElement = Instantiate(_caughtFruitElementPrefab, _caughtFruitsParent).GetComponent<CaughtFruitElement>();
+            var fruitData = FruitSystem.FruitManager.GetFruitTypeData(fruitCatched.typeId);
+
+            _caughtFruitElements.Add(caughtFruitElement);
+            yield return caughtFruitElement.Display(fruitData, fruitCatched.quantity);
+        }
+    }
+}
+```
+
+##### TimerVisualizer.cs
+
+```csharp file=TimerVisualizer.cs
+/*
+ TPI - 2024
+ FruitPower - UI
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using TMPro;
+using GameManagement;
+
+namespace UI
+{
+    /// <summary>
+    /// Composant responsable de l'affichage du timer de jeu.
+    /// Heritant de TextMeshProUGUI, il affiche le temps restant de la partie en secondes avec une precision de 2 decimales.
+    /// </summary>
+    public sealed class TimerVisualizer : TextMeshProUGUI
+    {
+        /// <summary>
+        /// Indique si le timer est en cours.
+        /// </summary>
+        private bool _isTimerRunning;
+        /// <summary>
+        /// Temps restant de la partie.
+        /// </summary>
+        private float _localTimer;
+
+        /// <summary>
+        /// On s'abonne aux evenements de debut et de fin de jeu quand le composant s'active.
+        /// </summary>
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GameManager.OnGameStart += OnGameStart;
+            GameManager.OnGameEnd += OnGameStop;
+        }
+        /// <summary>
+        /// On se desabonne aux evenements de debut et de fin de jeu quand le composant se desactive.
+        /// </summary>
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            GameManager.OnGameStart -= OnGameStart;
+            GameManager.OnGameEnd -= OnGameStop;
+        }
+        protected void Update()
+        {
+            // Si le timer n'est pas en cours, on ne fait rien.
+            if (!_isTimerRunning) return;
+
+            //On decremente le timer avec le temps ecoule depuis la derniere frame.
+            _localTimer -= Time.deltaTime;
+
+            // Si le timer est inferieur ou egal a 0, on l'arrete.
+            if (_localTimer <= 0) StopTimer();
+
+            //On met a jour le texte du timer avec le temps restant en secondes avec une precision de 2 decimales.
+            text = $"{_localTimer:0.00} s";
+        }
+
+        private void OnGameStart(GameOption option) => StartTimer(option.gameDuration);
+        private void OnGameStop() => StopTimer();
+
+        private void StartTimer(float duration)
+        {
+            _localTimer = duration;
+            _isTimerRunning = true;
+        }
+        private void StopTimer()
+        {
+            _localTimer = 0;
+            _isTimerRunning = false;
+        }
+    }
+}
+```
+
+##### CaughtFruitElement.cs
+
+```csharp file=CaughtFruitElement.cs
+/*
+ TPI - 2024
+ FruitPower - CaughtFruitElement
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using TMPro;
+using FruitSystem;
+using System.Collections;
+using DG.Tweening;
+
+namespace UI.Stats
+{
+    /// <summary>
+    /// Composant representant un element affichant le nom et la quantite d'un fruit attrape.
+    /// </summary>
+    public sealed class CaughtFruitElement : MonoBehaviour
+    {
+        [Header("References")]
+        [SerializeField, Tooltip("Texte affichant le nom du fruit.")]
+        private TextMeshProUGUI _fruitName;
+        [SerializeField, Tooltip("Texte affichant la quantite de fruit attrape.")]
+        private TextMeshProUGUI _fruitQuantity;
+
+        [Header("Settings")]
+        [SerializeField, Tooltip("Le facteur d'echelle du texte pendant l'animation.")]
+        private float _textScale = 1.2f;
+        [SerializeField, Tooltip("Duree de l'animation d'entree.")]
+        private float _inDuration = 0.2f;
+        [SerializeField, Tooltip("Duree de l'animation de sortie.")]
+        private float _outDuration = 0.2f;
+
+        /// <summary>
+        /// Change le texte affichant le nom du fruit et la quantite de fruit attrape.
+        /// </summary>
+        /// <param name="fruitTypeData">le nom du fruit</param>
+        /// <param name="quantity">la quantite de fruit attrape</param>
+        public IEnumerator Display(FruitTypeData fruitTypeData, uint quantity)
+        {
+            //on affiche le nom du fruit et la quantite de fruit attrape
+            _fruitName.text = $"- {fruitTypeData.fruitName} :";
+            _fruitQuantity.text = quantity.ToString();
+
+            //on cree une sequence d'animation pour animer l'affichage du fruit attrape
+            yield return DOTween.Sequence()
+                .Append(_fruitName.transform.DOScale(_textScale, _inDuration).SetEase(Ease.OutBack).Play())
+                .Join(_fruitQuantity.transform.DOScale(_textScale, _inDuration).SetEase(Ease.OutBack).Play())
+                .AppendInterval(_inDuration)
+                .Append(_fruitName.transform.DOScale(1f, _outDuration).SetEase(Ease.OutCubic))
+                .Join(_fruitQuantity.transform.DOScale(1f, _outDuration).SetEase(Ease.OutCubic))
+                .AppendInterval(_outDuration)
+                .Play()
+                .WaitForCompletion();
+        }
+    }
+}
+```
+
+##### Countdown.cs
+
+```csharp file=Countdown.cs
+/*
+ TPI - 2024
+ FruitPower - Countdown
+ Wihler Ruben
+ */
+
+using System.Collections;
+using UnityEngine;
+using TMPro;
+
+namespace UI
+{
+    /// <summary>
+    /// Classe responsable de l'affichage du compte a rebours.
+    /// </summary>
+    public sealed class Countdown : MonoBehaviour
+    {
+        [Header("Options")]
+        [SerializeField, Tooltip("Le text a afficher pour la fin du compte a rebours")]
+        private string _endText = "C'est parti";
+        [SerializeField, Tooltip("Le temps du fade in des text")]
+        private float _fadeInTime = 0.2f;
+        [SerializeField, Tooltip("Le temps du fade out des text")]
+        private float _fadeOutTime = 0.2f;
+        [Header("References")]
+        [SerializeField, Tooltip("Le conteneur des texts")]
+        private GameObject _container;
+        [SerializeField, Tooltip("Le texte qui affiche le compte a rebours")]
+        private TextMeshProUGUI _countdownText;
+        [Header("Audio")]
+        [SerializeField, Tooltip("Le son du compte a rebours")]
+        private AudioClip _countdownSound;
+
+        /// <summary>
+        /// Coroutine du compte a rebours.
+        /// </summary>
+        private Coroutine _countdownCoroutine;
+        /// <summary>
+        /// La duree du compte a rebours.
+        /// </summary>
+        private uint _duration;
+
+        /// <summary>
+        /// Commence le compte a rebours.
+        /// </summary>
+        /// <param name="duration">La duree du compte a rebours en secondes</param>
+        public void StartCountdown(uint duration)
+        {
+            _duration = duration;
+            StartCountdownCoroutine();
+        }
+
+        /// <summary>
+        /// Commence le compte a rebours. (stop le compte a rebours actuel s'il y en a un)
+        /// </summary>
+        private void StartCountdownCoroutine()
+        {
+            StopCountdownCoroutine();
+            _countdownCoroutine = StartCoroutine(CountdownCoroutine());
+        }
+        /// <summary>
+        /// Stop le compte a rebours. (n'appelle pas le callback)
+        /// </summary>
+        private void StopCountdownCoroutine()
+        {
+            if (_countdownCoroutine != null)
+                StopCoroutine(_countdownCoroutine);
+
+            _countdownCoroutine = null;
+        }
+        /// <summary>
+        /// La coroutine du compte a rebours.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator CountdownCoroutine()
+        {
+            //on affiche le conteneur
+            _container.SetActive(true);
+
+            //joue le son du compte a rebours
+            AudioSource.PlayClipAtPoint(_countdownSound, Camera.main.transform.position);
+
+            //animations du compte a rebours
+            for (uint i = _duration; i > 0; i--)
+            {
+                yield return AnimateText(i.ToString());
+            }
+
+            //fin du compte a rebours
+            yield return AnimateText(_endText);
+
+            //on cache le conteneur
+            _container.SetActive(false);
+        }
+        /// <summary>
+        /// Une coroutine qui affiche un texte pendant un certain temps.
+        /// </summary>
+        /// <param name="text">le texte a afficher</param>
+        /// <returns></returns>
+        private IEnumerator AnimateText(string text)
+        {
+            _countdownText.gameObject.SetActive(true);
+            _countdownText.text = text;
+            _countdownText.CrossFadeAlpha(1, _fadeInTime, true);
+            yield return new WaitForSecondsRealtime(1 - _fadeOutTime);
+            _countdownText.CrossFadeAlpha(0, _fadeOutTime, true);
+            yield return new WaitForSecondsRealtime(_fadeOutTime);
+            _countdownText.gameObject.SetActive(false);
+        }
+    }
+}
+```
+
+##### GameEndText.cs
+
+```csharp file=GameEndText.cs
+/*
+ TPI - 2024
+ FruitPower - GameEndText
+ Wihler Ruben
+ */
+
+using System.Collections;
+using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using DG.Tweening;
+using System;
+
+namespace UI
+{
+    /// <summary>
+    /// Classe responsable de l'affichage du texte de fin de partie.
+    /// </summary>
+    public sealed class GameEndText : MonoBehaviour
+    {
+        [Header("Options")]
+        [SerializeField, Tooltip("Le texte a afficher pour la fin de la partie")]
+        private string _endText;
+
+        [Header("Animation")]
+        [SerializeField, Tooltip("Duree pendant laquelle le texte reste afficher(hors animaion d'entree et sortie)")]
+        private float _neutralDuration = 1f;
+        [SerializeField, Tooltip("Duree du deplacement vers la droite")]
+        private float _rightSlideDuration = 1f;
+        [SerializeField, Tooltip("Duree du deplacement vers la gauche")]
+        private float _leftSlideDuration = 1f;
+        [SerializeField, Tooltip("Valeur initial du deplacement vers la droit")]
+        private int _rightSlideStart = 3272;
+        [SerializeField, Tooltip("Valeur final du deplacement vers la gauche")]
+        private int _leftSlideEnd = 3272;
+
+        [Header("References")]
+        [SerializeField, Tooltip("Le conteneur des texts")]
+        private GameObject _container;
+        [SerializeField, Tooltip("Le texte qui affiche le texte de fin de partie")]
+        private TextMeshProUGUI _endTextComponent;
+        [SerializeField, Tooltip("Le vertical layout group utilise pour l'animation")]
+        private VerticalLayoutGroup _layoutGroup;
+
+        /// <summary>
+        /// Coroutine de l'animation.
+        /// </summary>
+        private Coroutine _animationCoroutine;
+        /// <summary>
+        /// Callback appele a la fin de l'animation.
+        /// </summary>
+        private Action _callback;
+
+        /// <summary>
+        /// Affiche le texte de fin de partie.
+        /// </summary>
+        /// <param name="callback"></param>
+        public void Show(Action callback)
+        {
+            _callback = callback;
+            StartAnimation();
+        }
+
+        private void StartAnimation()
+        {
+            StopAnimation();
+            _animationCoroutine = StartCoroutine(Animate());
+        }
+        private void StopAnimation()
+        {
+            if (_animationCoroutine != null)
+                StopCoroutine(_animationCoroutine);
+
+            _animationCoroutine = null;
+        }
+        private IEnumerator Animate()
+        {
+            Debug.Log("Started animation");
+            _container.SetActive(true);
+
+            // Animation d'entree
+            _layoutGroup.padding.right = _rightSlideStart;
+            DOTween.To(() => _layoutGroup.padding.right, (x) => {
+                _layoutGroup.padding.right = x;
+                LayoutRebuilder.MarkLayoutForRebuild((RectTransform)_layoutGroup.transform);
+            }, 0, _rightSlideDuration).Play();
+            yield return new WaitForSecondsRealtime(_rightSlideDuration);
+            
+            // Animation de neutral
+            yield return new WaitForSecondsRealtime(_neutralDuration);
+
+            // Animation de sortie
+            _layoutGroup.padding.left = 0;
+            DOTween.To(() => _layoutGroup.padding.left, (x) =>
+            {
+                _layoutGroup.padding.left = x;
+                LayoutRebuilder.MarkLayoutForRebuild((RectTransform)_layoutGroup.transform);
+            }, _leftSlideEnd, _leftSlideDuration).Play();
+            yield return new WaitForSecondsRealtime(_leftSlideDuration);
+
+            // Fin de l'animation
+            _container.SetActive(false);
+            _layoutGroup.padding.left = 0;
+            _layoutGroup.padding.right = 0;
+
+            //Appel du callback
+            _callback?.Invoke();
+        }
+    }
+}
+```
+
+##### PlayButton.cs
+
+```csharp file=PlayButton.cs
+/*
+ TPI - 2024
+ FruitPower - PlayButton
+ Wihler Ruben
+ */
+
+using UnityEngine.UI;
+using GameManagement;
+
+namespace UI
+{
+    /// <summary>
+    /// Composant responsable du bouton de demarrage du jeu.
+    /// </summary>
+    public sealed class PlayButton : Button
+    {
+        /// <summary>
+        /// On override la methode Start pour ajouter un listener au bouton.
+        /// </summary>
+        protected override void Start()
+        {
+            base.Start();
+            //On ajoute un listener pour demarrer le jeu lorsque le bouton est clique.
+            onClick.AddListener(() => GameManager.StartGame());
+        }
+    }
+}
+```
+
+##### QuitButton.cs
+
+```csharp file=QuitButton.cs
+/*
+ TPI - 2024
+ FruitPower - QuitButton
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using UnityEngine.UI;
+
+/// <summary>
+/// Bouton permettant de quitter l'application.
+/// </summary>
+public sealed class QuitButton : Button
+{
+    /// <summary>
+    /// On override la methode Start pour ajouter un listener qui permet de quitter l'application quand le bouton est clique.
+    /// </summary>
+    protected override void Start()
+    {
+        base.Start();
+        onClick.AddListener(() => Application.Quit());
+    }
+}
+
+```
+
+##### Credits.cs
+
+```csharp file=Credits.cs
+/*
+ TPI - 2024
+ FruitPower - Credits
+ Wihler Ruben
+ */
+
+using UnityEngine;
+
+namespace UI
+{
+    /// <summary>
+    /// Responsable de gerer l'affichage des credits.
+    /// </summary>
+    public sealed class Credits : MonoBehaviour
+    {
+        [SerializeField, Tooltip("Reference vers le gameobject des credits")]
+        private GameObject _credit;
+        [SerializeField, Tooltip("Reference vers le gameobject parent du reste de l'interface")]
+        private GameObject _other;
+
+        /// <summary>
+        /// Affiche les credits et cache le reste de l'interface.
+        /// </summary>
+        public void Show()
+        {
+            _credit.SetActive(true);
+            _other.SetActive(false);
+        }
+        /// <summary>
+        /// Cache les credits et affiche le reste de l'interface.
+        /// </summary>
+        public void Hide()
+        {
+            _credit.SetActive(false);
+            _other.SetActive(true);
+        }
+    }
+}
+```
+
+---
+
+#### Audio
+
+##### MusicManager.cs
+
+```csharp file=MusicManager.cs
+/*
+ TPI - 2024
+ FruitPower - Music Manager
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using DG.Tweening;
+using GameManagement;
+using UnityEngine.Audio;
+
+namespace Audio
+{
+    /// <summary>
+    /// Classe reponsable de la gestion de la musique
+    /// </summary>
+    public sealed class MusicManager : MonoBehaviour
+    {
+        #region Singleton
+
+        private static MusicManager _instance;
+        public static MusicManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    throw new System.Exception("Aucune instance de MusicManager n'a ete trouvee ! Assurez-vous qu'un MusicManager est present dans la scene.");
+
+                return _instance;
+            }
+        }
+
+        #endregion
+
+        [Header("Settings")]
+        [SerializeField, Tooltip("Volume de la musique dans le menu (quand aucune partie n'est lance)")]
+        private float _menuVolume = 0.5f;
+        [SerializeField, Tooltip("Volume de la musique en jeu")]
+        private float _inGameVolume = 0.5f;
+        [SerializeField, Tooltip("Duree de la transition du changement de volume")]
+        private float _volumeTransitionDuration = 1f;
+        [SerializeField, Tooltip("Nom du parametre de volume de la musique dans l'audio mixer")]
+        private string _volumeParameterName = "MusicVolume";
+
+        [Header("Musics")]
+        [SerializeField, Tooltip("Liste des musiques disponibles")]
+        private AudioClip[] _musics;
+
+        [Header("References")]
+        [SerializeField, Tooltip("Reference vers l'audio source de la musique")]
+        private AudioSource _audioSource;
+        [SerializeField, Tooltip("Reference vers l'audio mixer de la musique")]
+        private AudioMixer _audioMixer;
+
+        /// <summary>
+        /// Le tween du volume de la musique
+        /// </summary>
+        private Tween _volumeTween;
+        /// <summary>
+        /// Si la musique est en train de jouer
+        /// </summary>
+        private bool _isPlaying = false;
+        /// <summary>
+        /// Index de la musique actuelle
+        /// </summary>
+        private int _currentMusicIndex = 0;
+        /// <summary>
+        /// Temps actuel de la musique
+        /// </summary>
+        private float _currentMusicTime = 0;
+
+        /// <summary>
+        /// Indique si la musique est en train de jouer
+        /// </summary>
+        public bool IsPlaying => _isPlaying;
+
+        /// <summary>
+        /// Commence a jouer la musique ou la relance si elle est en pause
+        /// </summary>
+        public void Play()
+        {
+            //On indique que la musique est en train de jouer
+            _isPlaying = true;
+
+            //Si aucune musique n'est en cours, on joue la premiere musique
+            if (_audioSource.clip == null) NextMusic(0);
+            //Sinon on relance la musique
+            else _audioSource.Play();
+        }
+        /// <summary>
+        /// Mets en pause la musique
+        /// </summary>
+        public void Stop()
+        {
+            //On indique que la musique n'est plus en train de jouer
+            _isPlaying = false;
+            //On met en pause la musique
+            _audioSource.Pause();
+        }
+        /// <summary>
+        /// Passe a la musique suivante
+        /// </summary>
+        public void NextMusic(int index = -1)
+        {
+            //Si l'index est -1, on passe a la musique suivante
+            if (index == -1)
+            {
+                if (_currentMusicIndex + 1 >= _musics.Length) _currentMusicIndex = 0;
+                else _currentMusicIndex++;
+            }
+            //Sinon on met l'index donne
+            else _currentMusicIndex = index;
+
+            // On change la musique et on la joue
+            _audioSource.clip = _musics[_currentMusicIndex];
+            _audioSource.Play();
+            _currentMusicTime = 0;
+        }
+
+        /// <summary>
+        /// Setup du singleton
+        /// </summary>
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+
+            _instance = this;
+        }
+        /// <summary>
+        /// Commence a jouer la musique
+        /// </summary>
+        private void Start()
+        {
+            Play();
+        }
+        /// <summary>
+        /// Actualise le temps de la musique et passe a la suivante si elle est terminee
+        /// </summary>
+        private void Update()
+        {
+            if (!_isPlaying) return;
+
+            // On incremente le temps de la musique
+            _currentMusicTime += Time.deltaTime;
+
+            // Si la musique est terminee, on passe a la suivante
+            if (_currentMusicTime >= _audioSource.clip.length) NextMusic();
+        }
+        /// <summary>
+        /// Abonne aux evenements de debut et de fin de jeu
+        /// </summary>
+        private void OnEnable()
+        {
+            GameManager.OnGameStart += OnGameStart;
+            GameManager.OnGameEnd += OnGameEnd;
+        }
+        /// <summary>
+        /// Abonne aux evenements de debut et de fin de jeu
+        /// </summary>
+        private void OnDisable()
+        {
+            GameManager.OnGameStart -= OnGameStart;
+            GameManager.OnGameEnd -= OnGameEnd;
+        }
+
+        /// <summary>
+        /// Met a jour le volume de la musique quand la partie commence
+        /// </summary>
+        /// <param name="options"></param>
+        private void OnGameStart(GameOption options)
+        {
+            SetVolume(_inGameVolume);
+        }
+        /// <summary>
+        /// Met a jour le volume de la musique quand la partie se termine
+        /// </summary>
+        private void OnGameEnd()
+        {
+            SetVolume(_menuVolume);
+        }
+        /// <summary>
+        /// Fait un tween pour changer le volume de la musique
+        /// </summary>
+        /// <param name="volume"></param>
+        private void SetVolume(float volume)
+        {
+            // Si un tween est en cours, on le stop
+            if (_volumeTween != null && !_volumeTween.IsComplete()) _volumeTween.Kill();
+
+            // On cree un nouveau tween pour changer le volume
+            _volumeTween = DOTween.To(() =>
+            {
+                _audioMixer.GetFloat(_volumeParameterName, out var x);
+                return x;
+            }, x => _audioMixer.SetFloat(_volumeParameterName, x), volume, _volumeTransitionDuration);
+            _volumeTween.Play();
+        }
+    }
+}
+```
+
+##### Radio.cs
+
+```csharp file=Radio.cs
+/*
+ TPI - 2024
+ FruitPower - Radio
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+
+namespace Audio
+{
+    /// <summary>
+    /// Classe responsable de la gestion de la radio
+    /// </summary>
+    public sealed class Radio : MonoBehaviour
+    {
+        [Header("References")]
+        [SerializeField, Tooltip("Reference vers le meshRenderer dde la radio")]
+        private MeshRenderer _meshRenderer;
+        [SerializeField, Tooltip("Reference vers le boutton on/off")]
+        private XRSimpleInteractable _onOffInteractor;
+        [SerializeField, Tooltip("Reference vers le boutton: changer de music")]
+        private XRSimpleInteractable _nextMusicInteractor;
+
+        [Header("Materials")]
+        [SerializeField, Tooltip("Materials de la radio par defaut")]
+        private Material[] _defaultMaterials;
+        [SerializeField, Tooltip("Materials de la radio quand le joueur survole le boutton on/off")]
+        private Material[] _onOffHoverMaterials;
+        [SerializeField, Tooltip("Materials de la radio quand le joueur survole le boutton: changer de music")]
+        private Material[] _nextMusicHoverMaterials;
+
+        /// <summary>
+        /// On active les listeners lors de l'activation de l'objet
+        /// </summary>
+        private void OnEnable()
+        {
+            //materials par defaut
+            OnHoverExit(null);
+
+            // On ajoute les listeners pour les bouttons
+            _onOffInteractor.activated.AddListener(OnOnOff);
+            _nextMusicInteractor.activated.AddListener(OnNextMusic);
+
+            // On ajoute les listeners pour les hover
+            _onOffInteractor.hoverEntered.AddListener(OnOnOffHover);
+            _nextMusicInteractor.hoverEntered.AddListener(OnNextMusicHover);
+            _onOffInteractor.hoverExited.AddListener(OnHoverExit);
+            _nextMusicInteractor.hoverExited.AddListener(OnHoverExit);
+        }
+        /// <summary>
+        /// On desactive les listeners lors de la desactivation de l'objet
+        /// </summary>
+        private void OnDisable()
+        {
+            // On enleve les listeners pour les bouttons
+            _onOffInteractor.activated.RemoveListener(OnOnOff);
+            _nextMusicInteractor.activated.RemoveListener(OnNextMusic);
+
+            // On enleve les listeners pour les hover
+            _onOffInteractor.hoverEntered.RemoveListener(OnOnOffHover);
+            _nextMusicInteractor.hoverEntered.RemoveListener(OnNextMusicHover);
+            _onOffInteractor.hoverExited.RemoveListener(OnHoverExit);
+            _nextMusicInteractor.hoverExited.RemoveListener(OnHoverExit);
+        }
+
+        /// <summary>
+        /// Joue ou arrete la musique en fonction de l'etat actuel
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnOnOff(ActivateEventArgs args)
+        {
+            // Si la musique est en train de jouer, on l'arrete
+            if (MusicManager.Instance.IsPlaying) MusicManager.Instance.Stop();
+            // Sinon on la joue
+            else MusicManager.Instance.Play();
+        }
+        /// <summary>
+        /// Passe a la musique suivante
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnNextMusic(ActivateEventArgs args)
+        {
+            MusicManager.Instance.NextMusic();
+        }
+
+        /// <summary>
+        /// Mettre en surbrillance le boutton on/off quand le joueur le survole
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnOnOffHover(HoverEnterEventArgs args)
+        {
+            // Change les materials de la radio
+            _meshRenderer.materials = _onOffHoverMaterials;
+        }
+        /// <summary>
+        /// Mettre en surbrillance le boutton: changer de music quand le joueur le survole
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnNextMusicHover(HoverEnterEventArgs args)
+        {
+            // Change les materials de la radio
+            _meshRenderer.materials = _nextMusicHoverMaterials;
+        }
+        /// <summary>
+        /// Mettre les materials par defaut quand le joueur ne survole plus les bouttons
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnHoverExit(HoverExitEventArgs args)
+        {
+            // Rehover le boutton on/off si on est dessus
+            if (_onOffInteractor.isHovered)
+            {
+                OnOnOffHover(null);
+                return;
+            }
+
+            // Rehover le boutton changer de music si on est dessus
+            if (_nextMusicInteractor.isHovered)
+            {
+                OnNextMusicHover(null);
+                return;
+            }
+
+            // Change les materials de la radio
+            _meshRenderer.materials = _defaultMaterials;
+        }
+    }
+}
+```
+
+---
+
+#### Scripts
+
+##### AudioExtensions.cs
+
+```csharp file=AudioExtensions.cs
+/*
+ TPI - 2024
+ FruitPower - Audio Extensions
+ Wihler Ruben
+ */
+
+
+using UnityEngine;
+
+/// <summary>
+/// Classe d'extensions pour les sons
+/// </summary>
+public static class AudioExtensions
+{
+    /// <summary>
+    /// Methode d'extension pour jouer un son aleatoire parmi un tableu de clips
+    /// </summary>
+    /// <param name="clips">tableau contenant les clips</param>
+    /// <param name="source">la source audio sur laquelle jouer le son</param>
+    public static void PlayRandom(this AudioClip[] clips, AudioSource source)
+    {
+        source.clip = clips[Random.Range(0, clips.Length)];
+        source.Play();
+    }
+}
+
+```
+
+---
+
+#### Inputs
+
+##### HandController.cs
+
+```csharp file=HandController.cs
+/*
+ TPI - 2024
+ FruitPower - Hand Controller
+ Wihler Ruben
+ */
+
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Inputs
+{
+    /// <summary>
+    /// Classe permettant de faire le lien entre les inputs de l'utilisateur et l'animator de la main
+    /// Cette classe vient de cette video : https://youtu.be/8PCNNro7Rt0?si=0TrR1SMeXGJ-hGe
+    /// </summary>
+    public sealed class HandController : MonoBehaviour
+    {
+        [Header("Input Actions")]
+        [SerializeField, Tooltip("Reference vers l'input action de pinch")]
+        private InputActionProperty pinchAction;
+        [SerializeField, Tooltip("Reference vers l'input action de grip")]
+        private InputActionProperty gripAction;
+
+        [Header("Animation")]
+        [SerializeField, Tooltip("Reference vers l'animator de la main")]
+        private Animator animator;
+
+        /// <summary>
+        /// Recupere les valeurs des inputs et les envoies a l'animator
+        /// </summary>
+        private void Update()
+        {
+            //pinch
+            var trigger_value = pinchAction.action.ReadValue<float>();
+            animator.SetFloat("Trigger", trigger_value);
+
+            //grip
+            var grip_value = gripAction.action.ReadValue<float>();
+            animator.SetFloat("Grip", grip_value);
+        }
+    }
+}
+```
