@@ -22,7 +22,7 @@ Ce document est un rapport présentant différents aspects de la conception du p
 
 | Elève | Maître d’apprentissage | Experts |
 | ----- | --------------------- | ------- |
-| Ruben Wihler | M. J. Aliprendi | Mickaël Strazzeri, Yvan Poulin |
+| Ruben Wihler | Julien Aliprendi | Mickaël Strazzeri, Yvan Poulin |
 
 ### Livrables
 
