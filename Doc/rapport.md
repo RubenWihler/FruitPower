@@ -407,7 +407,7 @@ Pour utiliser le package XR Interaction Toolkit, il faut ajouter le package dans
 
 L'utilisation de la réalité virtuelle dans la scène est très simple. Voici la hiérarchie du joueur dans la scène :
 
-![VR Player](./img/vr_player_structure.jpg)
+![VR Player](./Img/vr_player_structure.jpg)
 
 ###### XR Player
 
@@ -415,7 +415,7 @@ C'est le GameObject qui représente le joueur dans la scène.
 
 Voici la vue de l'inspector du XR Player :
 
-![XR Player](./img/xr_player_inspector.jpg)
+![XR Player](./Img/xr_player_inspector.jpg)
 
 Voici la liste des composants du XR Player :
 
@@ -430,7 +430,7 @@ Voici la liste des composants du XR Player :
 
 Les mains du joueur sont des GameObjects enfants du XR Player. Voici la vue de l'inspector d'une main :
 
-![Main du joueur](./img/hands_inspector.jpg)
+![Main du joueur](./Img/hands_inspector.jpg)
 
 Voici la liste des composants d'une main :
 
@@ -445,7 +445,7 @@ Il possède également un `HandController` ([HandController](#handcontroller)) q
 
 L'environnement 3D est un jardin clos de 2m x 2m. Il contient des arbres et des buissons qui servent à générer les fruits, des murs pour délimiter la zone de jeu et un sol pour marcher. La scène est composée de plusieurs GameObjects qui sont organisés de manière à ce que le joueur puisse se déplacer librement dans la zone de jeu.
 
-![Environnement 3D 1](./img/env_03.jpg)
+![Environnement 3D 1](./Img/env_03.jpg)
 > zone de jeu de 2m x 2m
 
 Un panier est également présent dans la scène pour que le joueur puisse y mettre les fruits qu'il a ramassé pour gagner des points. Ce dernier est en hauteur pour que le joueur puisse y mettre les fruits facilement qu'il mesure 60cm ou 1m90. Il est lègèrement éclairé pour le mettre en valeur et soit perçu comme un élément important.
@@ -456,12 +456,12 @@ Etant donné que ce projet va être utilisé dans le cadre des portes ouvertes d
 
 Des élements de décorations sont également présents dans la scène pour rendre le jardin plus vivant. Il y a des fleurs, des cailloux, des champignons, des fougères, etc.
 
-![Environnement 3D 2](./img/env_02.jpg)
+![Environnement 3D 2](./Img/env_02.jpg)
 > Environnement 3D avec les éléments de décorations
 
 L'ambiance de la scène est très importante pour que le joueur se sente bien dans le jeu. Une ambiance de coucher de soleil faisant contraster ses couleurs chaudes avec les couleurs vives des éléments du jardin permet de donner une ambiance chaleureuse ainsi que de mettre en valeur les fruits et autres éléments clés du jeu.
 
-![Environnement 3D 3](./img/env_04.jpg)
+![Environnement 3D 3](./Img/env_04.jpg)
 > Ciel de la scène
 
 ---
@@ -525,21 +525,21 @@ Chaque fruits ont un temps de vie configurable. Si le joueur ne les ramasse pas 
 
 Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois, cela permet un gain de performance non négligeable.
 
-![fruit manager inspector](./img/fruit_manager_inspector.jpg)
+![fruit manager inspector](./Img/fruit_manager_inspector.jpg)
 
 La classe [Fruit](#fruit) représente un fruit dans le jeu. Il contient les informations sur le fruit (type, points, etc) et les méthodes pour le ramasser et le détruire.
 
 Dans l'éditeur Unity, un fruit est représenté par un prefab qui contient un rigidbody, un composant XR Grab Interactable, une source audio et la classe Fruit.
 
-![apple inspector](./img/apple_inspector.jpg)
+![apple inspector](./Img/apple_inspector.jpg)
 
 Pour regrouper et donner un accès facile aux données de chaque fruit, une strucure [FruitTypeData](#fruittypedata) est utilisée. Elle contient les informations sur le fruit (type, points, etc). Cette dernière est utilisée dans [FruitTypesDatas](#fruittypesdatas) une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity.
 
-![Fruit Types Datas Inspector](./img/fruittypesdatas_inspector.jpg)
+![Fruit Types Datas Inspector](./Img/fruittypesdatas_inspector.jpg)
 
 Un [FruitSpawnManager](#fruitspawnmanager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
 
-![fruit spawners](./img/fruit_spawners.jpg)
+![fruit spawners](./Img/fruit_spawners.jpg)
 
 > les points rouge représentent les spawners de pommes, les verts les fraises et les bleus les myrtilles.
 
@@ -616,7 +616,7 @@ La classe `FruitTypesDatas` est une classe héritant de ScriptableObject qui per
 Un `FruitSpawner` est une classe qui hérite de `MonoBehaviour` et est attachée à un GameObject.
 Les `FruitSpawner` permettent de définir la position et la rotation sur laquelle les fruits apparaissent. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
 
-![fruit spawner inspector](./img/fruit_spawner_inspector.jpg)
+![fruit spawner inspector](./Img/fruit_spawner_inspector.jpg)
 
 ##### FruitSpawnManager
 
@@ -654,7 +654,7 @@ Le menu de fin de partie est affiché à la fin de la partie. Il affiche les inf
 - Un bouton pour afficher les crédits.
 - Un bouton pour quitter le jeu.
 
-![end game menu](./img/ui_game_end.jpg)
+![end game menu](./Img/ui_game_end.jpg)
 
 Le canvas est un canvas de type `World Space` qui suit le regard du joueur ainsi que sa position. Contrairement au HUD, il ne suit pas la rotation en Y du joueur pour rester toujours face à lui. (si le joueur regarde en haut ou en bas, le menu reste à la même hauteur).
 
@@ -662,7 +662,7 @@ Les fruits ramassés sont affichés dans une liste avec le nom du fruit et la qu
 
 En cliquant sur le bouton de crédits, une nouvelle fenêtre s'ouvre avec les crédits du jeu. Pour fermer cette fenêtre, il suffit de cliquer sur le bouton `Retour`.
 
-![credits](./img/credits.jpg)
+![credits](./Img/credits.jpg)
 
 #### HUD
 
@@ -671,7 +671,7 @@ Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
 - Le score du joueur.
 - Le temps restant.
   
-![hud](./img/ui_hud.jpg)
+![hud](./Img/ui_hud.jpg)
 
 Le canvas est un canvas de type `World Space` qui suit totalement le regard du joueur. Il est placé en haut de l'écran pour ne pas gêner la vue.
 
@@ -682,11 +682,11 @@ Cette partie de l'interface regroupe différents textes qui s'affichent à diff�
 - Un texte qui affiche le compte à rebours du début de partie.
 - Un texte qui affiche la fin de la partie.
 
-![countdown text](./img/ui_countdown.jpg)
+![countdown text](./Img/ui_countdown.jpg)
 
 Une animation de fade in/out est utilisée pour afficher le compte à rebours. Chaques chiffres apparaissent un par un pour donner un effet de compte à rebours.
 
-![end game text](./img/ui_game_ended_text.jpg)
+![end game text](./Img/ui_game_ended_text.jpg)
 
 Le texte de fin de partie apparaît par la gauche et disparaît par la droite. Cela donne un effet jolie et fluide.
 
@@ -704,7 +704,7 @@ Il utilise les évènements du [GameManager](#gamemanager) pour afficher les can
 
 Ce composant s'occupe également de centrer correctement les canvas par rapport à la caméra du joueur.
 
-![ui manager inspector](./img/uimanager_inspector.jpg)
+![ui manager inspector](./Img/uimanager_inspector.jpg)
 
 ##### StatsVisualizer
 
@@ -714,7 +714,7 @@ Il est appelé par le [UIManager](#uimanager) pour afficher les fruits ramassés
 
 Il utilise un prefab contenant un [CaughtFruitElement](#caughtfruitelement) pour afficher les fruits ramassés. Ces éléments sont instanciés dynamiquement à partir des données de la partie et sont affichés un par un avec une animation.
 
-![stats visualizer inspector](./img/statsvisualizer_inspector.jpg)
+![stats visualizer inspector](./Img/statsvisualizer_inspector.jpg)
 
 ##### CaughtFruitElement
 
@@ -724,7 +724,7 @@ Ce composant est attaché à un GameObject mis en prefab dans l'éditeur Unity. 
 
 Une animation de grossissement est utilisée pour afficher les fruits ramassés. Cela permet de donner un effet visuel et d'attirer l'attention du joueur.
 
-![caught fruit element inspector](./img/caughtfruitelement_inspector.jpg)
+![caught fruit element inspector](./Img/caughtfruitelement_inspector.jpg)
 
 ##### PlayButton
 
@@ -746,7 +746,7 @@ Elle ajoute un listener sur l'évènement `Button.onClick` pour quitter le jeu v
 
 La classe `Credits` hérite de `MonoBehaviour`. Elle est responsable d'afficher ou de cacher le GameObject contenant les crédits via ses deux méthodes exposées `Show` et `Hide`.
 
-![credits inspector](./img/credits_inspector.jpg)
+![credits inspector](./Img/credits_inspector.jpg)
 
 ##### TimerVisualizer
 
@@ -764,7 +764,7 @@ Il s'abonne aux évènements `OnScoreChanged` du [GameManager](#gamemanager) pou
 
 Etant donné que ce composant est utilisé dans plusieurs contextes dans le lesquels le texte du score n'est pas le même, il utilise un champ exposé dans l'éditeur Unity pour définir le texte du score (en remplaçant le `$` par le score du joueur).
 
-![score visualizer inspector](./img/scorevisualizer_inspector.jpg)
+![score visualizer inspector](./Img/scorevisualizer_inspector.jpg)
 
 > Remarque : l'image montre le composant utilisé dans le HUD. Il est également utilisé dans le menu de fin de partie ou le champ `scoreTextFormat` est "Score : $".
 
@@ -776,7 +776,7 @@ Elle utilise une coroutine pour afficher les chiffres un par un avec une animati
 
 Un son est joué au début du compte à rebours.
 
-![countdown inspector](./img/countdown_inspector.jpg)
+![countdown inspector](./Img/countdown_inspector.jpg)
 
 ##### GameEndText
 
@@ -784,7 +784,7 @@ La classe `GameEndText` hérite de `MonoBehaviour`. Elle est appelée par le [UI
 
 Elle apparaît par la gauche et disparaît par la droite (animation avec DoTween).
 
-![game end text inspector](./img/gameendtext_inspector.jpg)
+![game end text inspector](./Img/gameendtext_inspector.jpg)
 
 ---
 
@@ -837,7 +837,7 @@ Comme pour les musiques, tous les sons sont des sons libres de droits et sont cr
 
 Le `MusicManager` est une classe qui gère la musique du jeu, elle hérite de `MonoBehaviour`. Elle est responsable de jouer les musiques depuis la radio et de gérer les différents évènements de la musique (changement de musique, arrêt, volume, etc).
 
-![music manager inspector](./img/musicmanager_inspector.jpg)
+![music manager inspector](./Img/musicmanager_inspector.jpg)
 
 #### Radio
 
@@ -845,7 +845,7 @@ La classe `Radio` est une classe qui hérite de `MonoBehaviour`. Elle est respon
 
 Pour jouer les musiques, elle fait appel au [MusicManager](#musicmanager).
 
-![radio inspector](./img/radio_inspector.jpg)
+![radio inspector](./Img/radio_inspector.jpg)
 
 ---
 
