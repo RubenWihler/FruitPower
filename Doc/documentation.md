@@ -1,4 +1,4 @@
-# Documentation Technique - FruitPower
+# Rapport de projet - FruitPower
 
 ## Table des versions
 

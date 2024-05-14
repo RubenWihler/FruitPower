@@ -128,6 +128,7 @@ Au cours de la partie, un affichage tête haute (HUD) est affiché en haut de l'
 - **Score** : Le score actuel de la partie, calculé en fonction des fruits collectés.
 - **Temps restant** : Le temps restant avant la fin de la partie, affiché sous forme d'un compte à rebours.
   
+
 ![HUD](./img/hud_ingame.jpg)
 
 <div style="page-break-after:always"></div>
