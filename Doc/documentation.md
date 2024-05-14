@@ -87,7 +87,7 @@ Le backlog fait également partie de la méthodologie agile puisque j’ai fait 
 
 ### Sauvegardes et versionning
 
-Pour versionner mon projet, j’ai utilisé Git. J’ai créé un dépôt sur GitHub pour pouvoir sauvegarder mon code source et le partager avec mon maître d’apprentissage et les experts.
+Pour versionner mon projet, j’ai utilisé Git. J’ai créé un [dépôt sur GitHub](https://github.com/RubenWihler/FruitPower) pour pouvoir sauvegarder mon code source et le partager avec mon maître d’apprentissage et les experts.
 
 Concernant mon organisation des sauvegardes, j’ai décidé d'adopter la méthode 3-2-1. Cela signifie que je garde 3 copies de mes données, sur 2 supports différents, dont 1 hors site. J’ai donc sauvegardé mon code source sur GitHub, sur un disque dur externe et sur un google drive.
 
