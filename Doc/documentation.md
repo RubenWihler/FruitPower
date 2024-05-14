@@ -4,7 +4,7 @@
 
 | Version | Date | Auteur | Changements |
 | ------- | ---- | ------ | ----------- |
-| 1.0 | 2023-11-09 | Ruben Wihler | ... |
+| 1.0 | 2023-11-09 | Ruben Wihler | version finale |
 
 ## Table des matières
 
@@ -94,13 +94,12 @@ Concernant mon organisation des sauvegardes, j’ai décidé d'adopter la métho
 
 J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire en découpant les user stories en plusieurs tâches. Pour ces tâches, j’ai décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
 
-### Planning prévisionnel
+### Planning prévisionnel et effectif
+
+Le planning si dessous contient la planification prévisionnelle et effectif du projet.
 
 ![Planning prévisionnel](./images/planning-previsionnel.png)
 
-### Planning effectif
-
-![Planning effectif](./images/planning-effectif.png)
 
 ### Product backlog
 
@@ -866,6 +865,14 @@ Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com
 - [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html)
 - [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420)
 
+## Logiciels utilisés
+
+- [Visual Studio 2022](https://visualstudio.microsoft.com/fr/vs/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Unity 2022.3.12f1](https://unity.com/releases/editor/archive)
+- [Blender 4.1](https://www.blender.org/download/)
+- [MetaQuestLink](https://www.oculus.com/setup/)
+
 ---
 
 ## Plan de test
@@ -1044,13 +1051,25 @@ J'ai bien aimé travailler sur ce projet car il était très ouvert et m'a permi
 
 La partie documentation était également très intéressante. Non je rigole, c'était bien ennuyant. Mais bon, c'est une partie importante du projet donc il fallait la faire.
 
+J'ai aussi eu beaucoup de mal avec le journal de bord. J'ai eu du mal à le tenir à jour et à le remplir correctement. C'est la première fois que je faisais un journal de bord et je n'ai pas l'habitude de noter tout ce que je fais. C'est quelque chose que je dois améliorer pour les prochains projets.
+
 ### Remerciements
 
 Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au long de ce projet. Je tiens également à remercier Yvan Poulin pour son expertise et son retours constructifs.
 
-## Références
+## Bibliographie
 
-...
+- [Unity Documentation](https://docs.unity3d.com/2022.3/Documentation/Manual/index.html) - Documentation officielle de Unity.
+- [How to Make a VR Game in Unity - PART 1](https://youtu.be/HhtTtvBF5bI?si=AeYBfnjUX8jWkSUc) - Tutoriel sur la création d'un jeu VR en Unity.
+- [How to Make a VR Game in Unity - PART 7](https://youtu.be/yhB921bDLYA?si=mdiTW4-eF60TvFj1) - Suite du tutoriel, faire en sorte que l'UI suive le joueur.
+- [Documentation XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html) - Documentation officielle de l'XR Interaction Toolkit.
+- [Documentation DoTween](http://dotween.demigiant.com/documentation.php) - Documentation officielle de DoTween.
+- [Exeption c#](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions) - Documentation sur les exceptions en C#.
+- [Optimisation transform](https://gamedev.stackexchange.com/questions/101522/what-are-the-differences-between-using-getcomponenttransform-and-this-transf) - Optimisation de l'utilisation de `transform` dans Unity.
+- [Documentation Unity.Random](https://docs.unity3d.com/ScriptReference/Random.Range.html) - Documentation sur l'utilisation de `Random.Range` dans Unity.
+- [Bonne pratique tests unitaires](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices) - Bonnes pratiques pour les tests unitaires.
+- [Design pattern](https://refactoring.guru/design-patterns/behavioral-patterns) - Documentation sur les design patterns.
+- [Pool design pattern](https://sourcemaking.com/design_patterns/object_pool) - Documentation sur le design pattern de pool.
 
 ## Annexe
 
