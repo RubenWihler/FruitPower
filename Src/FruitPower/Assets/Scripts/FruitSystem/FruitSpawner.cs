@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace FruitSystem
 {
-    public class FruitSpawner : MonoBehaviour
+    public sealed class FruitSpawner : MonoBehaviour
     {
         [Header("Settings")]
         [SerializeField, Tooltip("The type of fruit to spawn.")]

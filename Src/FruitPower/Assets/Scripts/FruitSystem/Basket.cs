@@ -13,7 +13,7 @@ namespace FruitSystem
     /// Composant representant un panier de fruits. Il permet de recuperer les fruits qui entrent dans sa zone de collision trigger.
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class Basket : MonoBehaviour
+    public sealed class Basket : MonoBehaviour
     {
         [Header("Audio")]
         [SerializeField, Tooltip("Source audio pour les sons de capture de fruits")]

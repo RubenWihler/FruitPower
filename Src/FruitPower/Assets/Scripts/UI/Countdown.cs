@@ -1,3 +1,9 @@
+/*
+ TPI - 2024
+ FruitPower - Countdown
+ Wihler Ruben
+ */
+
 using System.Collections;
 using UnityEngine;
 using TMPro;
@@ -7,7 +13,7 @@ namespace UI
     /// <summary>
     /// Classe responsable de l'affichage du compte a rebours.
     /// </summary>
-    public class Countdown : MonoBehaviour
+    public sealed class Countdown : MonoBehaviour
     {
         [Header("Options")]
         [SerializeField, Tooltip("Le text a afficher pour la fin du compte a rebours")]

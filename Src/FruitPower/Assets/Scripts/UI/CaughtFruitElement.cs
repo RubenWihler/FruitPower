@@ -15,7 +15,7 @@ namespace UI.Stats
     /// <summary>
     /// Composant representant un element affichant le nom et la quantite d'un fruit attrape.
     /// </summary>
-    public class CaughtFruitElement : MonoBehaviour
+    public sealed class CaughtFruitElement : MonoBehaviour
     {
         [Header("References")]
         [SerializeField, Tooltip("Texte affichant le nom du fruit.")]

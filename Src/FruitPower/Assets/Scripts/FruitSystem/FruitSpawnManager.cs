@@ -15,7 +15,7 @@ namespace FruitSystem
     /// <summary>
     /// Classe responsable de la gestion des spawners de fruits. Elle permet de gerer le spawn de fruits.
     /// </summary>
-    public class FruitSpawnManager
+    public sealed class FruitSpawnManager
     {
         /// <summary>
         /// Etant donne que cette classe n'est pas un MonoBehaviour, on doit passer un MonoBehaviour pour pouvoir lancer des coroutines.

@@ -1,3 +1,9 @@
+/*
+ TPI - 2024
+ FruitPower - GameEndText
+ Wihler Ruben
+ */
+
 using System.Collections;
 using UnityEngine;
 using TMPro;
@@ -10,7 +16,7 @@ namespace UI
     /// <summary>
     /// Classe responsable de l'affichage du texte de fin de partie.
     /// </summary>
-    public class GameEndText : MonoBehaviour
+    public sealed class GameEndText : MonoBehaviour
     {
         [Header("Options")]
         [SerializeField, Tooltip("Le texte a afficher pour la fin de la partie")]

@@ -8,11 +8,13 @@ using UnityEngine;
 
 namespace UI
 {
-    public class Credits : MonoBehaviour
+    /// <summary>
+    /// Responsable de gerer l'affichage des credits.
+    /// </summary>
+    public sealed class Credits : MonoBehaviour
     {
         [SerializeField, Tooltip("Reference vers le gameobject des credits")]
         private GameObject _credit;
-
         [SerializeField, Tooltip("Reference vers le gameobject parent du reste de l'interface")]
         private GameObject _other;
 
@@ -24,7 +26,6 @@ namespace UI
             _credit.SetActive(true);
             _other.SetActive(false);
         }
-
         /// <summary>
         /// Cache les credits et affiche le reste de l'interface.
         /// </summary>

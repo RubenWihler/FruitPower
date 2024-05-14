@@ -10,7 +10,11 @@ using UnityEngine;
 
 namespace UI.Stats
 {
-    public class StatsVisualizer : MonoBehaviour
+    /// <summary>
+    /// Classe permettant d'afficher les fruits attrapes dans le menu de fin de partie.
+    /// Utilise des <see cref="CaughtFruitElement"/> pour afficher les fruits attrapes."/>
+    /// </summary>
+    public sealed class StatsVisualizer : MonoBehaviour
     {
         [Header("Settings")]
         [SerializeField, Tooltip("Temps d'attente entre l'affichage de chaque fruit attrape.")]

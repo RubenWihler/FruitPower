@@ -12,7 +12,7 @@ namespace Audio
     /// <summary>
     /// Classe responsable de la gestion de la radio
     /// </summary>
-    public class Radio : MonoBehaviour
+    public sealed class Radio : MonoBehaviour
     {
         [Header("References")]
         [SerializeField, Tooltip("Reference vers le meshRenderer dde la radio")]

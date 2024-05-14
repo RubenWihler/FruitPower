@@ -14,7 +14,7 @@ namespace UI
     /// Composant responsable de l'affichage du timer de jeu.
     /// Heritant de TextMeshProUGUI, il affiche le temps restant de la partie en secondes avec une precision de 2 decimales.
     /// </summary>
-    public class TimerVisualizer : TextMeshProUGUI
+    public sealed class TimerVisualizer : TextMeshProUGUI
     {
         /// <summary>
         /// Indique si le timer est en cours.

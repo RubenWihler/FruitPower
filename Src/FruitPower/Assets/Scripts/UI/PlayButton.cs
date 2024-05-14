@@ -1,6 +1,6 @@
 /*
  TPI - 2024
- FruitPower - UI
+ FruitPower - PlayButton
  Wihler Ruben
  */
 
@@ -12,7 +12,7 @@ namespace UI
     /// <summary>
     /// Composant responsable du bouton de demarrage du jeu.
     /// </summary>
-    public class PlayButton : Button
+    public sealed class PlayButton : Button
     {
         /// <summary>
         /// On override la methode Start pour ajouter un listener au bouton.

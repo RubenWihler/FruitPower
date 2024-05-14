@@ -16,7 +16,7 @@ namespace FruitSystem
     /// La classe <see cref="FruitManager"/> est responsable de la gestion des fruits dans la scène.
     /// Etant un singleton, elle permet d'acceder facilement de l'exerieur a la liste des fruits et aux differents managers.
     /// </summary>
-    public class FruitManager : MonoBehaviour
+    public sealed class FruitManager : MonoBehaviour
     {
         #region Singleton
         

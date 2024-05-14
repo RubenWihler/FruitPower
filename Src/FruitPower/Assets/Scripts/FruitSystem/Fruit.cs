@@ -17,7 +17,7 @@ namespace FruitSystem
     /// Les fruit sont geres par un <see cref="FruitPooler"/> qui permet de recycler les fruits.
     /// </summary>
     [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
-    public class Fruit : MonoBehaviour
+    public sealed class Fruit : MonoBehaviour
     {
         [Header("Fruit Settings")]
         [SerializeField, Tooltip("Identifiant du type de fruit.")]

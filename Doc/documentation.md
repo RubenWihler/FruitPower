@@ -442,6 +442,7 @@ Il possède également un `HandController` ([HandController](#handcontroller)) q
 L'environnement 3D est un jardin clos de 2m x 2m. Il contient des arbres et des buissons qui servent à générer les fruits, des murs pour délimiter la zone de jeu et un sol pour marcher. La scène est composée de plusieurs GameObjects qui sont organisés de manière à ce que le joueur puisse se déplacer librement dans la zone de jeu.
 
 ![Environnement 3D 1](./img/env_03.jpg)
+> zone de jeu de 2m x 2m
 
 Un panier est également présent dans la scène pour que le joueur puisse y mettre les fruits qu'il a ramassé pour gagner des points. Ce dernier est en hauteur pour que le joueur puisse y mettre les fruits facilement qu'il mesure 60cm ou 1m90. Il est lègèrement éclairé pour le mettre en valeur et soit perçu comme un élément important.
 
@@ -452,10 +453,12 @@ Etant donné que ce projet va être utilisé dans le cadre des portes ouvertes d
 Des élements de décorations sont également présents dans la scène pour rendre le jardin plus vivant. Il y a des fleurs, des cailloux, des champignons, des fougères, etc.
 
 ![Environnement 3D 2](./img/env_02.jpg)
+> Environnement 3D avec les éléments de décorations
 
 L'ambiance de la scène est très importante pour que le joueur se sente bien dans le jeu. Une ambiance de coucher de soleil faisant contraster ses couleurs chaudes avec les couleurs vives des éléments du jardin permet de donner une ambiance chaleureuse ainsi que de mettre en valeur les fruits et autres éléments clés du jeu.
 
 ![Environnement 3D 3](./img/env_04.jpg)
+> Ciel de la scène
 
 ---
 
@@ -475,6 +478,7 @@ Le déroulement d'une partie est le suivant :
 #### Classes du système de gestion de partie
 
 ![uml](./Uml/game_management_system.png)
+> Le dragramme UML du système de gestion de partie
 
 ##### GameManager
 
@@ -513,6 +517,7 @@ Avant d'aborder les détails du système, il est important de comprendre comment
 Chaque fruits ont un temps de vie configurable. Si le joueur ne les ramasse pas avant la fin de leur temps de vie, ils disparaissent. Quand le joueur ramasse un fruit, sa durée de vie est stoppé et ne disparaît pas. C'est seulement quand le joueur lache le fruit qu'il reprend sa durée de vie (qui est remise à zéro). Une fois que le fruit est mis dans le panier des points sont ajoutés au score du joueur.
 
 ![uml sequence fruit generation](./Uml/fruit_generation_sequence.svg)
+> Attention, ce diagramme de séquence est simplifié pour des raisons de lisibilité. Il sert a montrer le déroulement général de la génération des fruits.
 
 Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois, cela permet un gain de performance non négligeable.
 

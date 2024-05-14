@@ -1,6 +1,6 @@
 /*
  TPI - 2024
- FruitPower - UI
+ FruitPower - ScoreVisualizer
  Wihler Ruben
  */
 
@@ -10,7 +10,7 @@ using GameManagement;
 
 namespace UI
 {
-    public class ScoreVisualizer : MonoBehaviour
+    public sealed class ScoreVisualizer : MonoBehaviour
     {
         [Header("Settings")]
         [SerializeField, Tooltip("Format du texte du score [score = $]")]

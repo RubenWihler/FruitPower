@@ -10,11 +10,10 @@ using UI.Stats;
 
 namespace UI
 {
-
     /// <summary>
     /// Composant responsable de la gestion de l'interface utilisateur.
     /// </summary>
-    public class UIManager : MonoBehaviour
+    public sealed class UIManager : MonoBehaviour
     {
         [Header("Settings")]
         [SerializeField, Tooltip("Distance de l'ecran par rapport a la tete du joueur [default: 1.2]")]

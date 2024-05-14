@@ -1,6 +1,6 @@
 /*
  TPI - 2024
- FruitPower - UI
+ FruitPower - QuitButton
  Wihler Ruben
  */
 
@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Bouton permettant de quitter l'application.
 /// </summary>
-public class QuitButton : Button
+public sealed class QuitButton : Button
 {
     /// <summary>
     /// On override la methode Start pour ajouter un listener qui permet de quitter l'application quand le bouton est clique.

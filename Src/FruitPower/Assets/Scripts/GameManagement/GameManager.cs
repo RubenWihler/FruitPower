@@ -16,7 +16,7 @@ namespace GameManagement
     /// Classe responsable de la gestion du jeu. C'est ici que l'on demarre et termine le jeu.
     /// Cette classe est un singleton pour permettre un accès facile a partir de n'importe où.
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public sealed class GameManager : MonoBehaviour
     {
         #region Singleton
 

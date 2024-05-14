@@ -12,7 +12,7 @@ namespace FruitSystem
     /// Scriptable object contenant les donnees des differents types de fruits.
     /// </summary>
     [CreateAssetMenu(fileName = "FruitsDatas", menuName = "FruitSystem/FruitsDatas")]
-    public class FruitTypesDatas : ScriptableObject
+    public sealed class FruitTypesDatas : ScriptableObject
     {
         [Tooltip("Les donnees des differents types de fruits.")]
         public FruitTypeData[] datas;
