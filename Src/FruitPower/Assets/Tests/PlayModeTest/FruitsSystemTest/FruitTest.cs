@@ -1,3 +1,9 @@
+/*
+ TPI - 2024
+ FruitPower - Fruit Test
+ Wihler Ruben
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -6,6 +12,9 @@ using UnityEngine.TestTools;
 using FruitSystem;
 using System.Linq;
 
+/// <summary>
+/// Tests unitaires pour les classes <see cref="FruitPooler"/>, <see cref="Fruit"/> et <see cref="FruitPoolData"/>.
+/// </summary>
 public class FruitTest
 {
     [UnityTest]

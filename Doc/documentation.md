@@ -533,7 +533,7 @@ Pour regrouper et donner un accès facile aux données de chaque fruit, une stru
 
 ![Fruit Types Datas Inspector](./img/fruittypesdatas_inspector.jpg)
 
-Un [FruitSpawnerManager](#fruitspawnermanager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
+Un [FruitSpawnManager](#FruitSpawnManager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
 
 ![fruit spawners](./img/fruit_spawners.jpg)
 
@@ -549,7 +549,7 @@ Un [FruitSpawnerManager](#fruitspawnermanager) est utilisé pour gérer les [Fru
 
 Le `FruitManager` est la classe principale du système de gestion des fruits. Elle est responsable a haut niveau de toutes les opérations sur les fruits. Elle implémente un pattern singleton pour donner un accès facile aux autres classes du système ainsi qu'aux autres systèmes.
 
-Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnerManager](#fruitspawnermanager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner).
+Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Un [FruitSpawnManager](#FruitSpawnManager) est également utilisé pour gérer les [FruitSpawner](#fruitspawner).
 
 Elle contient une référence au [FruitTypesDatas](#fruittypesdatas) qui contient les données des fruits.
 Grâce à la methode `public static GetFruitTypeData(string fruitId)` il est possible de récupérer les données d'un fruit en donnant son id. Cela permet de facilement accéder a ces données depuis d'autres systèmes (par exemple, pour afficher le nom des fruits ramassés dans l'interface de fin de partie).
@@ -614,9 +614,9 @@ Les `FruitSpawner` permettent de définir la position et la rotation sur laquell
 
 ![fruit spawner inspector](./img/fruit_spawner_inspector.jpg)
 
-##### FruitSpawnerManager
+##### FruitSpawnManager
 
-Le `FruitSpawnerManager` est une classe qui gère les [FruitSpawner](#fruitspawner).Elle gère le spawn des fruits en utilisant des coroutine récursive.
+Le `FruitSpawnManager` est une classe qui gère les [FruitSpawner](#fruitspawner).Elle gère le spawn des fruits en utilisant des coroutine récursive.
 
 Une liste de [FruitSpawner](#fruitspawner) est passée en paramètre du constructeur de la classe. Cette liste est utilisée pour gérer les spawners.
 

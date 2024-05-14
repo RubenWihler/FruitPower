@@ -1,6 +1,6 @@
 /*
  TPI - 2024
- FruitPower - Extensions pour les sons
+ FruitPower - Audio Extensions
  Wihler Ruben
  */
 
