@@ -846,7 +846,7 @@ Etant donné que ce composant est utilisé dans plusieurs contextes dans le lesq
 
 ![score visualizer inspector](./Img/scorevisualizer_inspector.jpg)
 
-> Remarque : l'image montre le composant utilisé dans le HUD. Il est également utilisé dans le menu de fin de partie ou le champ `scoreTextFormat` est "Score : $".
+> Remarque : l'image montre le composant utilisé dans le HUD. Il est également utilisé dans le menu de fin de partie ou le champ `scoreTextFormat` est `Score : $`.
 
 <div style="page-break-after:always"></div>
 
