@@ -864,6 +864,33 @@ Pour jouer les musiques, elle fait appel au [MusicManager](#musicmanager).
 
 ---
 
+### Post-traitement
+
+Le post-traitement n'est pas un élément essentiel du jeu mais il permet d'améliorer le visuel du jeu. Dans ce projet, nous avons utilisé une combinaison de 2 plugins pour améliorer le visuel du jeu :
+
+- [Post Processing Stack V2](https://docs.unity3d.com/Packages/com.unity.postprocessing@3.4/manual/index.html) : package officiel d'Unity qui permet d'ajouter des effets de post-traitement à la caméra.
+- [FREE Skybox Extended Shader](https://assetstore.unity.com/packages/vfx/shaders/free-skybox-extended-shader-107400) : un shader qui permet d'ajouter un fog basé sur la hauteur du ciel ainsi que des effets de rotation et de déplacement du ciel (pour les nuages).
+
+#### Post Processing Stack V2
+
+Ce package permet de modifier le rendu de la caméra en ajoutant des effets de post-traitement. Dans ce projet, nous avons utilisé les effets suivants :
+
+- **Ambient Occlusion** : pour ajouter des ombres aux objets en fonction de leur proximité. Cela permet de donner un effet de profondeur à la scène.
+- **Bloom** : pour ajouter un effet de lumière aux objets lumineux. (Nous avons utilisé un bloom très léger car nous voulions garder un aspect naturel).
+- **Grain** : pour ajouter un effet de grain à l'image. Cela permet de donner un aspect plus organique à la scène. Cela permet également de cacher les artefacts de compression de l'image qui apparaissent parfois dans les zones sombres.
+- **Color Grading** : pour modifier les couleurs de la scène. Le tone mapping ACES est utilisé pour donner un aspect plus réaliste à la scène.
+- **Vignette** : pour ajouter un effet de vignette à l'image. Il noircit les bords de l'image. Nous avons utilisé pour réduire le mal de tête que peut provoquer la VR.(selon [cette source](https://jeffreyboopathy.medium.com/removing-motion-sickness-in-vr-an-actionable-guide-89218d721221) un effet de vignette peut aider à réduire le mal de tête).
+
+![post processing stack inspector](./Img/post-processing.jpg)
+
+#### FREE Skybox Extended Shader
+
+Ce shader permet d'ajouter un fog basé sur la hauteur du ciel ainsi que des effets de rotation et de déplacement du ciel (pour les nuages).
+
+Dans ce projet, nous avons utilisé le fog pour donner un effet de profondeur à la scène. Le fog change de couleur pour être en cohérence avec le ciel.
+
+Nous avons également utilisé la skybox donnée avec le shader qui rend très bien avec la direction artistique du jeu.
+
 ## Sécurité
 
 Etant donné que le projet est un jeu vidéo solo, nous avons décidé de ne pas mettre la priorité sur la sécurité. Si le joueur veut tricher, il peut le faire. Cependant, nous avons quand même mis en place un obfuscateur pour éviter le reverse engineering (surtout car c# est un langage facile à décompiler).
@@ -888,6 +915,18 @@ Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com
 - [XR Plugin Management](https://docs.unity3d.com/2022.3/Documentation/Manual/XR.html)
 - [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html)
 - [Obfuscator Free](https://assetstore.unity.com/packages/tools/utilities/obfuscator-free-89420)
+- [Post Processing Stack V2](https://docs.unity3d.com/Packages/com.unity.postprocessing@3.4/manual/index.html)
+- [FREE Skybox Extended Shader](https://assetstore.unity.com/packages/vfx/shaders/free-skybox-extended-shader-107400)
+
+## Intelligences artificielles
+
+Pendant la réalisation de ce projet, nous avons utilisé des outils d'intelligence artificielle pour améliorer l'efficacité du développement et gagner du temps.
+
+Nous avons utilisé l'outil de traduction automatique [Deepl](https://www.deepl.com/translator) pour traduire certains mots ou phrases provenant d'articles ou de documentations en anglais.
+
+Nous n'avons pas eu beaucoup besoin d'utiliser ChatGPT car les documentations des librairies utilisées étaient bien écrites et facilement compréhensibles. Cependant, nous l'avons utilisé une seule fois pour obtenir des informations sur une questions de conventions concernant la documentation. Le prompt et la réponse sont en annexes([Utilisation de chatGPT](#utilisation-de-chatgpt)).
+
+Enfin, nous avons utilisé [Github Copilot](https://github.com/features/copilot) pour aider à l'écriture de certains morceaux de code. Nous n'avons pas utiliser la fonctionnalité de chat mais uniquement la suggestion de code. C'est très utils car cela permet de finir les lignes de code automatiquement et de gagner du temps. Cependant, il faut faire attention car parfois les suggestions ne sont pas correctes ou ne suivent pas vraiment l'aproche algorithmique ou structurelle du projet.
 
 ## Logiciels utilisés
 
@@ -896,6 +935,8 @@ Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com
 - [Unity 2022.3.12f1](https://unity.com/releases/editor/archive)
 - [Blender 4.1](https://www.blender.org/download/)
 - [MetaQuestLink](https://www.oculus.com/setup/)
+- [Deepl](https://www.deepl.com/translator)
+- [Transparent-Notepad](https://github.com/RubenWihler/Transparent-Notpad)
 
 ---
 
@@ -1096,6 +1137,9 @@ Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au l
 - **GameObject** : Objet dans la scène Unity.
 - **ScriptableObject** : Un ScriptableObject est une classe Unity qui peut contenir des données et être utilisée dans des scripts.
 - **Component/Composant** : Composant d'un GameObject dans Unity.
+- **skybox** : Texture qui est appliquée sur le fond de la scène pour donner l'impression d'un ciel.
+- **Fog** : Effet visuel qui simule la brume ou le brouillard.
+- **Tone Mapping** : Technique de rendu qui permet de convertir les couleurs d'une image en fonction de la luminosité.
 
 ---
 
@@ -1112,6 +1156,7 @@ Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au l
 - [Bonne pratique tests unitaires](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices) - Bonnes pratiques pour les tests unitaires.
 - [Design pattern](https://refactoring.guru/design-patterns/behavioral-patterns) - Documentation sur les design patterns.
 - [Pool design pattern](https://sourcemaking.com/design_patterns/object_pool) - Documentation sur le design pattern de pool.
+- [Removing Motion Sickness in VR, An Actionable Guide.](https://jeffreyboopathy.medium.com/removing-motion-sickness-in-vr-an-actionable-guide-89218d721221) - Guide pour réduire le mal de tete en VR. 
 
 ---
 
