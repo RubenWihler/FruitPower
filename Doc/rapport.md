@@ -10,6 +10,8 @@
 
 [TOC]
 
+<div style="page-break-after:always"></div>
+
 ## Introduction
 
 Ce document est un rapport présentant différents aspects de la conception du projet FruitPower. Ce projet a été réalisé dans le cadre du Travail pratique individuel (TPI) durant la session de mai 2024. Il a pour but de valider mes compétences acquises pendant la formation Informaticien CFC dispensée à l’école d’informatique du CFPT au Petit-Lancy. FruitPower est un jeux vidéo utilisant la réalité virtuelle. Il a été développé en C# avec le moteur de jeu Unity.
@@ -36,12 +38,12 @@ Pour les experts et le maître d’apprentissage :
 
 ### Matériel et logiciels à disposition
 
-- Un PC standard école, 2 écrans
+- Un PC standard école
 - Windows 10
-- Visual studio code
-- Visual studio 2022
-- Unity 2022.3.12f1
-- Suite Office
+- Unity3D
+- Un casque de réalité virtuel Occulus Quest
+
+<div style="page-break-after:always"></div>
 
 ### Méthodologie
 
@@ -49,55 +51,59 @@ Pour les experts et le maître d’apprentissage :
 
 ##### 1. S’informer
 
-Lors de cette étape, j’ai dû m’informer sur le cahier des charges, l’analyser en profondeur pour bien comprendre toutes les fonctionnalités demandées. C’est également durant cette étape que j’ai demandé des questions/informations à M.Aliprandi pour tout ce qui concerne mes différentes incompréhensions. A chaque fois que je commençais une storie je m’informais en regardant le cahier des charges.
+Lors de cette étape, nous avons dû nous informer sur le cahier des charges, l’analyser en profondeur pour bien comprendre toutes les fonctionnalités demandées. C’est également durant cette étape que nous avons demandé des questions/informations à M.Aliprandi pour tout ce qui concerne nos différentes incompréhensions.
 
 ##### 2. Planifier
 
-Dans cette étape, j’ai créé un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire et quand. Pour faire ce planning, j’ai dû découper le travail en plusieurs tâches. Pour ces tâches, j’ai décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
+Dans cette étape, nous avons créé un planning prévisionnel pour pouvoir nous organiser et savoir ce que nous devons faire et quand. Pour faire ce planning, nous avons dû découper le travail en plusieurs tâches. Pour ces tâches, nous avons décidé de les mettre sous la forme de user stories. C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
 
-J’ai décidé de mettre aussi en place la méthode MoSCoW qui attribue des priorités sur les tâches afin de pouvoir s’attarder sur ce qui est prioritaire. Les niveaux de priorités sont :
+Nous avons décidé de mettre en place la méthode MoSCoW qui attribue des priorités sur les tâches afin de pouvoir s’attarder sur ce qui est prioritaire. Les niveaux de priorités sont :
 
 - P1 Must
 - P2 Should
 - P3 Could
 
-Toutes ces stories sont mises dans un product backlog. J’ai fait un planning effectif pour pouvoir comparer mon avancée avec le planning prévisionnel.
+Toutes ces stories sont mises dans un product backlog. La template que nous avons utilisé permet de combiner la planification prévisionnel et effective dans le même document. Cela est particulièrement utiles pour comparer ce qui était prévue et ce le déroulement réel.
 
 ##### 3. Décider
 
-Lors de mon projet, j’ai eu plusieurs décisions importantes à prendre. Toutes les décisions que je trouvais importantes et pertinentes, je les mettais dans le journal de bord et j’expliquais pourquoi j’ai choisi de faire comme ça.
+Au cours du projet, nous avons dû prendre plusieurs décisions importantes. Toutes les décisions que nous trouvions importantes et pertinentes, nous les avons notées dans le journal de bord et expliquées pourquoi nous avons choisi de faire comme ça.
+
+<div style="page-break-after:always"></div>
 
 ##### 4. Réaliser
 
-Une fois les décisions prises, je pouvais commencer à réaliser, soit l’implémentation dans le code, soit la rédaction dans la documentation.
+Une fois les décisions prises, nous avons pu commencer à réaliser, soit l’implémentation dans le code, soit la rédaction dans la documentation.
 
 ##### 5. Contrôler
 
-tout de suite plusieurs fois. Quand je rajoutais une fonction, je testais également l’autre pour voir s'il y avait pas de régression. Une fois que je finissais d’implémenter un système, je la testais avec des test unitaires et foncitonnels pour voir si tout fonctionnait correctement. (Unity Test Framework)
+Cette étape de contrôle commence dès la conception d'un système. Effectivement, nous avons essayé de privilégier le code safe by design pour éviter trop de code défensif. Une fois le système implémenté, nous le testions manuellement et a l'aide de tests unitaires pour les systèmes les plus complexes. Nous avons également utilisé des outils de profiling pour vérifier que le jeu tourne bien. Nous réalisions les tests tout les jours pour être sûr qu'aucune régression n'était présente.
 
 ##### 6. Evaluer
 
-Cette étape je la fais dans mon bilan dans mon journal de bord. Ici on liste les réussites, les difficultés, les améliorations ainsi que les décisions. J'ai aussi mis le resultats de mes tests.
+Cette étape est réalisée dans le journal de bord ainsi que dans le journal de tests. Nous avons listé les réussites, les difficultés, les améliorations ainsi que les décisions. Nous avons également mis les résultats de nos tests.
 
 #### Méthode Agile
 
-Durant l’élaboration de mon projet, je n’ai pas seulement appliqué la méthode en 6 étapes mais également celle de la méthode Agile. Je me suis fixé tous les jours des objectifs dans le journal de bord que je devais atteindre en fin de journée.
+Durant l'élaboration du projet, l'application de la méthode en 6 étapes a été complétée par l'application de certaines pratiques de la méthode Agile. La réalisation d'un backlog a permis de découper le projet en plusieurs user stories. Ces dernières ont ensuite été découpées en tâches techniques pour faciliter la réalisation du projet. Ces tâches ont été réalisées en suivant un planning prévisionnel. Chaque jour, des objectifs clairs étaient fixés.Cela nous a permis de suivre l'avancement du projet et de nous adapter en cas de problème.
 
-Le backlog fait également partie de la méthodologie agile puisque j’ai fait des stories qui correspondent à de petits objectifs à atteindre pour arriver à l’objectif final. Les objectifs sont atteints quand les cas de tests sont fonctionnels et ainsi pouvoir passer au suivant.
+<div style="page-break-after:always"></div>
 
 ### Sauvegardes et versionning
 
-Pour versionner mon projet, j’ai utilisé Git. J’ai créé un [dépôt sur GitHub](https://github.com/RubenWihler/FruitPower) pour pouvoir sauvegarder mon code source et le partager avec mon maître d’apprentissage et les experts.
+Pour versionner le projet, nous avons utilisé Git (Nous aurions pu utiliser [Unity Version control](https://unity.com/fr/solutions/version-control) mais nous avons préféré utiliser Git pour sa simplicité et sa compatibilité avec GitHub). Nous avons créé un [dépôt sur GitHub](https://github.com/RubenWihler/FruitPower) pour partager le code source avec le maître d'apprentissage et les experts.
 
-Concernant mon organisation des sauvegardes, j’ai décidé d'adopter la méthode 3-2-1. Cela signifie que je garde 3 copies de mes données, sur 2 supports différents, dont 1 hors site. J’ai donc sauvegardé mon code source sur GitHub, sur un disque dur externe et sur un google drive.
+Concernant l'organisation des sauvegardes, nous avons adopté la méthode 3-2-1. Cela signifie que nous avons gardé 3 copies de nos données, sur 2 supports différents, dont 1 hors site. Nous avons donc sauvegardé le code sur le bootdrive et sur un google drive.
 
-La nomenclature des backups est la suivante : `YYYYMMDDFruitPower.7zip` où `YYYYMMDD` est la date du backup et `FruitPower` est le nom du projet.
+La nomenclature des backups est la suivante : `YYYYMMDDFruitPower.7zip` où `YYYYMMDD` est la date du backup.
 
 Les backups contiennent le code source du projet, la documentation, le journal de bord, les rapports, les manuels, les versions compilées, les assets, etc.
 
 ## Planification
 
-J'ai fais un planning prévisionnel pour pouvoir m’organiser et savoir ce que je dois faire en découpant le cahier des charges en plusieurs user stories.  C’est une description simple de ce que l’utilisateur a besoin pour savoir les différentes fonctionnalités à développer.
+Nous avons fait un planning prévisionnel pour pouvoir nous organiser et savoir ce que nous devions faire et quand. Pour faire ce planning, nous avons dû découper le travail en plusieurs tâches. Pour ces tâches, nous avons décidé de les mettre sous la forme de user stories. A partir de ces dernière, nous avons créé des tâches techniques pour chaque user story. Ces tâches techniques sont des tâches plus précises qui permettent de réaliser les user stories.
+
+<div style="page-break-after:always"></div>
 
 ### Planning prévisionnel et effectif
 
@@ -110,6 +116,8 @@ Le planning si dessous contient la planification prévisionnelle et effective du
 Comme on peut le voir sur le planning, la planification prévisionnelle est très différente de la planification effective. En effet, la plupart des taches ont été sur-estimées. Certaines taches ont été réalisées simultanément. C'est le cas par exemple de tous le système de fruit.
 
 La partie rejouer n'a tous simplement pas été réalisée en changeant de scène. En effet, ce n'était pas nécessaire pour le projet.
+
+<div style="page-break-after:always"></div>
 
 ### Product backlog
 
@@ -141,6 +149,8 @@ Les user stories sont des descriptions simples de ce que l'utilisateur a besoin 
 | 017 | Post-traitement | En tant qu'utilisateur, je veux que le jeu soit agréable visuellement grâce à un post-traitement. | P3 |
 | 018 | Interface | En tant qu'utilisateur, je veux que l'interface soit intuitive. | P3 |
 
+<div style="page-break-after:always"></div>
+
 ### Tâches techniques
 
 Les tâches techniques sont des tâches plus précises qui permettent de réaliser les user stories. Elles sont plus techniques et détaillées et ne sont pas destinées au client. Nous avons décidé de les formuler sous la forme de petites tâches issues des user stories.
@@ -163,6 +173,8 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 | 001.2 | Ajout Unity Input System | Ajout du package Unity Input System requis pour le package XR Interaction Toolkit | P1 |
 | 001.3 | Ajout du package XR Interaction Toolkit | Ajout du package XR Interaction Toolkit | P1 |
 | 001.4 | Ajout du système de déplacement | Ajout du système de déplacement pour pouvoir se déplacer dans le jeu | P1 |
+
+<div style="page-break-after:always"></div>
 
 #### 002 : Environnement 3D
 
@@ -188,6 +200,8 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 | 004.2 | Importation des modèles 3D | Importation des modèles 3D d'arbres et de buissons dans le projet | P1 |
 | 004.3 | Placement des arbres et buissons | Placement des arbres et des buissons dans le jardin | P1 |
 
+<div style="page-break-after:always"></div>
+
 #### 005 : Génération de fruits
 
 | ID | Nom | Description | Priorité |
@@ -210,6 +224,8 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 | 007.1 | Rajout d'un timer sur les fruits | Rajout d'un timer sur les fruits pour les faire disparaître après quelques secondes | P1 |
 | 007.2 | Test du système de disparition | Test du système de disparition des fruits | P1 |
 | 007.3 | Optimisation du système | Optimisation du système de disparition des fruits en utilisant du pooling | P2 |
+
+<div style="page-break-after:always"></div>
 
 #### 008 : Compteur de points
 
@@ -240,6 +256,8 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 | 011.1 | Fin de partie | Fin de partie après 30 secondes | P1 |
 | 011.2 | Test de la fin de partie | Test de la fin de partie après 30 secondes | P1 |
 
+<div style="page-break-after:always"></div>
+
 #### 012 : Score final
 
 | ID | Nom | Description | Priorité |
@@ -257,6 +275,8 @@ Les tâches techniques sont des tâches plus précises qui permettent de réalis
 | 013.3 | Optimisation du système | Optimisation du système de chargement de scene pour qu'il soit asynchrone | P2 |
 | 013.4 | Ajout d'un écran de chargement | Ajout d'un écran de chargement pour le chargement de la scene | P3 |
 | 013.5 | Test de l'écran de chargement | Test de l'écran de chargement pour le chargement de la scene | P3 |
+
+<div style="page-break-after:always"></div>
 
 #### 014 : Musique et bruitages
 
@@ -312,7 +332,7 @@ Les fonctionnalités majeures du projet sont tirées du cahier des charges.
 - **Musique et bruitages** : musique et bruitages présents dans le projet. (détails dans la partie son) Les musique et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
 - **Eléments 2D/3D gratuits** : tous les assets utilisés sont gratuits et leurs auteurs sont crédités dans [la partie crédits du jeu](#credits).
 
----
+<div style="page-break-after:always"></div>
 
 ## Analyse organique
 
@@ -334,6 +354,8 @@ Pour faciliter l'organisation du code, chaque système possède une définition 
 | GameManagement | Système de gestion de la partie | Assets/Scripts/GameManagement/GameManagement.asmdef |
 
 Dans la même optique, l'utilisation de namespaces a été privilégiée pour une meilleure organisation du code.
+
+<div style="page-break-after:always"></div>
 
 #### Conventions de nommage
 
@@ -361,6 +383,8 @@ Une combinaison de plusieurs design patterns a été utilisée pour réaliser un
 
 Le pattern Singleton a aussi beaucoup été utilisé pour les classes qui ne doivent être instanciés qu'une seule fois dans le jeu et qui doivent être accessibles de partout (GameManager, FruitManager, etc). Nous ne pouvons pas utiliser de classes statiques car ces dernières ne peuvent pas être un component Unity (doit hériter de `MonoBehaviour`).
 
+<div style="page-break-after:always"></div>
+
 #### Commentaires de code
 
 Pour faciliter la lecture du code, des commentaires ont été ajoutés dans le code. Ces commentaires permettent de comprendre le code plus facilement et d'en comprendre chaque parties. Les commentaires sont écrits en français et utilisent les summary de C#.
@@ -382,6 +406,8 @@ Pour garder une ogranisation harmonieuse dans l'inspecteur, nous avons utilisé 
 
 > D'autres `Header` plus spécifiques ont été utilisés en fonction des besoins du script.
 
+<div style="page-break-after:always"></div>
+
 ### Gestions de la réalité virtuelle
 
 La gestion de la réalité virtuelle est un des points clés du projet. Elle permet au joueur d'interagir avec le jeu en utilisant un casque de réalité virtuelle et ses contrôleurs. Pour cela, nous avons utilisé le package XR d'Unity qui permet de gérer la réalité virtuelle de manière simple et efficace. Nous avons également utilisé le package `XR Interaction Toolkit` qui permet de gérer l'interaction avec les objets du jeu.
@@ -399,6 +425,8 @@ La seule classe que nous avons dû implémenter est lui aussi donné dans le tut
 
 Les déplacements du joueur sont très simples étant donné que le joueur ne peut pas se déplacer dans l'environnement avec les contrôleurs. Il ne peut que se déplacer dans un rayon de 2 mètres autour de lui en marchant dans la réalité. Pour cela, nous avons utilisé les composants `LocomotionSystem`, `ContinuousMoveProvider` et `CharacterControllerDriver` du package XR Interaction Toolkit.
 
+<div style="page-break-after:always"></div>
+
 #### Utilisation dans Unity
 
 ##### XR Plugin Management
@@ -415,13 +443,11 @@ L'utilisation de la réalité virtuelle dans la scène est très simple. Voici l
 
 ![VR Player](./Img/vr_player_structure.jpg)
 
+<div style="page-break-after:always"></div>
+
 ###### XR Player
 
 C'est le GameObject qui représente le joueur dans la scène.
-
-Voici la vue de l'inspector du XR Player :
-
-![XR Player](./Img/xr_player_inspector.jpg)
 
 Voici la liste des composants du XR Player :
 
@@ -434,18 +460,16 @@ Voici la liste des composants du XR Player :
 
 ###### LeftHand et RightHand
 
-Les mains du joueur sont des GameObjects enfants du XR Player. Voici la vue de l'inspector d'une main :
-
-![Main du joueur](./Img/hands_inspector.jpg)
-
-Voici la liste des composants d'une main :
+Les mains du joueur sont des GameObjects enfants du XR Player. Voici la liste des composants d'une main :
 
 - `XRController` : Composant qui permet de gérer le contrôleur.
 - `XRDirectInteractor` : Composant qui permet de gérer l'intéraction avec les objets (les atrapper, les lancer, etc).
 - `SphereCollider` : Composant qui permet de gérer la zone de détection des objets. (mis en mode trigger pour ne pas bloquer les objets).
 
-En plus de ces composants, il y a un GameObject enfant de la main qui contient le modèle de la main. Ce GameObject est animé par l'animator de la main.
-Il possède également un `HandController` ([HandController](#handcontroller)) qui permet de faire le lien entre les contrôleurs et l'animator de la main.
+En plus de ces composants, il y a un GameObject enfant de la main qui contient le modèle de la main animée avec un composant `Animator`.
+Il possède également un [HandController](#handcontroller) qui permet de faire le lien entre les contrôleurs et les animations.
+
+<div style="page-break-after:always"></div>
 
 #### Classe de la gestion des contrôleurs
 
@@ -454,6 +478,11 @@ Il possède également un `HandController` ([HandController](#handcontroller)) q
 ##### HandController
 
 La classe `HandController` est une classe qui permet de faire le lien entre les contrôleurs et l'animator de la main. Elle est utilisée pour animer les mains du joueur en fonction de l'état des contrôleurs.
+
+![diagram inputs](./Uml/handcontroller_diagram.svg)
+> Ce diagramme montre le fonctionnement simplifié du processus de gestion des animations des mains.
+
+<div style="page-break-after:always"></div>
 
 ### Environnement 3D
 
@@ -466,6 +495,8 @@ Un panier est également présent dans la scène pour que le joueur puisse y met
 
 Une radio est également présente dans la scène pour que le joueur puisse entendre de la musique. Elle est placée a coté du panier et est également éclairée (moins que le panier pour ne pas trop attirer l'attention).
 
+<div style="page-break-after:always"></div>
+
 Etant donné que ce projet va être utilisé dans le cadre des portes ouvertes du CFPT, les joueurs devront comprendre rapidement comment jouer. Pour cela, un texte est affiché sur un mur pour expliquer qu'il faut ramasser les fruits et les mettre dans le panier pour gagner des points.
 
 Des élements de décorations sont également présents dans la scène pour rendre le jardin plus vivant. Il y a des fleurs, des cailloux, des champignons, des fougères, etc.
@@ -476,9 +507,8 @@ Des élements de décorations sont également présents dans la scène pour rend
 L'ambiance de la scène est très importante pour que le joueur se sente bien dans le jeu. Une ambiance de coucher de soleil faisant contraster ses couleurs chaudes avec les couleurs vives des éléments du jardin permet de donner une ambiance chaleureuse ainsi que de mettre en valeur les fruits et autres éléments clés du jeu.
 
 ![Environnement 3D 3](./Img/env_04.jpg)
-> Ciel de la scène
 
----
+<div style="page-break-after:always"></div>
 
 ### Gestion des parties
 
@@ -496,7 +526,9 @@ Le déroulement d'une partie est le suivant :
 #### Classes du système de gestion de partie
 
 ![uml](./Uml/game_management_system.png)
-> Le dragramme UML du système de gestion de partie
+> Le dragramme de classe du système de gestion de partie
+
+<div style="page-break-after:always"></div>
 
 ##### GameManager
 
@@ -524,7 +556,7 @@ La classe `GameTimer` contient le timer de la partie. Elle utilise une coroutine
 
 La classe `GameStats` est une classe qui s'occupe de stocker les statistiques de la partie (pour le moment, uniquement les fruits ramassés). Elle est utilisée par le `GameManager`.
 
----
+<div style="page-break-after:always"></div>
 
 ### Gestion des fruits
 
@@ -539,7 +571,7 @@ Chaque fruits ont un temps de vie configurable. Si le joueur ne les ramasse pas 
 
 Globalement, le système est composé d'une classe [FruitManager](#fruitmanager) qui centralise toutes les opérations sur les fruits. Ce dernier utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en pool. Il permet de réutiliser les fruits déjà instanciés pour éviter de les créer et de les détruire à chaque fois, cela permet un gain de performance non négligeable.
 
-![fruit manager inspector](./Img/fruit_manager_inspector.jpg)
+<div style="page-break-after:always"></div>
 
 La classe [Fruit](#fruit) représente un fruit dans le jeu. Il contient les informations sur le fruit (type, points, etc) et les méthodes pour le ramasser et le détruire.
 
@@ -551,17 +583,25 @@ Pour regrouper et donner un accès facile aux données de chaque fruit, une stru
 
 ![Fruit Types Datas Inspector](./Img/fruittypesdatas_inspector.jpg)
 
+<div style="page-break-after:always"></div>
+
 Un [FruitSpawnManager](#fruitspawnmanager) est utilisé pour gérer les [FruitSpawner](#fruitspawner). C'est sur ces derniers que la position des fruits est définie. Ils sont placés sur les arbres et les buissons pour que les fruits apparaissent à ces endroits.
+
+
 
 ![fruit spawners](./Img/fruit_spawners.jpg)
 
 > les points rouge représentent les spawners de pommes, les verts les fraises et les bleus les myrtilles.
+
+<div style="page-break-after:always"></div>
 
 #### Classes du système de fruit
 
 ![fruit system uml](./Uml/fruit_system.png)
 
 > Ce diagramme UML ne contient pas toutes le association entre les classes car l'outil de Visual Studio ne permet pas de visualiser les association de type générique. (par exemple, la classe FruitPooler contient un dictionnaire de FruitPoolData qui n'est pas sous forme de flèche dans le diagramme).
+
+<div style="page-break-after:always"></div>
 
 ##### FruitManager
 
@@ -571,6 +611,10 @@ Cette classe utilise un [FruitPooler](#fruitpooler) pour gérer les fruits en po
 
 Elle contient une référence au [FruitTypesDatas](#fruittypesdatas) qui contient les données des fruits.
 Grâce à la methode `public static GetFruitTypeData(string fruitId)` il est possible de récupérer les données d'un fruit en donnant son id. Cela permet de facilement accéder a ces données depuis d'autres systèmes (par exemple, pour afficher le nom des fruits ramassés dans l'interface de fin de partie).
+
+![fruit manager inspector](./Img/fruit_manager_inspector.jpg)
+
+<div style="page-break-after:always"></div>
 
 ##### FruitPooler
 
@@ -591,6 +635,8 @@ Elle contient les champs suivants :
 - `string typeId` : l'identifiant du type de fruit.
 - `GameObject prefab` : le prefab du fruit.
 - `ushort poolSize` : la taille du pool.
+
+<div style="page-break-after:always"></div>
 
 ##### Fruit
 
@@ -621,6 +667,8 @@ Elle contient les champs suivants :
 - `points` : le nombre de points donné par le fruit.
 - `lifeTime` : la durée de vie du fruit.
 
+<div style="page-break-after:always"></div>
+
 ##### FruitTypesDatas
 
 La classe `FruitTypesDatas` est une classe héritant de ScriptableObject qui permet de stocker les données des fruits dans l'éditeur Unity (dans un fichier .asset). Elle contient une liste de [FruitTypeData](#fruittypedata) qui contient les données de chaque type de fruit.
@@ -639,6 +687,8 @@ Le `FruitSpawnManager` est une classe qui gère les [FruitSpawner](#fruitspawner
 Une liste de [FruitSpawner](#fruitspawner) est passée en paramètre du constructeur de la classe. Cette liste est utilisée pour gérer les spawners.
 
 Encore une fois dans le but de minimiser les dépendances entre les classes, l'opération d'instantiation des fruits est passée en paramètre du constructeur de la classe sous la forme d'une `Func<string, Fruit>`. Pour récupérer tous les fruits une fonction de type `Func<List<Fruit>>` est passée aussi en paramètre du constructeur.
+
+<div style="page-break-after:always"></div>
 
 ##### Basket
 
@@ -668,6 +718,8 @@ Le menu de fin de partie est affiché à la fin de la partie. Il affiche les inf
 - Un bouton pour afficher les crédits.
 - Un bouton pour quitter le jeu.
 
+<div style="page-break-after:always"></div>
+
 ![end game menu](./Img/ui_game_end.jpg)
 
 Le canvas est un canvas de type `World Space` qui suit le regard du joueur ainsi que sa position. Contrairement au HUD, il ne suit pas la rotation en Y du joueur pour rester toujours face à lui. (si le joueur regarde en haut ou en bas, le menu reste à la même hauteur).
@@ -678,12 +730,15 @@ En cliquant sur le bouton de crédits, une nouvelle fenêtre s'ouvre avec les cr
 
 ![credits](./Img/credits.jpg)
 
+<div style="page-break-after:always"></div>
+
 #### HUD
 
 Le HUD est affiché pendant la partie. Il affiche les informations suivantes :
 
 - Le score du joueur.
 - Le temps restant.
+  
   
 
 ![hud](./Img/ui_hud.jpg)
@@ -697,6 +752,8 @@ Cette partie de l'interface regroupe différents textes qui s'affichent à diff�
 - Un texte qui affiche le compte à rebours du début de partie.
 - Un texte qui affiche la fin de la partie.
 
+<div style="page-break-after:always"></div>
+
 ![countdown text](./Img/ui_countdown.jpg)
 
 Une animation de fade in/out est utilisée pour afficher le compte à rebours. Chaques chiffres apparaissent un par un pour donner un effet de compte à rebours.
@@ -704,6 +761,8 @@ Une animation de fade in/out est utilisée pour afficher le compte à rebours. C
 ![end game text](./Img/ui_game_ended_text.jpg)
 
 Le texte de fin de partie apparaît par la gauche et disparaît par la droite. Cela donne un effet jolie et fluide.
+
+<div style="page-break-after:always"></div>
 
 #### Classes du système d'interface utilisateur
 
@@ -720,6 +779,8 @@ Il utilise les évènements du [GameManager](#gamemanager) pour afficher les can
 Ce composant s'occupe également de centrer correctement les canvas par rapport à la caméra du joueur.
 
 ![ui manager inspector](./Img/uimanager_inspector.jpg)
+
+<div style="page-break-after:always"></div>
 
 ##### StatsVisualizer
 
@@ -740,6 +801,8 @@ Ce composant est attaché à un GameObject mis en prefab dans l'éditeur Unity. 
 Une animation de grossissement est utilisée pour afficher les fruits ramassés. Cela permet de donner un effet visuel et d'attirer l'attention du joueur.
 
 ![caught fruit element inspector](./Img/caughtfruitelement_inspector.jpg)
+
+<div style="page-break-after:always"></div>
 
 ##### PlayButton
 
@@ -763,6 +826,8 @@ La classe `Credits` hérite de `MonoBehaviour`. Elle est responsable d'afficher 
 
 ![credits inspector](./Img/credits_inspector.jpg)
 
+<div style="page-break-after:always"></div>
+
 ##### TimerVisualizer
 
 `TimerVisualizer` hérite de `TMPro.TextMeshProUGUI` et est attaché à un GameObject dans la scène. Il est responsable de visualiser le temps restant de la partie dans le HUD.
@@ -783,6 +848,8 @@ Etant donné que ce composant est utilisé dans plusieurs contextes dans le lesq
 
 > Remarque : l'image montre le composant utilisé dans le HUD. Il est également utilisé dans le menu de fin de partie ou le champ `scoreTextFormat` est "Score : $".
 
+<div style="page-break-after:always"></div>
+
 ##### Countdown
 
 `Countdown` est une classe qui hérite de `MonoBehaviour`. Elle est appelée par le [UIManager](#uimanager) pour afficher le compte à rebours au début de la partie.
@@ -801,7 +868,7 @@ Elle apparaît par la gauche et disparaît par la droite (animation avec DoTween
 
 ![game end text inspector](./Img/gameendtext_inspector.jpg)
 
----
+<div style="page-break-after:always"></div>
 
 ### Gestion du son
 
@@ -831,6 +898,8 @@ Toutes les musique sont des musiques libres de droits et sont créditées dans l
 
 Il y a un seul son d'ambiance dans le jeu. Il s'agit d'un son de fond de forêt. Il est joué en boucle pour donner une ambiance naturelle au jardin.
 
+<div style="page-break-after:always"></div>
+
 #### Sons d'interactions
 
 Il y a plusieurs sons d'interactions dans le jeu :
@@ -848,6 +917,8 @@ Comme pour les musiques, tous les sons sont des sons libres de droits et sont cr
 
 ![audio system](./Uml/audio_system.png)
 
+<div style="page-break-after:always"></div>
+
 #### MusicManager
 
 Le `MusicManager` est une classe qui gère la musique du jeu, elle hérite de `MonoBehaviour`. Elle est responsable de jouer les musiques depuis la radio et de gérer les différents évènements de la musique (changement de musique, arrêt, volume, etc).
@@ -862,7 +933,7 @@ Pour jouer les musiques, elle fait appel au [MusicManager](#musicmanager).
 
 ![radio inspector](./Img/radio_inspector.jpg)
 
----
+<div style="page-break-after:always"></div>
 
 ### Post-traitement
 
@@ -883,6 +954,8 @@ Ce package permet de modifier le rendu de la caméra en ajoutant des effets de p
 
 ![post processing stack inspector](./Img/post-processing.jpg)
 
+<div style="page-break-after:always"></div>
+
 #### FREE Skybox Extended Shader
 
 Ce shader permet d'ajouter un fog basé sur la hauteur du ciel ainsi que des effets de rotation et de déplacement du ciel (pour les nuages).
@@ -890,6 +963,8 @@ Ce shader permet d'ajouter un fog basé sur la hauteur du ciel ainsi que des eff
 Dans ce projet, nous avons utilisé le fog pour donner un effet de profondeur à la scène. Le fog change de couleur pour être en cohérence avec le ciel.
 
 Nous avons également utilisé la skybox donnée avec le shader qui rend très bien avec la direction artistique du jeu.
+
+---
 
 ## Sécurité
 
@@ -908,6 +983,8 @@ Nous avons utilisé l'obfuscateur [Obfuscator Free](https://assetstore.unity.com
 - [C# 9.0](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-9)
 - compilateur C# : [Roslyn](https://github.com/dotnet/roslyn)
 
+<div style="page-break-after:always"></div>
+
 ## Librairies et outils externes
 
 - [DoTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
@@ -924,9 +1001,11 @@ Pendant la réalisation de ce projet, nous avons utilisé des outils d'intellige
 
 Nous avons utilisé l'outil de traduction automatique [Deepl](https://www.deepl.com/translator) pour traduire certains mots ou phrases provenant d'articles ou de documentations en anglais.
 
-Nous n'avons pas eu beaucoup besoin d'utiliser ChatGPT car les documentations des librairies utilisées étaient bien écrites et facilement compréhensibles. Cependant, nous l'avons utilisé une seule fois pour obtenir des informations sur une questions de conventions concernant la documentation. Le prompt et la réponse sont en annexes([Utilisation de chatGPT](#utilisation-de-chatgpt)).
+Nous n'avons pas eu besoin de beaucoup utiliser ChatGPT car les documentations des librairies utilisées étaient bien écrites et facilement compréhensibles. Cependant, nous l'avons utilisé une seule fois pour obtenir des informations sur une questions de conventions concernant la documentation. Le prompt et la réponse sont en annexes([Utilisation de chatGPT](#utilisation-de-chatgpt)).
 
 Enfin, nous avons utilisé [Github Copilot](https://github.com/features/copilot) pour aider à l'écriture de certains morceaux de code. Nous n'avons pas utiliser la fonctionnalité de chat mais uniquement la suggestion de code. C'est très utils car cela permet de finir les lignes de code automatiquement et de gagner du temps. Cependant, il faut faire attention car parfois les suggestions ne sont pas correctes ou ne suivent pas vraiment l'aproche algorithmique ou structurelle du projet.
+
+<div style="page-break-after:always"></div>
 
 ## Logiciels utilisés
 
@@ -935,8 +1014,11 @@ Enfin, nous avons utilisé [Github Copilot](https://github.com/features/copilot)
 - [Unity 2022.3.12f1](https://unity.com/releases/editor/archive)
 - [Blender 4.1](https://www.blender.org/download/)
 - [MetaQuestLink](https://www.oculus.com/setup/)
+- [Miscrosoft Excel](https://www.microsoft.com/fr-fr/microsoft-365/excel)
 - [Deepl](https://www.deepl.com/translator)
 - [Transparent-Notepad](https://github.com/RubenWihler/Transparent-Notpad)
+
+
 
 ---
 
@@ -945,6 +1027,8 @@ Enfin, nous avons utilisé [Github Copilot](https://github.com/features/copilot)
 Le plan de test a pour but de valider les fonctionnalités principales du projet. Certains test sont effectués manuellement, d'autres sont automatisés. Les tests manuels sont effectués par le développeur pour vérifier le bon fonctionnement des fonctionnalités. Les tests automatisés sont effectués par le framework de test de Unity pour vérifier le bon fonctionnement des fonctionnalités de manière automatique.
 
 UnityTestFramework est un framework de test intégré à Unity qui permet de tester les fonctionnalités de l'application. Il est divisé en deux parties : les tests live et les tests en mode édition. Les tests live sont des tests qui sont exécutés en même temps que l'application. Les tests en mode édition sont des tests qui sont exécutés sans que l'application ne soit en cours d'exécution. Nous avons choisi d'utiliser les tests live pour tester les fonctionnalités du projet.
+
+<div style="page-break-after:always"></div>
 
 ### Périmètre
 
@@ -1013,6 +1097,8 @@ Les tests automatisés visent uniquement le système de gestion des fruits. En e
 
 ### Journal de test
 
+Les tests ont été effectués chaque jour pendant le développement du projet. Voici le journal de test :
+
 | ID | J1 | J2 | J3 | J4 | J5 | J6 | J7 | J8 | J9 | J10 | J11 |
 | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | --- | --- |
 | M1 | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK | OK |
@@ -1048,7 +1134,7 @@ Les tests automatisés visent uniquement le système de gestion des fruits. En e
 
 > Remarque : Aucune regression n'a été détectée lors des tests.
 
----
+<div style="page-break-after:always"></div>
 
 ## Conclusion
 
@@ -1056,14 +1142,33 @@ Les tests automatisés visent uniquement le système de gestion des fruits. En e
 
 Pendant la réalisation de ce projet, plusieurs difficultés ont été rencontrées. Voici quelques exemples de difficultés rencontrées :
 
-- Difficulté à pendant la conception du système de fruits.
-- Difficulté à gérer les interactions entre les différents composants du jeu.
-- Trouver un équilibre pour le taux d'apparition des fruits.
-- Problème de performance lors de l'instanciation des fruits.
+- [Difficulté à trouver un équilibre pour le taux d'apparition des fruits.](#equilibre-du-taux-dapparition-des-fruits)
+- [Difficulté à structurer la documentation](#difficulté-à-structurer-la-documentation)
+- [Difficulté a planifier les tâches](#difficulté-a-planifier-les-tâches)
+
+#### Equilibre du taux d'apparition des fruits
+
+Trouver un équilibre pour le taux d'apparition des fruits a été une petite difficulté. En effet, si le taux est trop élevé, le joueur se retrouve submergé de fruits et ne peut pas tous les ramasser. Si le taux est trop bas, le joueur s'ennuie et la partie n'est pas intéressante.
+
+Pour résoudre ce problème, nous avons testé plusieurs taux d'apparition des fruits et avons demandé des retours à des testeurs pour trouver le bon équilibre. Nous avons également envisagé d'ajouté un système de difficulté qui augmente le taux d'apparition des fruits au fur et à mesure que le joueur gagne des points. Mais cela n'était pas nécessaire pour les besoins du projet.
+
+#### Difficulté à structurer la documentation
+
+La documentation est une partie importante du projet. Cependant, structurer la documentation de manière claire et concise a été une difficulté. En effet, il est important de bien organiser la documentation pour qu'elle soit facile à lire et à comprendre.
+
+#### Difficulté a planifier les tâches
+
+Pedant la réalisation de la planification, nous avons eu du mal à planifier les tâches de manière efficace. En effet, nous pensons que c'était une erreur de tout planifier au début du projet. Il aurait été plus judicieux de planifier les tâches au fur et à mesure de l'avancement du projet. Cela aurait permis de mieux s'adapter aux imprévus et de mieux gérer les priorités.
+
+<div style="page-break-after:always"></div>
 
 ### Variantes de solutions et choix
 
-Pour résoudre ces difficultés, plusieurs solutions ont été envisagées. Voici quelques exemples de variantes de solutions et de choix effectués :
+Pendant la réalisation du projet, plusieurs façons de résoudre les systèmes ont été envisagées. Voici quelques exemples de variantes de solutions et de choix :
+
+- [Conception du système de fruits](#conception-du-système-de-fruits)
+- [Gérer les interactions entre les différents composants du jeu](#gérer-les-interactions-entre-les-différents-composants-du-jeu)
+- [Performance lors de l'instanciation des fruits](#performance-lors-de-linstanciation-des-fruits)
 
 #### Conception du système de fruits
 
@@ -1073,7 +1178,7 @@ Cette solution était intéressante car elle permettait de simplement regrouper 
 
 Cependant, après réflexion, cette solution était trop complexe pour les besoins du projet. Donc nous avons opté pour une solution plus simple en faisant un système hybride avec des prefabs et un scriptable object. Une variante beacoup plus adaptée à notre projet.
 
-#### Gestion des interactions entre les composants
+#### Gérer les interactions entre les différents composants du jeu
 
 Pour gérer les interactions entre les différents composants du jeu, beacoup de choix s'offraient à nous. La plus simple étant de faire des références directes entre les composants. Cependable, cette solution n'était pas la plus adaptée car elle créait énormément de dépendances entre les composants.
 
@@ -1081,17 +1186,17 @@ Pour éviter cela, nous avons majoritairement opté pour des Singleton. Cela sim
 
 Dans certains cas, un pattern d'observateur s'est avéré être la meilleure option. C'est le cas pour `GameManager` qui notifie plusieurs composants de l'application.
 
-#### Equilibre du taux d'apparition des fruits
+<div style="page-break-after:always"></div>
 
-Pour trouver un équilibre pour le taux d'apparition des fruits, nous avons testé plusieurs valeurs pour le taux d'apparition. Nous avons également testé différentes méthodes pour calculer le taux d'apparition des fruits.
-
-Après plusieurs tests, les valeurs actuelles ont été choisies pour donner une expérience de jeu équilibrée et agréable.
-
-#### Problème de performance lors de l'instanciation des fruits
+#### Performance lors de l'instanciation des fruits
 
 Ayant deja un petit peu d'experience avec Unity, nous savions que l'instanciation de GameObjects en masse allait poser des problèmes de performance. Pour éviter cela, nous avions deja en tête d'utiliser un pool. Le problème était qu'aucun problème de performance n'était visible lors des premiers tests.
 
 Nous avons pris la décision de quand même implémenter un pool pour éviter tout problème de performance futur. Surtout que nous savions que le pc de développement offrait des performances bien supérieures à un pc moyen.
+
+
+
+---
 
 ### Améliorations possibles
 
@@ -1108,6 +1213,8 @@ Pour améliorer le projet, voici quelques pistes d'améliorations possibles :
 - Ajout des outils déblocables qui facilitent la récolte des fruits (filet, gants, etc).
 - Plusieurs jardins avec des thèmes différents (jardin japonais, jardin anglais, etc).
 
+<div style="page-break-after:always"></div>
+
 ### Bilan personnel
 
 Ce projet m'a permis de mettre en pratique les compétences acquises pendant ma formation. J'ai pu approfondir mes connaissances en C# et en Unity. J'ai également appris à travailler de manière autonome et à gérer mon temps efficacement. Ce projet m'a permis de développer mes compétences en matière de conception et d'implémentation de jeux vidéo en réalité virtuelle.
@@ -1118,11 +1225,15 @@ La partie documentation était également très intéressante. Non je rigole, c'
 
 J'ai aussi eu beaucoup de mal avec le journal de bord. J'ai eu du mal à le tenir à jour et à le remplir correctement. C'est la première fois que je faisais un journal de bord et je n'ai pas l'habitude de noter tout ce que je fais. C'est quelque chose que je dois améliorer pour les prochains projets.
 
+
+
+---
+
 ### Remerciements
 
 Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au long de ce projet. Je tiens également à remercier Yvan Poulin pour son expertise et son retours constructifs.
 
----
+<div style="page-break-after:always"></div>
 
 ### Glossaire
 
@@ -1141,7 +1252,7 @@ Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au l
 - **Fog** : Effet visuel qui simule la brume ou le brouillard.
 - **Tone Mapping** : Technique de rendu qui permet de convertir les couleurs d'une image en fonction de la luminosité.
 
----
+<div style="page-break-after:always"></div>
 
 ## Bibliographie
 
@@ -1158,7 +1269,7 @@ Je tiens à remercier M. J. Aliprendi pour son soutien et ses conseils tout au l
 - [Pool design pattern](https://sourcemaking.com/design_patterns/object_pool) - Documentation sur le design pattern de pool.
 - [Removing Motion Sickness in VR, An Actionable Guide.](https://jeffreyboopathy.medium.com/removing-motion-sickness-in-vr-an-actionable-guide-89218d721221) - Guide pour réduire le mal de tete en VR. 
 
----
+<div style="page-break-after:always"></div>
 
 ## Annexe
 
@@ -1197,7 +1308,7 @@ En suivant l'une de ces approches, vous pouvez rendre votre documentation plus c
 En général, la plupart des documentations techniques suivent ces conventions pour organiser et structurer les informations de manière logique et compréhensible.
 ```
 
----
+<div style="page-break-after:always"></div>
 
 ### Code source
 
